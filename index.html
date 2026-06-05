@@ -1,0 +1,3430 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YAPPI AGENCY — Design & AI Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/gilroy-free" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────
+   RESET & CSS VARIABLES
+───────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --dark:#1A0A2E;
+  --dark2:#120720;
+  --purple:#7B2FBE;
+  --purple-dim:rgba(123,47,190,0.15);
+  --cyan:#00D4FF;
+  --yellow:#FFD700;
+  --orange:#FF6B00;
+  --white:#FFFFFF;
+  --px:3px; /* pixel unit */
+}
+/* ── Global pixel helpers ── */
+.px-shadow{text-shadow:3px 3px 0 var(--purple),-1px -1px 0 rgba(0,0,0,.5)}
+.px-shadow-cyan{text-shadow:3px 3px 0 var(--cyan)}
+.px-shadow-yellow{text-shadow:3px 3px 0 rgba(255,215,0,.6)}
+.vt{font-family:'VT323',monospace}
+.p8{font-family:'Press Start 2P',monospace}
+html{scroll-behavior:smooth}
+body{
+  background:var(--dark);
+  color:var(--white);
+  font-family:'Gilroy',sans-serif;
+  cursor:auto;
+  overflow-x:hidden;
+}
+.custom-cursor{display:none!important}
+@media(hover:none){
+  body{cursor:auto}
+}
+
+/* ─────────────────────────────────────────
+   SCANLINES + DITHER OVERLAY
+───────────────────────────────────────── */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,.03) 2px,
+    rgba(0,0,0,.03) 4px
+  );
+  pointer-events:none;z-index:9997;
+}
+/* Dither dot pattern */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:radial-gradient(circle,rgba(123,47,190,.04) 1px,transparent 1px);
+  background-size:4px 4px;
+  pointer-events:none;z-index:9996;
+}
+
+/* ─────────────────────────────────────────
+   PIXEL WAVE DIVIDERS
+───────────────────────────────────────── */
+.pixel-divider{
+  width:100%;height:20px;
+  position:relative;z-index:2;overflow:hidden;
+  line-height:0;
+}
+.pixel-divider svg{display:block;width:100%;height:20px;image-rendering:pixelated}
+
+/* ─────────────────────────────────────────
+   CUSTOM CURSOR
+───────────────────────────────────────── */
+.custom-cursor{
+  position:fixed;top:0;left:0;
+  width:44px;height:44px;
+  pointer-events:none;
+  z-index:99999;
+  transform:translate(-4px,-4px);
+  transition:transform .08s linear;
+  will-change:transform;
+  font-size:32px;line-height:1;
+  display:flex;align-items:flex-start;justify-content:flex-start;
+  /* PNG fallback via CSS background — put cursor-point.png in /images/ */
+  background:url('images/cursor-point.png') no-repeat center/contain;
+}
+.custom-cursor.no-img::before{content:'☝️';font-size:30px}
+.custom-cursor.grabbing{background-image:url('images/cursor-grab.png')}
+.custom-cursor.no-img.grabbing::before{content:'✊'}
+
+/* ─────────────────────────────────────────
+   SCROLL PROGRESS BAR
+───────────────────────────────────────── */
+.scroll-progress{
+  position:fixed;top:0;left:0;
+  height:3px;width:0;
+  background:linear-gradient(90deg,var(--purple),var(--cyan));
+  z-index:9999;
+  box-shadow:0 0 12px var(--cyan);
+  transition:width .08s linear;
+}
+
+/* ─────────────────────────────────────────
+   NAVBAR
+───────────────────────────────────────── */
+.navbar{
+  position:fixed;top:0;left:0;right:0;
+  padding:18px 60px;
+  display:flex;align-items:center;justify-content:space-between;
+  z-index:1000;
+  background:linear-gradient(180deg,rgba(26,10,46,.95) 0%,transparent 100%);
+  backdrop-filter:blur(12px);
+  transition:transform .3s ease;
+}
+.nav-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:30px;letter-spacing:4px;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  text-decoration:none;
+}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{
+  color:rgba(255,255,255,.65);text-decoration:none;
+  font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  transition:color .25s;
+}
+.nav-links a:hover{color:var(--cyan)}
+.nav-cta{
+  background:linear-gradient(135deg,var(--purple),var(--cyan))!important;
+  color:#fff!important;padding:9px 22px;border-radius:3px;
+}
+@media(max-width:768px){
+  .navbar{padding:14px 20px}
+  .nav-links{display:none}
+}
+
+/* ─────────────────────────────────────────
+   SECTION SHARED
+───────────────────────────────────────── */
+section{position:relative;z-index:1}
+.section-tag{
+  display:inline-block;
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--cyan);font-weight:700;margin-bottom:10px;
+}
+.section-title{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(24px,4vw,56px);
+  line-height:1.15;letter-spacing:2px;
+  text-shadow:3px 3px 0 var(--purple);
+}
+.section-header{text-align:center;margin-bottom:64px}
+
+/* Reveal on scroll */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ─────────────────────────────────────────
+   HERO
+───────────────────────────────────────── */
+#hero{
+  min-height:100vh;
+  position:relative;
+  display:flex;align-items:center;
+  overflow:hidden;
+  background:linear-gradient(
+    180deg,
+    #0d0d0d 0%,
+    #1a0a2e 30%,
+    #3a0f75 55%,
+    #7B2FBE 75%,
+    #FF6B00 100%
+  );
+}
+/* Pixel grid overlay */
+#hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,212,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,212,255,.05) 1px,transparent 1px);
+  background-size:32px 32px;
+  image-rendering:pixelated;
+  animation:gridMove 20s linear infinite;
+}
+@keyframes gridMove{0%{transform:translateY(0)}100%{transform:translateY(32px)}}
+
+/* Pixel mountains — bottom */
+.hero-mountains-bottom{
+  position:absolute;bottom:0;left:0;right:0;z-index:2;
+  pointer-events:none;line-height:0;
+}
+.hero-mountains-top{
+  position:absolute;top:0;left:0;right:0;z-index:2;
+  pointer-events:none;line-height:0;transform:rotate(180deg);
+}
+.hero-mountains-bottom svg,.hero-mountains-top svg{
+  display:block;width:100%;image-rendering:pixelated;
+}
+
+/* Japanese decorative text */
+.hero-jp{
+  font-family:'VT323',monospace;font-size:18px;
+  color:var(--cyan);letter-spacing:4px;
+  margin-bottom:8px;display:block;
+  opacity:.8;
+}
+
+@keyframes gridMove{0%{transform:translateY(0)}100%{transform:translateY(32px)}}
+
+#particles-canvas{position:absolute;inset:0;z-index:1;pointer-events:none}
+
+.hero-content{
+  position:relative;z-index:2;
+  padding:100px 60px 60px;
+  max-width:820px;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(0,0,0,.4);
+  border:2px solid var(--cyan);
+  padding:6px 14px;border-radius:0;
+  font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:1px;
+  color:var(--cyan);margin-bottom:20px;
+  box-shadow:3px 3px 0 rgba(0,212,255,.25);
+}
+.hero-title{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(32px,5.5vw,80px);
+  line-height:1.15;letter-spacing:2px;margin-bottom:28px;
+}
+.hero-title .line1{
+  color:#fff;
+  text-shadow:4px 4px 0 var(--purple),8px 8px 0 rgba(123,47,190,.3);
+  display:block;
+}
+.hero-title .line2{
+  color:var(--yellow);
+  text-shadow:4px 4px 0 rgba(255,107,0,.7),8px 8px 0 rgba(255,107,0,.2);
+  display:block;
+}
+.hero-subtitle{
+  font-size:18px;color:rgba(255,255,255,.68);
+  max-width:480px;margin-bottom:44px;line-height:1.65;
+}
+.hero-subtitle span{color:var(--cyan);font-weight:700}
+.hero-buttons{display:flex;gap:14px;flex-wrap:wrap}
+
+/* Buttons */
+.btn-primary{
+  background:var(--purple);
+  color:#fff;padding:14px 28px;
+  border:3px solid var(--cyan);
+  border-radius:0;
+  font-family:'Press Start 2P',monospace;font-size:10px;letter-spacing:1px;
+  text-decoration:none;
+  transition:none;
+  display:inline-flex;align-items:center;gap:8px;
+  position:relative;
+  box-shadow:4px 4px 0 var(--cyan);
+  image-rendering:pixelated;
+}
+.btn-primary:hover{
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 var(--cyan);
+  background:var(--cyan);color:var(--dark);
+}
+.btn-outline{
+  color:var(--yellow);padding:14px 28px;
+  border:3px solid var(--yellow);
+  border-radius:0;
+  font-family:'Press Start 2P',monospace;font-size:10px;letter-spacing:1px;
+  text-decoration:none;
+  transition:none;display:inline-flex;align-items:center;gap:8px;
+  box-shadow:4px 4px 0 rgba(255,215,0,.4);
+}
+.btn-outline:hover{
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 rgba(255,215,0,.4);
+  background:var(--yellow);color:var(--dark);
+}
+
+/* Mr. Monopoly — hero */
+.hero-character{
+  position:absolute;right:4%;bottom:0;
+  width:min(380px,34vw);z-index:2;
+  animation:charEnter 1.3s cubic-bezier(.34,1.56,.64,1) .4s both;
+  filter:drop-shadow(0 0 50px rgba(123,47,190,.5));
+}
+.hero-character img{width:100%;height:auto;display:block;object-fit:contain;object-position:bottom}
+@keyframes charEnter{from{transform:translateX(120%)}to{transform:translateX(0)}}
+
+.scroll-indicator{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  z-index:2;display:flex;flex-direction:column;align-items:center;gap:7px;
+  color:rgba(255,255,255,.4);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;
+}
+.scroll-arrow{
+  width:22px;height:22px;
+  border-right:2px solid var(--cyan);border-bottom:2px solid var(--cyan);
+  transform:rotate(45deg);
+  animation:bounce 1.6s ease-in-out infinite;
+}
+@keyframes bounce{0%,100%{transform:rotate(45deg) translate(0,0);opacity:1}50%{transform:rotate(45deg) translate(5px,5px);opacity:.4}}
+
+.tw-cursor{
+  display:inline-block;width:3px;height:.9em;
+  background:var(--cyan);margin-left:3px;vertical-align:middle;
+  animation:blink 1s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ─────────────────────────────────────────
+   SERVICES
+───────────────────────────────────────── */
+#services{
+  padding:120px 60px;
+  background:linear-gradient(180deg,var(--dark) 0%,var(--dark2) 50%,var(--dark) 100%);
+}
+.services-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  max-width:1200px;margin:0 auto;
+}
+@media(max-width:900px){.services-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.services-grid{grid-template-columns:1fr}}
+
+/* 3D Flip card */
+.flip-card{height:400px;perspective:1100px;cursor:pointer}
+.flip-card-inner{
+  position:relative;width:100%;height:100%;
+  transform-style:preserve-3d;
+  transition:transform .75s cubic-bezier(.34,1.2,.64,1);
+}
+.flip-card:hover .flip-card-inner{transform:rotateY(180deg)}
+
+.flip-card-front,.flip-card-back{
+  position:absolute;inset:0;
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+  border-radius:0;
+}
+/* Front */
+.flip-card-front{
+  background:#0d0620;
+  border:3px solid var(--purple);
+  box-shadow:inset 0 0 0 2px rgba(123,47,190,.15),4px 4px 0 rgba(123,47,190,.3);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  padding:28px;
+  isolation:isolate;
+}
+/* Diagonal background */
+.card-diagonal{
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    45deg,rgba(123,47,190,.04) 0,rgba(123,47,190,.04) 1px,
+    transparent 1px,transparent 14px);
+  pointer-events:none;
+}
+/* Japanese pixel ornament overlay */
+.card-ornament{
+  position:absolute;inset:0;pointer-events:none;z-index:2;
+  overflow:hidden;
+}
+.card-ornament svg{
+  width:100%;height:100%;
+  image-rendering:pixelated;
+  display:block;
+}
+/* Pixel SVG icon */
+.card-icon{
+  display:flex;align-items:center;justify-content:center;
+  width:72px;height:72px;
+  position:relative;z-index:1;
+}
+.card-icon svg{image-rendering:pixelated;width:100%;height:100%;display:block}
+.card-name{
+  font-family:'Press Start 2P',monospace;font-size:11px;letter-spacing:1px;
+  color:#fff;text-align:center;line-height:1.6;
+  text-shadow:2px 2px 0 var(--purple);
+  position:relative;z-index:1;
+}
+
+/* Back — clean, no ::before to avoid bleed-through */
+.flip-card-back{
+  background:#0a0018;
+  border:3px solid var(--purple);
+  transform:rotateY(180deg);
+  display:flex;flex-direction:column;
+  padding:16px 18px 14px;
+  isolation:isolate;
+}
+/* Pixel inner frame using box-shadow only (no pseudo-element) */
+.flip-card-back{
+  box-shadow:inset 0 0 0 1px rgba(123,47,190,.25);
+}
+
+.card-back-header{
+  display:flex;align-items:center;gap:0;
+  padding-bottom:10px;margin-bottom:10px;
+  border-bottom:2px solid var(--purple);
+}
+.card-back-title{
+  font-family:'Press Start 2P',monospace;font-size:9px;
+  color:var(--cyan);line-height:1.4;
+  text-shadow:1px 1px 0 rgba(0,212,255,.25);
+  letter-spacing:.5px;
+}
+.card-back-title::before{
+  content:'>> ';color:var(--yellow);
+}
+
+.card-back-list{
+  flex:1;
+  font-family:'VT323',monospace;font-size:17px;
+  color:rgba(255,255,255,.85);line-height:1.5;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.card-back-list li{list-style:none}
+.card-back-list li::before{content:'▸ ';color:var(--yellow)}
+
+.card-back-price{
+  margin-top:auto;padding-top:8px;
+  border-top:1px solid rgba(123,47,190,.35);
+  font-family:'Press Start 2P',monospace;font-size:8px;
+  color:var(--yellow);text-align:right;
+}
+.card-back-cta{
+  font-family:'VT323',monospace;font-size:16px;
+  color:var(--cyan);margin-top:4px;text-align:center;
+  letter-spacing:1px;
+}
+.card-back-cta a{color:var(--yellow);text-decoration:none}
+
+/* ─────────────────────────────────────────
+   ABOUT
+───────────────────────────────────────── */
+#about{
+  padding:100px 60px;
+  background:linear-gradient(180deg,var(--dark) 0%,#0a0015 50%,var(--dark) 100%);
+  position:relative;overflow:hidden;
+}
+#about::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(123,47,190,.08),transparent 70%);
+  pointer-events:none;
+}
+.about-inner{
+  display:grid;grid-template-columns:340px 1fr;gap:60px;
+  align-items:stretch;max-width:1280px;margin:0 auto;
+  position:relative;z-index:1;
+}
+@media(max-width:1000px){
+  .about-inner{grid-template-columns:1fr}
+}
+.about-character{
+  display:flex;align-items:flex-end;justify-content:center;
+  min-height:100%;
+}
+.about-char-img{
+  width:100%;max-width:340px;
+  height:auto;display:block;
+  object-fit:contain;object-position:bottom center;
+  filter:drop-shadow(0 0 40px rgba(123,47,190,.45));
+  align-self:flex-end;
+}
+@media(max-width:900px){
+  .about-character{display:none}
+}
+
+/* Lead text */
+.about-lead{
+  font-family:'VT323',monospace;font-size:20px;line-height:1.65;
+  color:rgba(255,255,255,.75);margin-bottom:28px;
+  border-left:3px solid var(--purple);padding-left:16px;
+}
+.about-lead span{color:var(--cyan);font-weight:700}
+
+/* 2-col what we do */
+.about-cols{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+  margin-bottom:28px;
+}
+@media(max-width:600px){.about-cols{grid-template-columns:1fr}}
+
+.about-block{
+  background:rgba(123,47,190,.07);
+  border:2px solid rgba(123,47,190,.3);
+  padding:16px 18px;
+  position:relative;
+}
+.about-block::before{
+  content:'';position:absolute;inset:3px;
+  border:1px solid rgba(123,47,190,.12);pointer-events:none;
+}
+.about-block-title{
+  font-family:'Press Start 2P',monospace;font-size:8px;
+  color:var(--yellow);letter-spacing:1px;margin-bottom:12px;
+  text-shadow:1px 1px 0 rgba(255,215,0,.3);
+}
+.about-block-title::before{content:'>> ';color:var(--cyan)}
+.about-list{
+  list-style:none;
+  font-family:'VT323',monospace;font-size:17px;
+  color:rgba(255,255,255,.78);line-height:1.55;
+}
+.about-list li::before{content:'▸ ';color:var(--purple)}
+
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+@media(max-width:800px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-item{
+  background:#0a0015;
+  border:2px solid rgba(123,47,190,.4);
+  box-shadow:3px 3px 0 rgba(123,47,190,.25);
+  padding:18px 12px;text-align:center;
+}
+
+/* Metra callout */
+.about-callout{
+  background:rgba(0,212,255,.05);
+  border:2px solid rgba(0,212,255,.3);
+  box-shadow:3px 3px 0 rgba(0,212,255,.2);
+  padding:16px 20px;
+  display:flex;align-items:center;gap:16px;
+  flex-wrap:wrap;
+}
+.about-callout-badge{
+  font-family:'Press Start 2P',monospace;font-size:7px;
+  background:var(--cyan);color:var(--dark);
+  padding:4px 10px;white-space:nowrap;letter-spacing:.5px;
+}
+.about-callout-text{
+  font-family:'VT323',monospace;font-size:18px;
+  color:rgba(255,255,255,.8);line-height:1.4;flex:1;
+}
+.about-callout-text a{color:var(--cyan);text-decoration:none}
+.about-callout-text a:hover{text-decoration:underline}
+.stat-number{
+  font-family:'Press Start 2P',monospace;font-size:clamp(18px,2.5vw,28px);line-height:1.2;
+  color:var(--yellow);
+  text-shadow:2px 2px 0 rgba(255,215,0,.3);
+}
+.stat-label{
+  font-family:'VT323',monospace;font-size:16px;
+  color:rgba(255,255,255,.5);letter-spacing:1px;margin-top:4px;
+}
+
+/* ─────────────────────────────────────────
+   CASES
+───────────────────────────────────────── */
+#cases{padding:120px 0;overflow:hidden}
+.cases-header{padding:0 60px;margin-bottom:40px}
+.cases-filters{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.filter-btn{
+  background:#0a0015;border:2px solid rgba(123,47,190,.4);
+  color:rgba(255,255,255,.5);padding:8px 14px;border-radius:0;
+  font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:.5px;
+  transition:none;
+  box-shadow:2px 2px 0 rgba(123,47,190,.2);
+}
+.filter-btn.active,.filter-btn:hover{
+  background:var(--purple);border-color:var(--cyan);color:#fff;
+  box-shadow:3px 3px 0 var(--cyan);
+  transform:translate(-1px,-1px);
+}
+
+.cases-track-wrapper{
+  position:relative;overflow-x:scroll;
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.cases-track-wrapper::-webkit-scrollbar{display:none}
+
+.cases-track{
+  display:flex;gap:24px;padding:16px 60px 60px;
+  width:max-content;cursor:grab;user-select:none;
+}
+.cases-track.grabbing{cursor:grabbing}
+
+.case-card{
+  width:360px;flex-shrink:0;border-radius:12px;overflow:hidden;
+  background:#1c0b34;border:1px solid rgba(123,47,190,.3);
+  transition:transform .3s,border-color .3s;
+}
+.case-card:hover{transform:translateY(-8px);border-color:var(--purple)}
+
+.case-img-placeholder{
+  width:100%;height:220px;
+  background:linear-gradient(145deg,#2a0f4a,#0a1628);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:72px;letter-spacing:4px;
+  color:rgba(255,255,255,.08);
+}
+.case-body{padding:22px}
+.case-category{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--cyan);font-weight:700;margin-bottom:6px}
+.case-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;margin-bottom:6px}
+.case-desc{font-size:13px;color:rgba(255,255,255,.55);line-height:1.6}
+
+/* Parallax monopoly character that walks during horizontal scroll */
+.cases-monopoly{
+  position:absolute;bottom:0;left:-120px;
+  width:180px;pointer-events:none;z-index:4;
+  transition:transform .05s linear;
+}
+.cases-monopoly img{width:100%;height:auto;display:block;
+  filter:drop-shadow(0 0 20px rgba(123,47,190,.4));
+}
+
+/* ─────────────────────────────────────────
+   PARTNERS
+───────────────────────────────────────── */
+/* ─────────────────────────────────────────
+   PARTNERS — Full cards
+───────────────────────────────────────── */
+#partners{
+  padding:100px 60px;
+  background:linear-gradient(180deg,#050010 0%,#0a0018 100%);
+  position:relative;overflow:hidden;
+}
+#partners::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(123,47,190,.06),transparent 70%);
+  pointer-events:none;
+}
+.partners-header{text-align:center;margin-bottom:64px;position:relative;z-index:1}
+.hof-header{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(12px,2vw,22px);
+  color:var(--yellow);
+  animation:blinkHof 1.2s step-end infinite;
+  letter-spacing:2px;margin-bottom:10px;display:block;
+  text-shadow:3px 3px 0 rgba(255,107,0,.4);
+}
+@keyframes blinkHof{0%,100%{opacity:1}50%{opacity:.12}}
+.hof-sub{
+  font-family:'VT323',monospace;font-size:22px;
+  color:rgba(255,255,255,.35);letter-spacing:2px;
+}
+
+/* Partner cards grid */
+.partners-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:28px;
+  max-width:1100px;margin:0 auto;position:relative;z-index:1;
+}
+@media(max-width:800px){.partners-grid{grid-template-columns:1fr}}
+
+/* Single partner card */
+.partner-card{
+  background:#08001a;
+  border:3px solid var(--pc-color,var(--purple));
+  box-shadow:5px 5px 0 var(--pc-shadow,rgba(123,47,190,.35)),
+             0 0 30px rgba(0,0,0,.5);
+  position:relative;overflow:hidden;
+  transition:none;
+}
+.partner-card:hover{
+  transform:translate(-3px,-3px);
+  box-shadow:8px 8px 0 var(--pc-shadow,rgba(123,47,190,.45));
+}
+/* Top accent stripe */
+.partner-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--pc-accent,linear-gradient(90deg,var(--purple),var(--cyan)));
+}
+/* Inner frame */
+.partner-card::before{
+  content:'';position:absolute;inset:5px;
+  border:1px solid rgba(255,255,255,.04);pointer-events:none;
+}
+
+.pc-top{
+  display:flex;align-items:center;gap:20px;
+  padding:24px 24px 20px;
+  border-bottom:2px solid var(--pc-color,var(--purple));
+  position:relative;
+}
+.pc-logo{
+  width:70px;height:70px;flex-shrink:0;
+  border:2px solid var(--pc-color,var(--purple));
+  box-shadow:3px 3px 0 var(--pc-color,var(--purple));
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  background:#0d0030;
+}
+.pc-logo img{width:100%;height:100%;object-fit:contain}
+.pc-logo-fallback{
+  font-family:'Press Start 2P',monospace;
+  font-size:26px;color:var(--pc-color,var(--purple));
+  text-shadow:2px 2px 0 rgba(0,0,0,.5);
+}
+.pc-meta{}
+.pc-status{
+  font-family:'Press Start 2P',monospace;font-size:7px;
+  padding:3px 8px;letter-spacing:.5px;
+  display:inline-block;margin-bottom:7px;
+}
+.pc-status.ambassador{
+  background:rgba(0,212,255,.12);color:var(--cyan);
+  border:1px solid rgba(0,212,255,.5);
+  text-shadow:0 0 8px rgba(0,212,255,.4);
+}
+.pc-status.partner{
+  background:rgba(255,215,0,.1);color:var(--yellow);
+  border:1px solid rgba(255,215,0,.4);
+}
+.pc-name{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(12px,1.8vw,18px);
+  color:#fff;line-height:1.3;
+  text-shadow:2px 2px 0 rgba(0,0,0,.8);
+}
+.pc-tagline{
+  font-family:'VT323',monospace;font-size:18px;
+  color:var(--pc-color,var(--purple));margin-top:3px;letter-spacing:.5px;
+}
+
+.pc-body{padding:18px 24px 20px}
+.pc-desc{
+  font-family:'VT323',monospace;font-size:18px;
+  color:rgba(255,255,255,.72);line-height:1.6;margin-bottom:14px;
+}
+.pc-features{
+  list-style:none;
+  font-family:'VT323',monospace;font-size:16px;
+  color:rgba(255,255,255,.6);
+  display:flex;flex-direction:column;gap:3px;
+  margin-bottom:20px;
+}
+.pc-features li::before{content:'▸ ';color:var(--pc-color,var(--purple))}
+
+/* Buttons row */
+.pc-btns{
+  display:flex;gap:10px;flex-wrap:wrap;
+}
+.pc-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 18px;
+  font-family:'Press Start 2P',monospace;font-size:8px;
+  text-decoration:none;letter-spacing:.5px;
+  border:2px solid;
+  transition:none;
+}
+.pc-btn:hover{
+  transform:translate(-2px,-2px);
+}
+.pc-btn-primary{
+  background:var(--pc-color,var(--purple));color:#fff;
+  border-color:var(--pc-color,var(--purple));
+  box-shadow:3px 3px 0 rgba(0,0,0,.4);
+}
+.pc-btn-primary:hover{
+  box-shadow:5px 5px 0 rgba(0,0,0,.5);
+  filter:brightness(1.15);
+}
+.pc-btn-outline{
+  background:transparent;color:var(--pc-color,var(--purple));
+  border-color:var(--pc-color,var(--purple));
+  box-shadow:3px 3px 0 var(--pc-shadow,rgba(123,47,190,.3));
+}
+.pc-btn-outline:hover{
+  background:rgba(255,255,255,.05);
+  box-shadow:5px 5px 0 var(--pc-shadow,rgba(123,47,190,.4));
+}
+
+/* ─────────────────────────────────────────
+   REVIEWS
+───────────────────────────────────────── */
+#reviews{padding:100px 60px;background:#0a0015}
+.reviews-slider{max-width:760px;margin:0 auto;position:relative}
+
+/* RPG dialog box */
+.review-card{
+  background:#050010;
+  border:3px solid var(--purple);
+  box-shadow:inset 0 0 0 1px rgba(123,47,190,.25),
+             5px 5px 0 rgba(123,47,190,.35);
+  padding:0;
+  display:none;
+  position:relative;
+}
+/* Inner double border */
+.review-card::before{
+  content:'';position:absolute;inset:5px;
+  border:1px solid rgba(123,47,190,.2);pointer-events:none;z-index:0;
+}
+.review-card.active{display:block;animation:pixelIn .15s steps(4) forwards}
+@keyframes pixelIn{
+  0%{opacity:0;transform:scale(.98) translate(2px,2px)}
+  100%{opacity:1;transform:scale(1) translate(0,0)}
+}
+
+/* Author bar — top of dialog */
+.review-author-bar{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 20px;
+  background:var(--purple);
+  position:relative;z-index:1;
+}
+.review-avatar{
+  width:36px;height:36px;border-radius:0;flex-shrink:0;
+  background:#0d0620;
+  border:2px solid rgba(255,255,255,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Press Start 2P',monospace;font-size:14px;
+}
+.review-name{
+  font-family:'Press Start 2P',monospace;font-size:10px;
+  color:#fff;line-height:1.4;
+}
+.review-pos{font-family:'VT323',monospace;font-size:16px;color:rgba(255,255,255,.6);margin-top:1px}
+.review-stars{
+  margin-left:auto;
+  color:var(--yellow);font-size:14px;letter-spacing:1px;
+  font-family:'Press Start 2P',monospace;
+}
+
+/* Dialog text body */
+.review-body{padding:20px 24px 16px;position:relative;z-index:1}
+.review-text{
+  font-family:'VT323',monospace;font-size:22px;line-height:1.6;
+  color:rgba(255,255,255,.85);margin-bottom:0;
+}
+
+/* Next button */
+.review-footer{
+  display:flex;align-items:center;justify-content:flex-end;
+  padding:10px 20px 14px;gap:20px;
+  position:relative;z-index:1;
+}
+.review-next-btn{
+  font-family:'Press Start 2P',monospace;font-size:9px;
+  color:var(--cyan);background:none;border:none;
+  cursor:pointer;
+  animation:blinkNext 1s step-end infinite;
+  letter-spacing:1px;
+}
+@keyframes blinkNext{0%,100%{opacity:1}50%{opacity:0}}
+
+.slider-dots{display:flex;justify-content:center;gap:6px;margin-top:20px}
+.dot{
+  width:10px;height:10px;border-radius:0;background:rgba(255,255,255,.2);
+  transition:none;border:1px solid rgba(255,255,255,.2);
+}
+.dot.active{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 6px var(--cyan)}
+
+/* ─────────────────────────────────────────
+   FAQ
+───────────────────────────────────────── */
+#faq{
+  padding:120px 60px;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.25) 50%,transparent);
+}
+.faq-list{max-width:780px;margin:0 auto}
+.faq-item{border-bottom:1px solid rgba(123,47,190,.28);overflow:hidden}
+.faq-question{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 0;gap:12px;
+}
+.faq-q-left{display:flex;align-items:center;gap:14px}
+.faq-dice{font-size:22px;flex-shrink:0}
+.faq-q-text{font-size:17px;font-weight:600}
+.faq-arrow{font-size:18px;color:var(--cyan);transition:transform .3s;flex-shrink:0}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .5s ease,padding .3s;padding:0 0 0 36px}
+.faq-item.open .faq-answer{max-height:200px;padding:0 0 22px 36px}
+.faq-answer p{color:rgba(255,255,255,.65);line-height:1.75;font-size:15px}
+
+/* ─────────────────────────────────────────
+   PRICING
+───────────────────────────────────────── */
+/* ─────────────────────────────────────────
+   PRICING — Stage Select
+───────────────────────────────────────── */
+#pricing{
+  padding:100px 60px 80px;position:relative;overflow:hidden;
+  background:#0a0015;
+}
+/* CRT scanlines extra on pricing */
+#pricing::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    0deg,transparent,transparent 3px,
+    rgba(0,0,0,.06) 3px,rgba(0,0,0,.06) 4px
+  );
+  pointer-events:none;z-index:0;
+}
+
+/* Falling pixel coins */
+.coins-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.coin{
+  position:absolute;font-family:'Press Start 2P',monospace;font-size:10px;
+  color:var(--yellow);animation:coinFall linear infinite;opacity:.25;
+}
+@keyframes coinFall{
+  0%{transform:translateY(-40px);opacity:0}
+  10%{opacity:.25}90%{opacity:.25}
+  100%{transform:translateY(100vh);opacity:0}
+}
+
+/* ── Price title — per-letter color cycle ── */
+/* ── Price List title — BIG ── */
+.price-title{text-align:center;margin-bottom:72px;position:relative;z-index:2}
+.price-title-row{display:inline-flex;flex-wrap:wrap;justify-content:center;line-height:1.1;gap:0 2px}
+.price-title-row span{
+  display:inline-block;font-family:'Press Start 2P',monospace;
+  font-size:clamp(28px,5vw,72px);
+  animation:wave 2s ease-in-out infinite;
+  letter-spacing:3px;
+}
+/* Bold outline effect — simulated stroke */
+.price-title-row span:nth-child(3n+1){
+  color:var(--purple);
+  text-shadow:3px 3px 0 rgba(123,47,190,.5),
+              -1px -1px 0 rgba(123,47,190,.3),
+              0 0 30px rgba(123,47,190,.4);
+}
+.price-title-row span:nth-child(3n+2){
+  color:var(--cyan);
+  text-shadow:3px 3px 0 rgba(0,212,255,.5),
+              -1px -1px 0 rgba(0,212,255,.3),
+              0 0 30px rgba(0,212,255,.35);
+}
+.price-title-row span:nth-child(3n+3){
+  color:var(--yellow);
+  text-shadow:3px 3px 0 rgba(255,215,0,.5),
+              -1px -1px 0 rgba(255,215,0,.3),
+              0 0 30px rgba(255,215,0,.3);
+}
+.price-title-row span:last-child{color:rgba(255,255,255,.2);text-shadow:none}/* space */
+@keyframes wave{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* ── Layout: character absolutely left + centered grid ── */
+/* pricing-layout — grid centered, character absolutely left of section */
+.pricing-layout{
+  max-width:1100px;
+  margin:0 auto;
+  position:relative;
+  z-index:2;
+}
+/* character attached to the SECTION (not layout), left side */
+#pricing .price-char-wrap{
+  position:absolute;
+  left:0;bottom:0;
+  width:260px;z-index:3;
+}
+#pricing .price-char-wrap img{
+  width:100%;height:auto;display:block;
+  filter:drop-shadow(-6px 0 28px rgba(123,47,190,.5));
+}
+.price-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:22px;
+}
+@media(max-width:1200px){
+  #pricing .price-char-wrap{width:200px}
+}
+@media(max-width:900px){
+  #pricing .price-char-wrap{display:none}
+  .price-grid{grid-template-columns:1fr}
+}
+
+/* ══════════════════════════════
+   PRICE CARD — Beautiful Block
+══════════════════════════════ */
+.price-card{
+  background:#08001a;
+  border:3px solid var(--card-color,var(--purple));
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.04),
+    5px 5px 0 var(--card-shadow,rgba(123,47,190,.35)),
+    0 0 30px rgba(0,0,0,.5);
+  position:relative;
+  overflow:hidden;
+  transition:none;
+}
+.price-card:hover{
+  transform:translate(-3px,-3px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.08),
+    8px 8px 0 var(--card-shadow,rgba(123,47,190,.45)),
+    0 0 40px rgba(0,0,0,.6);
+}
+/* Accent stripe at top */
+.price-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--card-accent,linear-gradient(90deg,var(--purple),var(--cyan)));
+  pointer-events:none;
+}
+/* Pixel corner markers */
+.price-card::before{
+  content:'';position:absolute;inset:6px;
+  border:1px solid rgba(255,255,255,.05);
+  pointer-events:none;
+}
+/* Pixel corner dots (4 corners) */
+.price-card .price-content::before{
+  content:'';
+  position:absolute;
+  top:6px;left:6px;
+  width:6px;height:6px;
+  background:
+    linear-gradient(var(--card-color,var(--purple)),var(--card-color,var(--purple))) 0 0/3px 3px no-repeat,
+    linear-gradient(var(--card-color,var(--purple)),var(--card-color,var(--purple))) 3px 3px/3px 3px no-repeat;
+  opacity:.6;pointer-events:none;
+}
+
+.price-content{
+  padding:22px 22px 18px;
+  position:relative;
+}
+
+/* ── Card header ── */
+.price-card-header{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:16px;padding-bottom:14px;
+  border-bottom:2px solid var(--card-color,var(--purple));
+  position:relative;
+}
+/* Small ornament dots after header line */
+.price-card-header::after{
+  content:'◆ ◆ ◆';
+  position:absolute;bottom:-10px;left:50%;
+  transform:translateX(-50%);
+  font-size:6px;color:var(--card-color,var(--purple));
+  letter-spacing:4px;opacity:.5;
+}
+.price-cat-badge{
+  width:38px;height:38px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.4);
+  border:2px solid var(--card-color,var(--purple));
+  padding:5px;
+  box-shadow:2px 2px 0 var(--card-color,var(--purple));
+}
+.price-cat-badge svg{image-rendering:pixelated;display:block;width:100%;height:100%}
+
+.price-card-title{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(8px,1.2vw,12px);
+  color:var(--card-color,var(--purple));
+  line-height:1.4;
+  text-shadow:1px 1px 0 rgba(0,0,0,.9);
+}
+.price-card-title::before{content:'>> ';color:var(--yellow)}
+.price-card-sub{
+  font-family:'VT323',monospace;font-size:14px;
+  color:rgba(255,255,255,.3);margin-top:2px;letter-spacing:1px;
+}
+
+/* ── Rows — proper flex dot leaders ── */
+.price-rows{display:flex;flex-direction:column}
+.price-row{
+  display:flex;align-items:center;
+  padding:7px 4px;
+  font-family:'VT323',monospace;font-size:19px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  transition:background .1s;
+  overflow:hidden;
+}
+.price-row:last-child{border-bottom:none}
+.price-row:hover{background:rgba(255,255,255,.035)}
+
+.price-row-num{
+  color:rgba(255,255,255,.2);font-size:13px;
+  width:26px;flex-shrink:0;text-align:right;
+  font-family:'Press Start 2P',monospace;
+}
+.price-row-name{
+  color:rgba(255,255,255,.82);
+  white-space:nowrap;flex-shrink:0;
+  padding-right:8px;
+}
+/* CSS dot leader — grows to fill space */
+.price-row-dots{
+  flex:1;
+  min-width:12px;
+  border-bottom:2px dotted rgba(123,47,190,.25);
+  margin-bottom:3px;
+  overflow:hidden;
+}
+.price-row-val{
+  flex-shrink:0;
+  color:var(--yellow);
+  font-size:20px;
+  padding-left:8px;
+  min-width:52px;text-align:right;
+  white-space:nowrap;
+}
+.price-row-val.secret{color:#ff4444;letter-spacing:2px}
+@keyframes pxBlink{0%,100%{opacity:1}49%{opacity:1}50%{opacity:0}99%{opacity:0}}
+.price-row:hover .price-row-val{animation:pxBlink .6s step-end infinite}
+
+.price-note{
+  font-family:'VT323',monospace;font-size:14px;
+  color:rgba(255,255,255,.25);margin-top:12px;
+  padding:8px 10px;
+  background:rgba(255,255,255,.02);
+  border-left:2px solid rgba(123,47,190,.3);
+}
+
+/* ── CTA ── */
+.price-cta{text-align:center;margin-top:48px;position:relative;z-index:2}
+.price-cta-text{
+  font-family:'Press Start 2P',monospace;font-size:clamp(11px,1.5vw,16px);
+  color:rgba(255,255,255,.5);margin-bottom:24px;
+  text-shadow:2px 2px 0 var(--purple);
+}
+.price-cta-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 36px;
+  background:var(--purple);
+  color:#fff;text-decoration:none;
+  font-family:'Press Start 2P',monospace;font-size:11px;letter-spacing:1px;
+  border:3px solid var(--cyan);
+  box-shadow:4px 4px 0 var(--cyan);
+  transition:none;
+}
+.price-cta-btn:hover{
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 var(--cyan);
+  background:var(--cyan);color:var(--dark);
+}
+
+/* ─────────────────────────────────────────
+   CONTACT
+───────────────────────────────────────── */
+#contact{
+  padding:120px 60px;text-align:center;
+  background:radial-gradient(ellipse at center,rgba(123,47,190,.18),transparent 70%);
+}
+.contact-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(60px,11vw,130px);line-height:.88;
+  margin-bottom:20px;
+}
+.contact-title .line1{color:#fff}
+.contact-title .line2{
+  background:linear-gradient(135deg,var(--yellow),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.dice-wrap{font-size:72px;display:block;margin:32px auto}
+.dice-wrap span{display:inline-block;animation:diceRoll 3.5s ease-in-out infinite}
+@keyframes diceRoll{
+  0%,75%,100%{transform:rotate(0) scale(1)}
+  80%{transform:rotate(-22deg) scale(1.12)}
+  87%{transform:rotate(28deg) scale(1.18)}
+  94%{transform:rotate(-8deg) scale(1.1)}
+}
+.contact-buttons{display:flex;gap:16px;justify-content:center;margin:36px 0;flex-wrap:wrap}
+.btn-contact{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 36px;border-radius:4px;
+  font-size:15px;font-weight:700;text-decoration:none;
+  transition:all .3s;
+}
+.btn-tg{background:#0088cc;color:#fff}
+.btn-tg:hover{background:#0099dd;transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,136,204,.4)}
+
+/* ─────────────────────────────────────────
+   SOCIAL / LINKS SECTION
+───────────────────────────────────────── */
+#social{
+  padding:100px 60px;
+  background:linear-gradient(180deg,var(--dark2) 0%,var(--dark) 100%);
+  position:relative;overflow:hidden;
+}
+#social::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(123,47,190,.12),transparent 70%);
+  pointer-events:none;
+}
+/* ─────────────────────────────────────────
+   ECOSYSTEM CARDS (social-grid)
+───────────────────────────────────────── */
+.social-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:24px;
+  max-width:1000px;margin:0 auto;position:relative;z-index:1;
+}
+@media(max-width:700px){.social-grid{grid-template-columns:1fr}}
+
+/* Pixel card */
+.social-card{
+  background:#08001a;
+  border:3px solid var(--s-border,rgba(123,47,190,.5));
+  box-shadow:5px 5px 0 var(--s-shadow,rgba(123,47,190,.3)),
+             0 0 30px rgba(0,0,0,.5);
+  text-decoration:none;color:#fff;
+  display:flex;flex-direction:column;align-items:center;
+  gap:0;padding:0;
+  position:relative;overflow:hidden;
+  transition:none;
+}
+.social-card:hover{
+  transform:translate(-3px,-3px);
+  box-shadow:8px 8px 0 var(--s-shadow,rgba(123,47,190,.4));
+}
+/* top accent stripe */
+.social-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--s-accent);pointer-events:none;z-index:1;
+}
+/* inner pixel frame */
+.social-card::after{
+  content:'';position:absolute;inset:5px;
+  border:1px solid rgba(255,255,255,.04);pointer-events:none;
+}
+
+/* ── Top block: avatar + tag ── */
+.social-card-top{
+  width:100%;display:flex;align-items:center;gap:16px;
+  padding:20px 22px 16px;
+  border-bottom:2px solid var(--s-border,rgba(123,47,190,.4));
+  position:relative;z-index:1;
+}
+
+/* ── Avatar / Logo ── */
+.social-avatar{
+  width:64px;height:64px;flex-shrink:0;
+  border:2px solid var(--s-border,rgba(123,47,190,.5));
+  box-shadow:3px 3px 0 var(--s-shadow,rgba(123,47,190,.3));
+  overflow:hidden;
+  position:relative;background:#0d0030;
+}
+.social-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.social-avatar-fallback{
+  position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font-size:28px;
+}
+
+/* ── Meta ── */
+.social-card-meta{}
+.social-label{
+  font-family:'Press Start 2P',monospace;
+  font-size:7px;letter-spacing:1.5px;
+  color:var(--s-color,var(--cyan));margin-bottom:6px;display:block;
+  opacity:.7;
+}
+.social-name{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(9px,1.4vw,13px);
+  line-height:1.3;color:#fff;
+  text-shadow:2px 2px 0 rgba(0,0,0,.8);
+  letter-spacing:.5px;
+}
+.social-handle{
+  font-family:'VT323',monospace;font-size:16px;
+  color:var(--s-color,var(--cyan));margin-top:3px;letter-spacing:.5px;
+}
+
+/* ── Body ── */
+.social-card-body{
+  padding:14px 22px 18px;
+  position:relative;z-index:1;width:100%;
+}
+.social-desc{
+  font-family:'VT323',monospace;font-size:17px;
+  color:rgba(255,255,255,.65);line-height:1.55;margin-bottom:14px;
+}
+
+/* ── Button ── */
+.social-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 20px;
+  font-family:'Press Start 2P',monospace;font-size:8px;
+  letter-spacing:.5px;
+  border:2px solid var(--s-border);color:#fff;
+  background:var(--s-bg);text-decoration:none;
+  transition:none;
+  box-shadow:3px 3px 0 var(--s-shadow,rgba(0,0,0,.3));
+}
+.social-btn:hover{
+  transform:translate(-2px,-2px);
+  box-shadow:5px 5px 0 var(--s-shadow,rgba(0,0,0,.4));
+  background:var(--s-hover);
+}
+
+/* Contact form */
+.contact-form{
+  max-width:580px;margin:0 auto;
+  background:rgba(123,47,190,.06);border:1px solid rgba(123,47,190,.2);
+  border-radius:16px;padding:40px;text-align:left;
+}
+.form-group{margin-bottom:18px}
+.form-label{
+  display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.45);margin-bottom:8px;font-weight:600;
+}
+.form-input,.form-select{
+  width:100%;background:rgba(255,255,255,.05);
+  border:1px solid rgba(123,47,190,.3);color:#fff;
+  padding:13px 15px;border-radius:4px;
+  font-family:'Gilroy',sans-serif;font-size:15px;
+  transition:border-color .3s,box-shadow .3s;
+}
+.form-input:focus,.form-select:focus{
+  outline:none;border-color:var(--cyan);box-shadow:0 0 22px rgba(0,212,255,.1);
+}
+.form-select option{background:#1a0a2e}
+.form-btn{
+  width:100%;background:linear-gradient(135deg,var(--purple),var(--cyan));
+  color:#fff;border:none;padding:16px;border-radius:4px;
+  font-family:'Gilroy',sans-serif;font-size:15px;font-weight:700;
+  letter-spacing:1px;
+  transition:transform .3s,box-shadow .3s;
+}
+.form-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(123,47,190,.5)}
+
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+footer{
+  padding:36px 60px;
+  border-top:1px solid rgba(123,47,190,.2);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.footer-logo{
+  font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:3px;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.footer-text{font-size:12px;color:rgba(255,255,255,.35)}
+@media(max-width:768px){footer{justify-content:center;text-align:center}}
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="custom-cursor" id="cursor"></div>
+
+<!-- Scroll Progress Bar -->
+<div class="scroll-progress" id="scrollBar"></div>
+
+<!-- ═══════════════════ NAVBAR ═══════════════════ -->
+<nav class="navbar" id="navbar">
+  <a href="https://t.me/yappi_agency" class="nav-logo" target="_blank">YAPPI</a>
+  <ul class="nav-links">
+    <li><a href="#services">Услуги</a></li>
+    <li><a href="#about">О нас</a></li>
+    <li><a href="#cases">Кейсы</a></li>
+    <li><a href="#pricing">Прайс</a></li>
+    <li><a href="#partners">Партнёры</a></li>
+    <li><a href="#social">Источники</a></li>
+    <li><a href="https://t.me/yappi_manager" target="_blank" class="nav-cta">Связаться</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section id="hero">
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Pixel mountains top -->
+  <div class="hero-mountains-top">
+    <svg viewBox="0 0 1440 32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,32 L0,16 L16,16 L16,8 L32,8 L32,0 L48,0 L48,8 L64,8 L64,16 L80,16 L80,8 L96,8 L96,0 L112,0 L112,8 L128,8 L128,16 L144,16 L144,8 L160,8 L160,0 L176,0 L176,8 L192,8 L192,16 L208,16 L208,8 L224,8 L224,0 L240,0 L240,8 L256,8 L256,16 L272,16 L272,8 L288,8 L288,0 L304,0 L304,8 L320,8 L320,16 L336,16 L336,8 L352,8 L352,0 L368,0 L368,8 L384,8 L384,16 L400,16 L400,8 L416,8 L416,0 L432,0 L432,8 L448,8 L448,16 L464,16 L464,8 L480,8 L480,0 L496,0 L496,8 L512,8 L512,16 L528,16 L528,8 L544,8 L544,0 L560,0 L560,8 L576,8 L576,16 L592,16 L592,8 L608,8 L608,0 L624,0 L624,8 L640,8 L640,16 L656,16 L656,8 L672,8 L672,0 L688,0 L688,8 L704,8 L704,16 L720,16 L720,8 L736,8 L736,0 L752,0 L752,8 L768,8 L768,16 L784,16 L784,8 L800,8 L800,0 L816,0 L816,8 L832,8 L832,16 L848,16 L848,8 L864,8 L864,0 L880,0 L880,8 L896,8 L896,16 L912,16 L912,8 L928,8 L928,0 L944,0 L944,8 L960,8 L960,16 L976,16 L976,8 L992,8 L992,0 L1008,0 L1008,8 L1024,8 L1024,16 L1040,16 L1040,8 L1056,8 L1056,0 L1072,0 L1072,8 L1088,8 L1088,16 L1104,16 L1104,8 L1120,8 L1120,0 L1136,0 L1136,8 L1152,8 L1152,16 L1168,16 L1168,8 L1184,8 L1184,0 L1200,0 L1200,8 L1216,8 L1216,16 L1232,16 L1232,8 L1248,8 L1248,0 L1264,0 L1264,8 L1280,8 L1280,16 L1296,16 L1296,8 L1312,8 L1312,0 L1328,0 L1328,8 L1344,8 L1344,16 L1360,16 L1360,8 L1376,8 L1376,0 L1392,0 L1392,8 L1408,8 L1408,16 L1424,16 L1424,8 L1440,8 L1440,32 Z" fill="#0d0d0d"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <span class="hero-jp">ヤッピー！ エージェンシー</span>
+    <div class="hero-badge">// DESIGN &amp; AI AGENCY</div>
+    <h1 class="hero-title">
+      <span class="line1" id="tw1"></span>
+      <span class="line2" id="tw2"></span>
+    </h1>
+    <p class="hero-subtitle" id="heroSub" style="opacity:0;transition:opacity .6s .4s;font-family:'VT323',monospace;font-size:22px;color:rgba(255,255,255,.7);line-height:1.5">
+      &gt; Мы делаем бизнес заметным.<br>
+      &gt; <span style="color:var(--cyan)">AI</span> + <span style="color:var(--yellow)">Design</span> + <span style="color:var(--orange)">Automation</span>
+    </p>
+    <div class="hero-buttons" id="heroBtns" style="opacity:0;transition:opacity .6s .6s">
+      <a href="#contact" class="btn-primary">[ 💬 СВЯЗАТЬСЯ ]</a>
+      <a href="https://t.me/yappi_agency" target="_blank" class="btn-outline">[ ✈ НАШ КАНАЛ ]</a>
+    </div>
+  </div>
+
+  <!-- Mr. Monopoly Hero -->
+  <div class="hero-character">
+    <img src="images/character-hero.png" alt="" draggable="false">
+  </div>
+
+  <!-- Pixel mountains bottom -->
+  <div class="hero-mountains-bottom">
+    <svg viewBox="0 0 1440 32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,0 L0,16 L16,16 L16,24 L32,24 L32,32 L48,32 L48,24 L64,24 L64,16 L80,16 L80,24 L96,24 L96,32 L112,32 L112,24 L128,24 L128,16 L144,16 L144,24 L160,24 L160,32 L176,32 L176,24 L192,24 L192,16 L208,16 L208,24 L224,24 L224,32 L240,32 L240,24 L256,24 L256,16 L272,16 L272,24 L288,24 L288,32 L304,32 L304,24 L320,24 L320,16 L336,16 L336,24 L352,24 L352,32 L368,32 L368,24 L384,24 L384,16 L400,16 L400,24 L416,24 L416,32 L432,32 L432,24 L448,24 L448,16 L464,16 L464,24 L480,24 L480,32 L496,32 L496,24 L512,24 L512,16 L528,16 L528,24 L544,24 L544,32 L560,32 L560,24 L576,24 L576,16 L592,16 L592,24 L608,24 L608,32 L624,32 L624,24 L640,24 L640,16 L656,16 L656,24 L672,24 L672,32 L688,32 L688,24 L704,24 L704,16 L720,16 L720,24 L736,24 L736,32 L752,32 L752,24 L768,24 L768,16 L784,16 L784,24 L800,24 L800,32 L816,32 L816,24 L832,24 L832,16 L848,16 L848,24 L864,24 L864,32 L880,32 L880,24 L896,24 L896,16 L912,16 L912,24 L928,24 L928,32 L944,32 L944,24 L960,24 L960,16 L976,16 L976,24 L992,24 L992,32 L1008,32 L1008,24 L1024,24 L1024,16 L1040,16 L1040,24 L1056,24 L1056,32 L1072,32 L1072,24 L1088,24 L1088,16 L1104,16 L1104,24 L1120,24 L1120,32 L1136,32 L1136,24 L1152,24 L1152,16 L1168,16 L1168,24 L1184,24 L1184,32 L1200,32 L1200,24 L1216,24 L1216,16 L1232,16 L1232,24 L1248,24 L1248,32 L1264,32 L1264,24 L1280,24 L1280,16 L1296,16 L1296,24 L1312,24 L1312,32 L1328,32 L1328,24 L1344,24 L1344,16 L1360,16 L1360,24 L1376,24 L1376,32 L1392,32 L1392,24 L1408,24 L1408,16 L1424,16 L1424,24 L1440,24 L1440,0 Z" fill="#1A0A2E"/>
+    </svg>
+  </div>
+
+  <div class="scroll-indicator">
+    <span style="font-family:'VT323',monospace;font-size:16px;letter-spacing:3px">▼ SCROLL ▼</span>
+  </div>
+</section>
+
+<!-- ═══════════════════ SERVICES ═══════════════════ -->
+<section id="services">
+  <div class="section-header reveal">
+    <h2 class="section-title">НАШИ УСЛУГИ</h2>
+  </div>
+
+  <div class="services-grid">
+
+    <!-- ═══ 1. AI PRODUCTION ═══ -->
+    <div class="flip-card reveal">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-diagonal"></div>
+          <div class="card-ornament"><svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+<defs>
+  <!-- Reusable pixel flower 8-petal kiku -->
+  <g id="kiku">
+    <!-- petals -->
+    <rect x="7" y="0" width="4" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="14" y="3" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="17" y="9" width="3" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="14" y="15" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="7" y="18" width="4" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="1" y="15" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="0" y="9" width="3" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="1" y="3" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <!-- center -->
+    <rect x="6" y="7" width="6" height="8" fill="#7B2FBE" opacity=".55"/>
+    <rect x="7" y="6" width="4" height="10" fill="#7B2FBE" opacity=".55"/>
+    <rect x="8" y="8" width="2" height="6" fill="#00D4FF" opacity=".9"/>
+    <rect x="7" y="9" width="4" height="4" fill="#00D4FF" opacity=".9"/>
+    <!-- gold center dot -->
+    <rect x="8" y="10" width="2" height="2" fill="#FFD700"/>
+    <!-- corner sparkle pixels -->
+    <rect x="0" y="0" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="16" y="0" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="0" y="20" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="16" y="20" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+  </g>
+  <!-- Reusable small pixel diamond -->
+  <g id="dia">
+    <rect x="2" y="0" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="0" y="2" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="4" y="2" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="2" y="4" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+  </g>
+  <!-- Tiny dot -->
+  <g id="dot">
+    <rect x="0" y="0" width="3" height="3" fill="#7B2FBE" opacity=".3"/>
+  </g>
+</defs>
+
+<!-- ═══ 4 CORNER KIKU FLOWERS ═══ -->
+<use href="#kiku" x="6" y="6"/>
+<use href="#kiku" x="272" y="6"/>
+<use href="#kiku" x="6" y="372"/>
+<use href="#kiku" x="272" y="372"/>
+
+<!-- ═══ EDGE DIAMOND CHAINS ═══ -->
+<!-- TOP edge diamonds -->
+<use href="#dia" x="40" y="4"/>
+<use href="#dia" x="56" y="4"/>
+<use href="#dia" x="72" y="4"/>
+<use href="#dia" x="88" y="4"/>
+<use href="#dia" x="108" y="4"/>
+<use href="#dia" x="128" y="4"/>
+<use href="#dia" x="148" y="4"/>
+<use href="#dia" x="168" y="4"/>
+<use href="#dia" x="188" y="4"/>
+<use href="#dia" x="208" y="4"/>
+<use href="#dia" x="224" y="4"/>
+<use href="#dia" x="240" y="4"/>
+<use href="#dia" x="256" y="4"/>
+
+<!-- BOTTOM edge diamonds -->
+<use href="#dia" x="40" y="390"/>
+<use href="#dia" x="56" y="390"/>
+<use href="#dia" x="72" y="390"/>
+<use href="#dia" x="88" y="390"/>
+<use href="#dia" x="108" y="390"/>
+<use href="#dia" x="128" y="390"/>
+<use href="#dia" x="148" y="390"/>
+<use href="#dia" x="168" y="390"/>
+<use href="#dia" x="188" y="390"/>
+<use href="#dia" x="208" y="390"/>
+<use href="#dia" x="224" y="390"/>
+<use href="#dia" x="240" y="390"/>
+<use href="#dia" x="256" y="390"/>
+
+<!-- LEFT edge diamonds -->
+<use href="#dia" x="4" y="44"/>
+<use href="#dia" x="4" y="64"/>
+<use href="#dia" x="4" y="84"/>
+<use href="#dia" x="4" y="108"/>
+<use href="#dia" x="4" y="136"/>
+<use href="#dia" x="4" y="164"/>
+<use href="#dia" x="4" y="192"/>
+<use href="#dia" x="4" y="220"/>
+<use href="#dia" x="4" y="248"/>
+<use href="#dia" x="4" y="276"/>
+<use href="#dia" x="4" y="304"/>
+<use href="#dia" x="4" y="332"/>
+<use href="#dia" x="4" y="356"/>
+
+<!-- RIGHT edge diamonds -->
+<use href="#dia" x="290" y="44"/>
+<use href="#dia" x="290" y="64"/>
+<use href="#dia" x="290" y="84"/>
+<use href="#dia" x="290" y="108"/>
+<use href="#dia" x="290" y="136"/>
+<use href="#dia" x="290" y="164"/>
+<use href="#dia" x="290" y="192"/>
+<use href="#dia" x="290" y="220"/>
+<use href="#dia" x="290" y="248"/>
+<use href="#dia" x="290" y="276"/>
+<use href="#dia" x="290" y="304"/>
+<use href="#dia" x="290" y="332"/>
+<use href="#dia" x="290" y="356"/>
+
+<!-- ═══ CONNECTING PIXEL DOTS between diamonds (edge chains) ═══ -->
+<!-- Top tiny dots -->
+<use href="#dot" x="46" y="6"/><use href="#dot" x="50" y="6"/>
+<use href="#dot" x="62" y="6"/><use href="#dot" x="66" y="6"/>
+<use href="#dot" x="78" y="6"/><use href="#dot" x="82" y="6"/>
+<use href="#dot" x="94" y="6"/><use href="#dot" x="98" y="6"/>
+<use href="#dot" x="114" y="6"/><use href="#dot" x="118" y="6"/>
+<use href="#dot" x="134" y="6"/><use href="#dot" x="138" y="6"/>
+<use href="#dot" x="154" y="6"/><use href="#dot" x="158" y="6"/>
+<use href="#dot" x="174" y="6"/><use href="#dot" x="178" y="6"/>
+<use href="#dot" x="194" y="6"/><use href="#dot" x="198" y="6"/>
+<use href="#dot" x="214" y="6"/><use href="#dot" x="218" y="6"/>
+<use href="#dot" x="230" y="6"/><use href="#dot" x="234" y="6"/>
+<use href="#dot" x="246" y="6"/><use href="#dot" x="250" y="6"/>
+<use href="#dot" x="262" y="6"/><use href="#dot" x="266" y="6"/>
+
+<!-- Bottom tiny dots -->
+<use href="#dot" x="46" y="392"/><use href="#dot" x="50" y="392"/>
+<use href="#dot" x="62" y="392"/><use href="#dot" x="66" y="392"/>
+<use href="#dot" x="78" y="392"/><use href="#dot" x="82" y="392"/>
+<use href="#dot" x="94" y="392"/><use href="#dot" x="98" y="392"/>
+<use href="#dot" x="114" y="392"/><use href="#dot" x="118" y="392"/>
+<use href="#dot" x="134" y="392"/><use href="#dot" x="138" y="392"/>
+<use href="#dot" x="154" y="392"/><use href="#dot" x="158" y="392"/>
+<use href="#dot" x="174" y="392"/><use href="#dot" x="178" y="392"/>
+<use href="#dot" x="194" y="392"/><use href="#dot" x="198" y="392"/>
+<use href="#dot" x="214" y="392"/><use href="#dot" x="218" y="392"/>
+<use href="#dot" x="230" y="392"/><use href="#dot" x="234" y="392"/>
+<use href="#dot" x="246" y="392"/><use href="#dot" x="250" y="392"/>
+<use href="#dot" x="262" y="392"/><use href="#dot" x="266" y="392"/>
+
+<!-- ═══ INNER FRAME (double pixel border) ═══ -->
+<rect x="3" y="3" width="294" height="394" fill="none" stroke="#7B2FBE" stroke-width="1" opacity=".2"/>
+<rect x="7" y="7" width="286" height="386" fill="none" stroke="#7B2FBE" stroke-width="1" opacity=".12"/>
+
+<!-- ═══ PIXEL CORNER ACCENTS (small L-shapes connecting flower to edge) ═══ -->
+<!-- TL -->
+<rect x="4" y="30" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="4" y="34" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="30" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="34" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- TR -->
+<rect x="294" y="30" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="294" y="34" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="264" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="268" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- BL -->
+<rect x="4" y="366" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="4" y="362" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="30" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="34" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- BR -->
+<rect x="294" y="366" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="294" y="362" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="264" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="268" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+
+<!-- ═══ CENTER SUBTLE KIKU (very faint background bloom) ═══ -->
+<g opacity=".04" fill="#7B2FBE">
+  <rect x="141" y="120" width="8" height="8"/>
+  <rect x="130" y="131" width="8" height="8"/>
+  <rect x="152" y="131" width="8" height="8"/>
+  <rect x="119" y="145" width="8" height="8"/>
+  <rect x="163" y="145" width="8" height="8"/>
+  <rect x="141" y="160" width="8" height="8"/>
+  <rect x="130" y="160" width="8" height="8"/>
+  <rect x="152" y="160" width="8" height="8"/>
+  <rect x="141" y="148" width="8" height="8" opacity=".15" fill="#00D4FF"/>
+</g>
+</svg></div>
+          <div class="card-icon">
+            <!-- pixel robot/camera face -->
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="2" width="12" height="4" fill="#00D4FF"/>
+              <rect x="14" y="0" width="4" height="2" fill="#7B2FBE"/>
+              <rect x="4" y="6" width="24" height="18" fill="#7B2FBE"/>
+              <rect x="2" y="8" width="4" height="8" fill="#5a1a9e"/>
+              <rect x="26" y="8" width="4" height="8" fill="#5a1a9e"/>
+              <rect x="8" y="10" width="6" height="6" fill="#00D4FF"/>
+              <rect x="18" y="10" width="6" height="6" fill="#00D4FF"/>
+              <rect x="9" y="11" width="4" height="4" fill="#0a0015"/>
+              <rect x="19" y="11" width="4" height="4" fill="#0a0015"/>
+              <rect x="10" y="12" width="2" height="2" fill="#fff"/>
+              <rect x="20" y="12" width="2" height="2" fill="#fff"/>
+              <rect x="12" y="18" width="8" height="2" fill="#FFD700"/>
+              <rect x="10" y="20" width="2" height="2" fill="#FFD700"/>
+              <rect x="20" y="20" width="2" height="2" fill="#FFD700"/>
+              <rect x="6" y="24" width="20" height="6" fill="#5a1a9e"/>
+              <rect x="8" y="26" width="4" height="2" fill="#00D4FF"/>
+              <rect x="14" y="26" width="4" height="2" fill="#FFD700"/>
+              <rect x="20" y="26" width="4" height="2" fill="#00D4FF"/>
+            </svg>
+          </div>
+          <div class="card-name">AI PRODUCTION</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-back-header">
+            <div class="card-back-title">AI PRODUCTION</div>
+          </div>
+          <ul class="card-back-list">
+            <li>Создание AI-персонажа с нуля</li>
+            <li>Образ под вашу нишу и ЦА</li>
+            <li>50 фото (эмоции, позы, сцены)</li>
+            <li>30+ видео-кружков</li>
+            <li>~15 уникальных видео-сцен</li>
+            <li>Дипфейки · Липсинг · Аватары</li>
+          </ul>
+          <div class="card-back-price">50 фото + 45 видео в пакете</div>
+          <div class="card-back-cta"><a href="#contact">[ УЗНАТЬ ЦЕНУ → ]</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 2. АВТОМАТИЗАЦИЯ ═══ -->
+    <div class="flip-card reveal">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-diagonal"></div>
+          <div class="card-ornament"><svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+<defs>
+  <!-- Reusable pixel flower 8-petal kiku -->
+  <g id="kiku">
+    <!-- petals -->
+    <rect x="7" y="0" width="4" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="14" y="3" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="17" y="9" width="3" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="14" y="15" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="7" y="18" width="4" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="1" y="15" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="0" y="9" width="3" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="1" y="3" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <!-- center -->
+    <rect x="6" y="7" width="6" height="8" fill="#7B2FBE" opacity=".55"/>
+    <rect x="7" y="6" width="4" height="10" fill="#7B2FBE" opacity=".55"/>
+    <rect x="8" y="8" width="2" height="6" fill="#00D4FF" opacity=".9"/>
+    <rect x="7" y="9" width="4" height="4" fill="#00D4FF" opacity=".9"/>
+    <!-- gold center dot -->
+    <rect x="8" y="10" width="2" height="2" fill="#FFD700"/>
+    <!-- corner sparkle pixels -->
+    <rect x="0" y="0" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="16" y="0" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="0" y="20" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="16" y="20" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+  </g>
+  <!-- Reusable small pixel diamond -->
+  <g id="dia">
+    <rect x="2" y="0" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="0" y="2" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="4" y="2" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="2" y="4" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+  </g>
+  <!-- Tiny dot -->
+  <g id="dot">
+    <rect x="0" y="0" width="3" height="3" fill="#7B2FBE" opacity=".3"/>
+  </g>
+</defs>
+
+<!-- ═══ 4 CORNER KIKU FLOWERS ═══ -->
+<use href="#kiku" x="6" y="6"/>
+<use href="#kiku" x="272" y="6"/>
+<use href="#kiku" x="6" y="372"/>
+<use href="#kiku" x="272" y="372"/>
+
+<!-- ═══ EDGE DIAMOND CHAINS ═══ -->
+<!-- TOP edge diamonds -->
+<use href="#dia" x="40" y="4"/>
+<use href="#dia" x="56" y="4"/>
+<use href="#dia" x="72" y="4"/>
+<use href="#dia" x="88" y="4"/>
+<use href="#dia" x="108" y="4"/>
+<use href="#dia" x="128" y="4"/>
+<use href="#dia" x="148" y="4"/>
+<use href="#dia" x="168" y="4"/>
+<use href="#dia" x="188" y="4"/>
+<use href="#dia" x="208" y="4"/>
+<use href="#dia" x="224" y="4"/>
+<use href="#dia" x="240" y="4"/>
+<use href="#dia" x="256" y="4"/>
+
+<!-- BOTTOM edge diamonds -->
+<use href="#dia" x="40" y="390"/>
+<use href="#dia" x="56" y="390"/>
+<use href="#dia" x="72" y="390"/>
+<use href="#dia" x="88" y="390"/>
+<use href="#dia" x="108" y="390"/>
+<use href="#dia" x="128" y="390"/>
+<use href="#dia" x="148" y="390"/>
+<use href="#dia" x="168" y="390"/>
+<use href="#dia" x="188" y="390"/>
+<use href="#dia" x="208" y="390"/>
+<use href="#dia" x="224" y="390"/>
+<use href="#dia" x="240" y="390"/>
+<use href="#dia" x="256" y="390"/>
+
+<!-- LEFT edge diamonds -->
+<use href="#dia" x="4" y="44"/>
+<use href="#dia" x="4" y="64"/>
+<use href="#dia" x="4" y="84"/>
+<use href="#dia" x="4" y="108"/>
+<use href="#dia" x="4" y="136"/>
+<use href="#dia" x="4" y="164"/>
+<use href="#dia" x="4" y="192"/>
+<use href="#dia" x="4" y="220"/>
+<use href="#dia" x="4" y="248"/>
+<use href="#dia" x="4" y="276"/>
+<use href="#dia" x="4" y="304"/>
+<use href="#dia" x="4" y="332"/>
+<use href="#dia" x="4" y="356"/>
+
+<!-- RIGHT edge diamonds -->
+<use href="#dia" x="290" y="44"/>
+<use href="#dia" x="290" y="64"/>
+<use href="#dia" x="290" y="84"/>
+<use href="#dia" x="290" y="108"/>
+<use href="#dia" x="290" y="136"/>
+<use href="#dia" x="290" y="164"/>
+<use href="#dia" x="290" y="192"/>
+<use href="#dia" x="290" y="220"/>
+<use href="#dia" x="290" y="248"/>
+<use href="#dia" x="290" y="276"/>
+<use href="#dia" x="290" y="304"/>
+<use href="#dia" x="290" y="332"/>
+<use href="#dia" x="290" y="356"/>
+
+<!-- ═══ CONNECTING PIXEL DOTS between diamonds (edge chains) ═══ -->
+<!-- Top tiny dots -->
+<use href="#dot" x="46" y="6"/><use href="#dot" x="50" y="6"/>
+<use href="#dot" x="62" y="6"/><use href="#dot" x="66" y="6"/>
+<use href="#dot" x="78" y="6"/><use href="#dot" x="82" y="6"/>
+<use href="#dot" x="94" y="6"/><use href="#dot" x="98" y="6"/>
+<use href="#dot" x="114" y="6"/><use href="#dot" x="118" y="6"/>
+<use href="#dot" x="134" y="6"/><use href="#dot" x="138" y="6"/>
+<use href="#dot" x="154" y="6"/><use href="#dot" x="158" y="6"/>
+<use href="#dot" x="174" y="6"/><use href="#dot" x="178" y="6"/>
+<use href="#dot" x="194" y="6"/><use href="#dot" x="198" y="6"/>
+<use href="#dot" x="214" y="6"/><use href="#dot" x="218" y="6"/>
+<use href="#dot" x="230" y="6"/><use href="#dot" x="234" y="6"/>
+<use href="#dot" x="246" y="6"/><use href="#dot" x="250" y="6"/>
+<use href="#dot" x="262" y="6"/><use href="#dot" x="266" y="6"/>
+
+<!-- Bottom tiny dots -->
+<use href="#dot" x="46" y="392"/><use href="#dot" x="50" y="392"/>
+<use href="#dot" x="62" y="392"/><use href="#dot" x="66" y="392"/>
+<use href="#dot" x="78" y="392"/><use href="#dot" x="82" y="392"/>
+<use href="#dot" x="94" y="392"/><use href="#dot" x="98" y="392"/>
+<use href="#dot" x="114" y="392"/><use href="#dot" x="118" y="392"/>
+<use href="#dot" x="134" y="392"/><use href="#dot" x="138" y="392"/>
+<use href="#dot" x="154" y="392"/><use href="#dot" x="158" y="392"/>
+<use href="#dot" x="174" y="392"/><use href="#dot" x="178" y="392"/>
+<use href="#dot" x="194" y="392"/><use href="#dot" x="198" y="392"/>
+<use href="#dot" x="214" y="392"/><use href="#dot" x="218" y="392"/>
+<use href="#dot" x="230" y="392"/><use href="#dot" x="234" y="392"/>
+<use href="#dot" x="246" y="392"/><use href="#dot" x="250" y="392"/>
+<use href="#dot" x="262" y="392"/><use href="#dot" x="266" y="392"/>
+
+<!-- ═══ INNER FRAME (double pixel border) ═══ -->
+<rect x="3" y="3" width="294" height="394" fill="none" stroke="#7B2FBE" stroke-width="1" opacity=".2"/>
+<rect x="7" y="7" width="286" height="386" fill="none" stroke="#7B2FBE" stroke-width="1" opacity=".12"/>
+
+<!-- ═══ PIXEL CORNER ACCENTS (small L-shapes connecting flower to edge) ═══ -->
+<!-- TL -->
+<rect x="4" y="30" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="4" y="34" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="30" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="34" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- TR -->
+<rect x="294" y="30" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="294" y="34" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="264" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="268" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- BL -->
+<rect x="4" y="366" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="4" y="362" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="30" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="34" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- BR -->
+<rect x="294" y="366" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="294" y="362" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="264" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="268" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+
+<!-- ═══ CENTER SUBTLE KIKU (very faint background bloom) ═══ -->
+<g opacity=".04" fill="#7B2FBE">
+  <rect x="141" y="120" width="8" height="8"/>
+  <rect x="130" y="131" width="8" height="8"/>
+  <rect x="152" y="131" width="8" height="8"/>
+  <rect x="119" y="145" width="8" height="8"/>
+  <rect x="163" y="145" width="8" height="8"/>
+  <rect x="141" y="160" width="8" height="8"/>
+  <rect x="130" y="160" width="8" height="8"/>
+  <rect x="152" y="160" width="8" height="8"/>
+  <rect x="141" y="148" width="8" height="8" opacity=".15" fill="#00D4FF"/>
+</g>
+</svg></div>
+          <div class="card-icon">
+            <!-- pixel gear -->
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+              <rect x="12" y="0" width="8" height="4" fill="#7B2FBE"/>
+              <rect x="12" y="28" width="8" height="4" fill="#7B2FBE"/>
+              <rect x="0" y="12" width="4" height="8" fill="#7B2FBE"/>
+              <rect x="28" y="12" width="4" height="8" fill="#7B2FBE"/>
+              <rect x="4" y="4" width="4" height="4" fill="#7B2FBE"/>
+              <rect x="24" y="4" width="4" height="4" fill="#7B2FBE"/>
+              <rect x="4" y="24" width="4" height="4" fill="#7B2FBE"/>
+              <rect x="24" y="24" width="4" height="4" fill="#7B2FBE"/>
+              <rect x="8" y="4" width="16" height="24" fill="#5a1a9e"/>
+              <rect x="4" y="8" width="24" height="16" fill="#5a1a9e"/>
+              <rect x="12" y="12" width="8" height="8" fill="#0a0015"/>
+              <rect x="14" y="14" width="4" height="4" fill="#00D4FF"/>
+              <rect x="10" y="6" width="12" height="2" fill="#00D4FF"/>
+              <rect x="10" y="24" width="12" height="2" fill="#00D4FF"/>
+            </svg>
+          </div>
+          <div class="card-name">АВТОМАТИЗАЦИЯ</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-back-header">
+            <div class="card-back-title">АВТОМАТИЗАЦИЯ</div>
+          </div>
+          <ul class="card-back-list">
+            <li>Воронки FD/RD на Chatterfy</li>
+            <li>FD — 650$ · RD — от 1000$</li>
+            <li>Инвайт-боты + пуш-механика</li>
+            <li>Аналитика через Webhook</li>
+            <li>Настройка Metra AI — 100$</li>
+            <li>Связка трафик → бот → продажа</li>
+          </ul>
+          <div class="card-back-price">от 50$ до 1000$+</div>
+          <div class="card-back-cta"><a href="#contact">[ ОБСУДИТЬ → ]</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 3. ТАБЛИЦЫ ПОД ЗАКАЗ ═══ -->
+    <div class="flip-card reveal">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-diagonal"></div>
+          <div class="card-ornament"><svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+<defs>
+  <!-- Reusable pixel flower 8-petal kiku -->
+  <g id="kiku">
+    <!-- petals -->
+    <rect x="7" y="0" width="4" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="14" y="3" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="17" y="9" width="3" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="14" y="15" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="7" y="18" width="4" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="1" y="15" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="0" y="9" width="3" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="1" y="3" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <!-- center -->
+    <rect x="6" y="7" width="6" height="8" fill="#7B2FBE" opacity=".55"/>
+    <rect x="7" y="6" width="4" height="10" fill="#7B2FBE" opacity=".55"/>
+    <rect x="8" y="8" width="2" height="6" fill="#00D4FF" opacity=".9"/>
+    <rect x="7" y="9" width="4" height="4" fill="#00D4FF" opacity=".9"/>
+    <!-- gold center dot -->
+    <rect x="8" y="10" width="2" height="2" fill="#FFD700"/>
+    <!-- corner sparkle pixels -->
+    <rect x="0" y="0" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="16" y="0" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="0" y="20" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="16" y="20" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+  </g>
+  <!-- Reusable small pixel diamond -->
+  <g id="dia">
+    <rect x="2" y="0" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="0" y="2" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="4" y="2" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="2" y="4" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+  </g>
+  <!-- Tiny dot -->
+  <g id="dot">
+    <rect x="0" y="0" width="3" height="3" fill="#7B2FBE" opacity=".3"/>
+  </g>
+</defs>
+
+<!-- ═══ 4 CORNER KIKU FLOWERS ═══ -->
+<use href="#kiku" x="6" y="6"/>
+<use href="#kiku" x="272" y="6"/>
+<use href="#kiku" x="6" y="372"/>
+<use href="#kiku" x="272" y="372"/>
+
+<!-- ═══ EDGE DIAMOND CHAINS ═══ -->
+<!-- TOP edge diamonds -->
+<use href="#dia" x="40" y="4"/>
+<use href="#dia" x="56" y="4"/>
+<use href="#dia" x="72" y="4"/>
+<use href="#dia" x="88" y="4"/>
+<use href="#dia" x="108" y="4"/>
+<use href="#dia" x="128" y="4"/>
+<use href="#dia" x="148" y="4"/>
+<use href="#dia" x="168" y="4"/>
+<use href="#dia" x="188" y="4"/>
+<use href="#dia" x="208" y="4"/>
+<use href="#dia" x="224" y="4"/>
+<use href="#dia" x="240" y="4"/>
+<use href="#dia" x="256" y="4"/>
+
+<!-- BOTTOM edge diamonds -->
+<use href="#dia" x="40" y="390"/>
+<use href="#dia" x="56" y="390"/>
+<use href="#dia" x="72" y="390"/>
+<use href="#dia" x="88" y="390"/>
+<use href="#dia" x="108" y="390"/>
+<use href="#dia" x="128" y="390"/>
+<use href="#dia" x="148" y="390"/>
+<use href="#dia" x="168" y="390"/>
+<use href="#dia" x="188" y="390"/>
+<use href="#dia" x="208" y="390"/>
+<use href="#dia" x="224" y="390"/>
+<use href="#dia" x="240" y="390"/>
+<use href="#dia" x="256" y="390"/>
+
+<!-- LEFT edge diamonds -->
+<use href="#dia" x="4" y="44"/>
+<use href="#dia" x="4" y="64"/>
+<use href="#dia" x="4" y="84"/>
+<use href="#dia" x="4" y="108"/>
+<use href="#dia" x="4" y="136"/>
+<use href="#dia" x="4" y="164"/>
+<use href="#dia" x="4" y="192"/>
+<use href="#dia" x="4" y="220"/>
+<use href="#dia" x="4" y="248"/>
+<use href="#dia" x="4" y="276"/>
+<use href="#dia" x="4" y="304"/>
+<use href="#dia" x="4" y="332"/>
+<use href="#dia" x="4" y="356"/>
+
+<!-- RIGHT edge diamonds -->
+<use href="#dia" x="290" y="44"/>
+<use href="#dia" x="290" y="64"/>
+<use href="#dia" x="290" y="84"/>
+<use href="#dia" x="290" y="108"/>
+<use href="#dia" x="290" y="136"/>
+<use href="#dia" x="290" y="164"/>
+<use href="#dia" x="290" y="192"/>
+<use href="#dia" x="290" y="220"/>
+<use href="#dia" x="290" y="248"/>
+<use href="#dia" x="290" y="276"/>
+<use href="#dia" x="290" y="304"/>
+<use href="#dia" x="290" y="332"/>
+<use href="#dia" x="290" y="356"/>
+
+<!-- ═══ CONNECTING PIXEL DOTS between diamonds (edge chains) ═══ -->
+<!-- Top tiny dots -->
+<use href="#dot" x="46" y="6"/><use href="#dot" x="50" y="6"/>
+<use href="#dot" x="62" y="6"/><use href="#dot" x="66" y="6"/>
+<use href="#dot" x="78" y="6"/><use href="#dot" x="82" y="6"/>
+<use href="#dot" x="94" y="6"/><use href="#dot" x="98" y="6"/>
+<use href="#dot" x="114" y="6"/><use href="#dot" x="118" y="6"/>
+<use href="#dot" x="134" y="6"/><use href="#dot" x="138" y="6"/>
+<use href="#dot" x="154" y="6"/><use href="#dot" x="158" y="6"/>
+<use href="#dot" x="174" y="6"/><use href="#dot" x="178" y="6"/>
+<use href="#dot" x="194" y="6"/><use href="#dot" x="198" y="6"/>
+<use href="#dot" x="214" y="6"/><use href="#dot" x="218" y="6"/>
+<use href="#dot" x="230" y="6"/><use href="#dot" x="234" y="6"/>
+<use href="#dot" x="246" y="6"/><use href="#dot" x="250" y="6"/>
+<use href="#dot" x="262" y="6"/><use href="#dot" x="266" y="6"/>
+
+<!-- Bottom tiny dots -->
+<use href="#dot" x="46" y="392"/><use href="#dot" x="50" y="392"/>
+<use href="#dot" x="62" y="392"/><use href="#dot" x="66" y="392"/>
+<use href="#dot" x="78" y="392"/><use href="#dot" x="82" y="392"/>
+<use href="#dot" x="94" y="392"/><use href="#dot" x="98" y="392"/>
+<use href="#dot" x="114" y="392"/><use href="#dot" x="118" y="392"/>
+<use href="#dot" x="134" y="392"/><use href="#dot" x="138" y="392"/>
+<use href="#dot" x="154" y="392"/><use href="#dot" x="158" y="392"/>
+<use href="#dot" x="174" y="392"/><use href="#dot" x="178" y="392"/>
+<use href="#dot" x="194" y="392"/><use href="#dot" x="198" y="392"/>
+<use href="#dot" x="214" y="392"/><use href="#dot" x="218" y="392"/>
+<use href="#dot" x="230" y="392"/><use href="#dot" x="234" y="392"/>
+<use href="#dot" x="246" y="392"/><use href="#dot" x="250" y="392"/>
+<use href="#dot" x="262" y="392"/><use href="#dot" x="266" y="392"/>
+
+<!-- ═══ INNER FRAME (double pixel border) ═══ -->
+<rect x="3" y="3" width="294" height="394" fill="none" stroke="#7B2FBE" stroke-width="1" opacity=".2"/>
+<rect x="7" y="7" width="286" height="386" fill="none" stroke="#7B2FBE" stroke-width="1" opacity=".12"/>
+
+<!-- ═══ PIXEL CORNER ACCENTS (small L-shapes connecting flower to edge) ═══ -->
+<!-- TL -->
+<rect x="4" y="30" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="4" y="34" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="30" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="34" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- TR -->
+<rect x="294" y="30" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="294" y="34" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="264" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="268" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- BL -->
+<rect x="4" y="366" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="4" y="362" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="30" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="34" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- BR -->
+<rect x="294" y="366" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="294" y="362" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="264" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="268" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+
+<!-- ═══ CENTER SUBTLE KIKU (very faint background bloom) ═══ -->
+<g opacity=".04" fill="#7B2FBE">
+  <rect x="141" y="120" width="8" height="8"/>
+  <rect x="130" y="131" width="8" height="8"/>
+  <rect x="152" y="131" width="8" height="8"/>
+  <rect x="119" y="145" width="8" height="8"/>
+  <rect x="163" y="145" width="8" height="8"/>
+  <rect x="141" y="160" width="8" height="8"/>
+  <rect x="130" y="160" width="8" height="8"/>
+  <rect x="152" y="160" width="8" height="8"/>
+  <rect x="141" y="148" width="8" height="8" opacity=".15" fill="#00D4FF"/>
+</g>
+</svg></div>
+          <div class="card-icon">
+            <!-- pixel spreadsheet -->
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="28" height="28" fill="#0a0015"/>
+              <rect x="2" y="2" width="28" height="6" fill="#7B2FBE"/>
+              <rect x="2" y="2" width="6" height="28" fill="#5a1a9e"/>
+              <rect x="2" y="8" width="28" height="2" fill="#3a0f75"/>
+              <rect x="2" y="14" width="28" height="2" fill="#3a0f75"/>
+              <rect x="2" y="20" width="28" height="2" fill="#3a0f75"/>
+              <rect x="2" y="26" width="28" height="2" fill="#3a0f75"/>
+              <rect x="8" y="2" width="2" height="28" fill="#3a0f75"/>
+              <rect x="16" y="2" width="2" height="28" fill="#3a0f75"/>
+              <rect x="24" y="2" width="2" height="28" fill="#3a0f75"/>
+              <rect x="10" y="10" width="4" height="2" fill="#FFD700"/>
+              <rect x="18" y="10" width="6" height="2" fill="#00D4FF"/>
+              <rect x="10" y="16" width="6" height="2" fill="#00D4FF"/>
+              <rect x="18" y="16" width="4" height="2" fill="#FFD700"/>
+              <rect x="10" y="22" width="4" height="2" fill="#7B2FBE"/>
+              <rect x="18" y="22" width="6" height="2" fill="#FFD700"/>
+            </svg>
+          </div>
+          <div class="card-name">ТАБЛИЦЫ ПОД ЗАКАЗ</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-back-header">
+            <div class="card-back-title">ТАБЛИЦЫ ПОД ЗАКАЗ</div>
+          </div>
+          <ul class="card-back-list">
+            <li>Excel · Google Sheets · Notion</li>
+            <li>Финансовый учёт и аналитика</li>
+            <li>Воронки продаж в таблицах</li>
+            <li>CRM-системы на базе таблиц</li>
+            <li>Авторасчёты и формулы</li>
+            <li>Любая бизнес-задача под ключ</li>
+          </ul>
+          <div class="card-back-price">Индивидуально</div>
+          <div class="card-back-cta"><a href="#contact">[ ЗАКАЗАТЬ → ]</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 4. ВЕБ-РАЗРАБОТКА ═══ -->
+    <div class="flip-card reveal">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-diagonal"></div>
+          <div class="card-ornament"><svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+<defs>
+  <!-- Reusable pixel flower 8-petal kiku -->
+  <g id="kiku">
+    <!-- petals -->
+    <rect x="7" y="0" width="4" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="14" y="3" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="17" y="9" width="3" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="14" y="15" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="7" y="18" width="4" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="1" y="15" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="0" y="9" width="3" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="1" y="3" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <!-- center -->
+    <rect x="6" y="7" width="6" height="8" fill="#7B2FBE" opacity=".55"/>
+    <rect x="7" y="6" width="4" height="10" fill="#7B2FBE" opacity=".55"/>
+    <rect x="8" y="8" width="2" height="6" fill="#00D4FF" opacity=".9"/>
+    <rect x="7" y="9" width="4" height="4" fill="#00D4FF" opacity=".9"/>
+    <!-- gold center dot -->
+    <rect x="8" y="10" width="2" height="2" fill="#FFD700"/>
+    <!-- corner sparkle pixels -->
+    <rect x="0" y="0" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="16" y="0" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="0" y="20" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="16" y="20" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+  </g>
+  <!-- Reusable small pixel diamond -->
+  <g id="dia">
+    <rect x="2" y="0" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="0" y="2" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="4" y="2" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="2" y="4" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+  </g>
+  <!-- Tiny dot -->
+  <g id="dot">
+    <rect x="0" y="0" width="3" height="3" fill="#7B2FBE" opacity=".3"/>
+  </g>
+</defs>
+
+<!-- ═══ 4 CORNER KIKU FLOWERS ═══ -->
+<use href="#kiku" x="6" y="6"/>
+<use href="#kiku" x="272" y="6"/>
+<use href="#kiku" x="6" y="372"/>
+<use href="#kiku" x="272" y="372"/>
+
+<!-- ═══ EDGE DIAMOND CHAINS ═══ -->
+<!-- TOP edge diamonds -->
+<use href="#dia" x="40" y="4"/>
+<use href="#dia" x="56" y="4"/>
+<use href="#dia" x="72" y="4"/>
+<use href="#dia" x="88" y="4"/>
+<use href="#dia" x="108" y="4"/>
+<use href="#dia" x="128" y="4"/>
+<use href="#dia" x="148" y="4"/>
+<use href="#dia" x="168" y="4"/>
+<use href="#dia" x="188" y="4"/>
+<use href="#dia" x="208" y="4"/>
+<use href="#dia" x="224" y="4"/>
+<use href="#dia" x="240" y="4"/>
+<use href="#dia" x="256" y="4"/>
+
+<!-- BOTTOM edge diamonds -->
+<use href="#dia" x="40" y="390"/>
+<use href="#dia" x="56" y="390"/>
+<use href="#dia" x="72" y="390"/>
+<use href="#dia" x="88" y="390"/>
+<use href="#dia" x="108" y="390"/>
+<use href="#dia" x="128" y="390"/>
+<use href="#dia" x="148" y="390"/>
+<use href="#dia" x="168" y="390"/>
+<use href="#dia" x="188" y="390"/>
+<use href="#dia" x="208" y="390"/>
+<use href="#dia" x="224" y="390"/>
+<use href="#dia" x="240" y="390"/>
+<use href="#dia" x="256" y="390"/>
+
+<!-- LEFT edge diamonds -->
+<use href="#dia" x="4" y="44"/>
+<use href="#dia" x="4" y="64"/>
+<use href="#dia" x="4" y="84"/>
+<use href="#dia" x="4" y="108"/>
+<use href="#dia" x="4" y="136"/>
+<use href="#dia" x="4" y="164"/>
+<use href="#dia" x="4" y="192"/>
+<use href="#dia" x="4" y="220"/>
+<use href="#dia" x="4" y="248"/>
+<use href="#dia" x="4" y="276"/>
+<use href="#dia" x="4" y="304"/>
+<use href="#dia" x="4" y="332"/>
+<use href="#dia" x="4" y="356"/>
+
+<!-- RIGHT edge diamonds -->
+<use href="#dia" x="290" y="44"/>
+<use href="#dia" x="290" y="64"/>
+<use href="#dia" x="290" y="84"/>
+<use href="#dia" x="290" y="108"/>
+<use href="#dia" x="290" y="136"/>
+<use href="#dia" x="290" y="164"/>
+<use href="#dia" x="290" y="192"/>
+<use href="#dia" x="290" y="220"/>
+<use href="#dia" x="290" y="248"/>
+<use href="#dia" x="290" y="276"/>
+<use href="#dia" x="290" y="304"/>
+<use href="#dia" x="290" y="332"/>
+<use href="#dia" x="290" y="356"/>
+
+<!-- ═══ CONNECTING PIXEL DOTS between diamonds (edge chains) ═══ -->
+<!-- Top tiny dots -->
+<use href="#dot" x="46" y="6"/><use href="#dot" x="50" y="6"/>
+<use href="#dot" x="62" y="6"/><use href="#dot" x="66" y="6"/>
+<use href="#dot" x="78" y="6"/><use href="#dot" x="82" y="6"/>
+<use href="#dot" x="94" y="6"/><use href="#dot" x="98" y="6"/>
+<use href="#dot" x="114" y="6"/><use href="#dot" x="118" y="6"/>
+<use href="#dot" x="134" y="6"/><use href="#dot" x="138" y="6"/>
+<use href="#dot" x="154" y="6"/><use href="#dot" x="158" y="6"/>
+<use href="#dot" x="174" y="6"/><use href="#dot" x="178" y="6"/>
+<use href="#dot" x="194" y="6"/><use href="#dot" x="198" y="6"/>
+<use href="#dot" x="214" y="6"/><use href="#dot" x="218" y="6"/>
+<use href="#dot" x="230" y="6"/><use href="#dot" x="234" y="6"/>
+<use href="#dot" x="246" y="6"/><use href="#dot" x="250" y="6"/>
+<use href="#dot" x="262" y="6"/><use href="#dot" x="266" y="6"/>
+
+<!-- Bottom tiny dots -->
+<use href="#dot" x="46" y="392"/><use href="#dot" x="50" y="392"/>
+<use href="#dot" x="62" y="392"/><use href="#dot" x="66" y="392"/>
+<use href="#dot" x="78" y="392"/><use href="#dot" x="82" y="392"/>
+<use href="#dot" x="94" y="392"/><use href="#dot" x="98" y="392"/>
+<use href="#dot" x="114" y="392"/><use href="#dot" x="118" y="392"/>
+<use href="#dot" x="134" y="392"/><use href="#dot" x="138" y="392"/>
+<use href="#dot" x="154" y="392"/><use href="#dot" x="158" y="392"/>
+<use href="#dot" x="174" y="392"/><use href="#dot" x="178" y="392"/>
+<use href="#dot" x="194" y="392"/><use href="#dot" x="198" y="392"/>
+<use href="#dot" x="214" y="392"/><use href="#dot" x="218" y="392"/>
+<use href="#dot" x="230" y="392"/><use href="#dot" x="234" y="392"/>
+<use href="#dot" x="246" y="392"/><use href="#dot" x="250" y="392"/>
+<use href="#dot" x="262" y="392"/><use href="#dot" x="266" y="392"/>
+
+<!-- ═══ INNER FRAME (double pixel border) ═══ -->
+<rect x="3" y="3" width="294" height="394" fill="none" stroke="#7B2FBE" stroke-width="1" opacity=".2"/>
+<rect x="7" y="7" width="286" height="386" fill="none" stroke="#7B2FBE" stroke-width="1" opacity=".12"/>
+
+<!-- ═══ PIXEL CORNER ACCENTS (small L-shapes connecting flower to edge) ═══ -->
+<!-- TL -->
+<rect x="4" y="30" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="4" y="34" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="30" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="34" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- TR -->
+<rect x="294" y="30" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="294" y="34" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="264" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="268" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- BL -->
+<rect x="4" y="366" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="4" y="362" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="30" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="34" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- BR -->
+<rect x="294" y="366" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="294" y="362" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="264" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="268" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+
+<!-- ═══ CENTER SUBTLE KIKU (very faint background bloom) ═══ -->
+<g opacity=".04" fill="#7B2FBE">
+  <rect x="141" y="120" width="8" height="8"/>
+  <rect x="130" y="131" width="8" height="8"/>
+  <rect x="152" y="131" width="8" height="8"/>
+  <rect x="119" y="145" width="8" height="8"/>
+  <rect x="163" y="145" width="8" height="8"/>
+  <rect x="141" y="160" width="8" height="8"/>
+  <rect x="130" y="160" width="8" height="8"/>
+  <rect x="152" y="160" width="8" height="8"/>
+  <rect x="141" y="148" width="8" height="8" opacity=".15" fill="#00D4FF"/>
+</g>
+</svg></div>
+          <div class="card-icon">
+            <!-- pixel monitor -->
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="28" height="20" fill="#5a1a9e"/>
+              <rect x="4" y="4" width="24" height="16" fill="#0a0015"/>
+              <rect x="14" y="22" width="4" height="4" fill="#7B2FBE"/>
+              <rect x="10" y="26" width="12" height="2" fill="#7B2FBE"/>
+              <rect x="6" y="8" width="4" height="2" fill="#00D4FF"/>
+              <rect x="12" y="8" width="8" height="2" fill="#7B2FBE"/>
+              <rect x="8" y="12" width="2" height="4" fill="#FFD700"/>
+              <rect x="12" y="12" width="6" height="2" fill="#fff"/>
+              <rect x="12" y="14" width="4" height="2" fill="#fff"/>
+              <rect x="20" y="6" width="4" height="4" fill="#FF6B00"/>
+              <rect x="22" y="8" width="2" height="2" fill="#FFD700"/>
+            </svg>
+          </div>
+          <div class="card-name">ВЕБ-РАЗРАБОТКА</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-back-header">
+            <div class="card-back-title">ВЕБ-РАЗРАБОТКА</div>
+          </div>
+          <ul class="card-back-list">
+            <li>Сайты · Лендинги · Платформы</li>
+            <li>Telegram-боты любой сложности</li>
+            <li>Биржи · Приложения · Дашборды</li>
+            <li>Большая IT-команда под задачу</li>
+            <li>Интеграции с любыми API</li>
+            <li>Любой нестандартный запрос</li>
+          </ul>
+          <div class="card-back-price">Индивидуально</div>
+          <div class="card-back-cta"><a href="#contact">[ ОБСУДИТЬ → ]</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 5. БОТЫ В АРЕНДУ ═══ -->
+    <div class="flip-card reveal">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-diagonal"></div>
+          <div class="card-ornament"><svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+<defs>
+  <!-- Reusable pixel flower 8-petal kiku -->
+  <g id="kiku">
+    <!-- petals -->
+    <rect x="7" y="0" width="4" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="14" y="3" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="17" y="9" width="3" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="14" y="15" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="7" y="18" width="4" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="1" y="15" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="0" y="9" width="3" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="1" y="3" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <!-- center -->
+    <rect x="6" y="7" width="6" height="8" fill="#7B2FBE" opacity=".55"/>
+    <rect x="7" y="6" width="4" height="10" fill="#7B2FBE" opacity=".55"/>
+    <rect x="8" y="8" width="2" height="6" fill="#00D4FF" opacity=".9"/>
+    <rect x="7" y="9" width="4" height="4" fill="#00D4FF" opacity=".9"/>
+    <!-- gold center dot -->
+    <rect x="8" y="10" width="2" height="2" fill="#FFD700"/>
+    <!-- corner sparkle pixels -->
+    <rect x="0" y="0" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="16" y="0" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="0" y="20" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="16" y="20" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+  </g>
+  <!-- Reusable small pixel diamond -->
+  <g id="dia">
+    <rect x="2" y="0" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="0" y="2" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="4" y="2" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="2" y="4" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+  </g>
+  <!-- Tiny dot -->
+  <g id="dot">
+    <rect x="0" y="0" width="3" height="3" fill="#7B2FBE" opacity=".3"/>
+  </g>
+</defs>
+
+<!-- ═══ 4 CORNER KIKU FLOWERS ═══ -->
+<use href="#kiku" x="6" y="6"/>
+<use href="#kiku" x="272" y="6"/>
+<use href="#kiku" x="6" y="372"/>
+<use href="#kiku" x="272" y="372"/>
+
+<!-- ═══ EDGE DIAMOND CHAINS ═══ -->
+<!-- TOP edge diamonds -->
+<use href="#dia" x="40" y="4"/>
+<use href="#dia" x="56" y="4"/>
+<use href="#dia" x="72" y="4"/>
+<use href="#dia" x="88" y="4"/>
+<use href="#dia" x="108" y="4"/>
+<use href="#dia" x="128" y="4"/>
+<use href="#dia" x="148" y="4"/>
+<use href="#dia" x="168" y="4"/>
+<use href="#dia" x="188" y="4"/>
+<use href="#dia" x="208" y="4"/>
+<use href="#dia" x="224" y="4"/>
+<use href="#dia" x="240" y="4"/>
+<use href="#dia" x="256" y="4"/>
+
+<!-- BOTTOM edge diamonds -->
+<use href="#dia" x="40" y="390"/>
+<use href="#dia" x="56" y="390"/>
+<use href="#dia" x="72" y="390"/>
+<use href="#dia" x="88" y="390"/>
+<use href="#dia" x="108" y="390"/>
+<use href="#dia" x="128" y="390"/>
+<use href="#dia" x="148" y="390"/>
+<use href="#dia" x="168" y="390"/>
+<use href="#dia" x="188" y="390"/>
+<use href="#dia" x="208" y="390"/>
+<use href="#dia" x="224" y="390"/>
+<use href="#dia" x="240" y="390"/>
+<use href="#dia" x="256" y="390"/>
+
+<!-- LEFT edge diamonds -->
+<use href="#dia" x="4" y="44"/>
+<use href="#dia" x="4" y="64"/>
+<use href="#dia" x="4" y="84"/>
+<use href="#dia" x="4" y="108"/>
+<use href="#dia" x="4" y="136"/>
+<use href="#dia" x="4" y="164"/>
+<use href="#dia" x="4" y="192"/>
+<use href="#dia" x="4" y="220"/>
+<use href="#dia" x="4" y="248"/>
+<use href="#dia" x="4" y="276"/>
+<use href="#dia" x="4" y="304"/>
+<use href="#dia" x="4" y="332"/>
+<use href="#dia" x="4" y="356"/>
+
+<!-- RIGHT edge diamonds -->
+<use href="#dia" x="290" y="44"/>
+<use href="#dia" x="290" y="64"/>
+<use href="#dia" x="290" y="84"/>
+<use href="#dia" x="290" y="108"/>
+<use href="#dia" x="290" y="136"/>
+<use href="#dia" x="290" y="164"/>
+<use href="#dia" x="290" y="192"/>
+<use href="#dia" x="290" y="220"/>
+<use href="#dia" x="290" y="248"/>
+<use href="#dia" x="290" y="276"/>
+<use href="#dia" x="290" y="304"/>
+<use href="#dia" x="290" y="332"/>
+<use href="#dia" x="290" y="356"/>
+
+<!-- ═══ CONNECTING PIXEL DOTS between diamonds (edge chains) ═══ -->
+<!-- Top tiny dots -->
+<use href="#dot" x="46" y="6"/><use href="#dot" x="50" y="6"/>
+<use href="#dot" x="62" y="6"/><use href="#dot" x="66" y="6"/>
+<use href="#dot" x="78" y="6"/><use href="#dot" x="82" y="6"/>
+<use href="#dot" x="94" y="6"/><use href="#dot" x="98" y="6"/>
+<use href="#dot" x="114" y="6"/><use href="#dot" x="118" y="6"/>
+<use href="#dot" x="134" y="6"/><use href="#dot" x="138" y="6"/>
+<use href="#dot" x="154" y="6"/><use href="#dot" x="158" y="6"/>
+<use href="#dot" x="174" y="6"/><use href="#dot" x="178" y="6"/>
+<use href="#dot" x="194" y="6"/><use href="#dot" x="198" y="6"/>
+<use href="#dot" x="214" y="6"/><use href="#dot" x="218" y="6"/>
+<use href="#dot" x="230" y="6"/><use href="#dot" x="234" y="6"/>
+<use href="#dot" x="246" y="6"/><use href="#dot" x="250" y="6"/>
+<use href="#dot" x="262" y="6"/><use href="#dot" x="266" y="6"/>
+
+<!-- Bottom tiny dots -->
+<use href="#dot" x="46" y="392"/><use href="#dot" x="50" y="392"/>
+<use href="#dot" x="62" y="392"/><use href="#dot" x="66" y="392"/>
+<use href="#dot" x="78" y="392"/><use href="#dot" x="82" y="392"/>
+<use href="#dot" x="94" y="392"/><use href="#dot" x="98" y="392"/>
+<use href="#dot" x="114" y="392"/><use href="#dot" x="118" y="392"/>
+<use href="#dot" x="134" y="392"/><use href="#dot" x="138" y="392"/>
+<use href="#dot" x="154" y="392"/><use href="#dot" x="158" y="392"/>
+<use href="#dot" x="174" y="392"/><use href="#dot" x="178" y="392"/>
+<use href="#dot" x="194" y="392"/><use href="#dot" x="198" y="392"/>
+<use href="#dot" x="214" y="392"/><use href="#dot" x="218" y="392"/>
+<use href="#dot" x="230" y="392"/><use href="#dot" x="234" y="392"/>
+<use href="#dot" x="246" y="392"/><use href="#dot" x="250" y="392"/>
+<use href="#dot" x="262" y="392"/><use href="#dot" x="266" y="392"/>
+
+<!-- ═══ INNER FRAME (double pixel border) ═══ -->
+<rect x="3" y="3" width="294" height="394" fill="none" stroke="#7B2FBE" stroke-width="1" opacity=".2"/>
+<rect x="7" y="7" width="286" height="386" fill="none" stroke="#7B2FBE" stroke-width="1" opacity=".12"/>
+
+<!-- ═══ PIXEL CORNER ACCENTS (small L-shapes connecting flower to edge) ═══ -->
+<!-- TL -->
+<rect x="4" y="30" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="4" y="34" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="30" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="34" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- TR -->
+<rect x="294" y="30" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="294" y="34" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="264" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="268" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- BL -->
+<rect x="4" y="366" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="4" y="362" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="30" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="34" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- BR -->
+<rect x="294" y="366" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="294" y="362" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="264" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="268" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+
+<!-- ═══ CENTER SUBTLE KIKU (very faint background bloom) ═══ -->
+<g opacity=".04" fill="#7B2FBE">
+  <rect x="141" y="120" width="8" height="8"/>
+  <rect x="130" y="131" width="8" height="8"/>
+  <rect x="152" y="131" width="8" height="8"/>
+  <rect x="119" y="145" width="8" height="8"/>
+  <rect x="163" y="145" width="8" height="8"/>
+  <rect x="141" y="160" width="8" height="8"/>
+  <rect x="130" y="160" width="8" height="8"/>
+  <rect x="152" y="160" width="8" height="8"/>
+  <rect x="141" y="148" width="8" height="8" opacity=".15" fill="#00D4FF"/>
+</g>
+</svg></div>
+          <div class="card-icon">
+            <!-- pixel paintbrush/palette -->
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+              <rect x="18" y="2" width="4" height="14" fill="#7B2FBE"/>
+              <rect x="16" y="14" width="8" height="4" fill="#5a1a9e"/>
+              <rect x="18" y="18" width="4" height="6" fill="#00D4FF"/>
+              <rect x="16" y="24" width="8" height="4" fill="#0088aa"/>
+              <rect x="2" y="16" width="12" height="12" fill="#3a0f75"/>
+              <rect x="4" y="18" width="4" height="4" fill="#FF6B00"/>
+              <rect x="10" y="18" width="2" height="2" fill="#FFD700"/>
+              <rect x="4" y="24" width="2" height="2" fill="#00D4FF"/>
+              <rect x="8" y="24" width="2" height="2" fill="#7B2FBE"/>
+              <rect x="2" y="14" width="14" height="4" fill="#5a1a9e"/>
+            </svg>
+          </div>
+          <div class="card-name">БОТЫ В АРЕНДУ</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-back-header">
+            <div class="card-back-title">БОТЫ ОТРИСОВКИ</div>
+          </div>
+          <ul class="card-back-list">
+            <li>Видео+фото пакет — 350$/мес</li>
+            <li>10 фото + 1 видео в месяц</li>
+            <li>Только статика — до 100$</li>
+            <li>(до 10 фото, без видео)</li>
+            <li>Доп. видео — 35$ · 5 фото — 10$</li>
+            <li>Адаптация под ваш прогрев</li>
+          </ul>
+          <div class="card-back-price">от 100$ / статика · 350$ / видео</div>
+          <div class="card-back-cta"><a href="#contact">[ АРЕНДОВАТЬ → ]</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 6. КРЕАТИВЫ ═══ -->
+    <div class="flip-card reveal">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="card-diagonal"></div>
+          <div class="card-ornament"><svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+<defs>
+  <!-- Reusable pixel flower 8-petal kiku -->
+  <g id="kiku">
+    <!-- petals -->
+    <rect x="7" y="0" width="4" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="14" y="3" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="17" y="9" width="3" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="14" y="15" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="7" y="18" width="4" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="1" y="15" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <rect x="0" y="9" width="3" height="4" fill="#7B2FBE" opacity=".7"/>
+    <rect x="1" y="3" width="4" height="3" fill="#7B2FBE" opacity=".7"/>
+    <!-- center -->
+    <rect x="6" y="7" width="6" height="8" fill="#7B2FBE" opacity=".55"/>
+    <rect x="7" y="6" width="4" height="10" fill="#7B2FBE" opacity=".55"/>
+    <rect x="8" y="8" width="2" height="6" fill="#00D4FF" opacity=".9"/>
+    <rect x="7" y="9" width="4" height="4" fill="#00D4FF" opacity=".9"/>
+    <!-- gold center dot -->
+    <rect x="8" y="10" width="2" height="2" fill="#FFD700"/>
+    <!-- corner sparkle pixels -->
+    <rect x="0" y="0" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="16" y="0" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="0" y="20" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+    <rect x="16" y="20" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+  </g>
+  <!-- Reusable small pixel diamond -->
+  <g id="dia">
+    <rect x="2" y="0" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="0" y="2" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="4" y="2" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+    <rect x="2" y="4" width="2" height="2" fill="#7B2FBE" opacity=".45"/>
+  </g>
+  <!-- Tiny dot -->
+  <g id="dot">
+    <rect x="0" y="0" width="3" height="3" fill="#7B2FBE" opacity=".3"/>
+  </g>
+</defs>
+
+<!-- ═══ 4 CORNER KIKU FLOWERS ═══ -->
+<use href="#kiku" x="6" y="6"/>
+<use href="#kiku" x="272" y="6"/>
+<use href="#kiku" x="6" y="372"/>
+<use href="#kiku" x="272" y="372"/>
+
+<!-- ═══ EDGE DIAMOND CHAINS ═══ -->
+<!-- TOP edge diamonds -->
+<use href="#dia" x="40" y="4"/>
+<use href="#dia" x="56" y="4"/>
+<use href="#dia" x="72" y="4"/>
+<use href="#dia" x="88" y="4"/>
+<use href="#dia" x="108" y="4"/>
+<use href="#dia" x="128" y="4"/>
+<use href="#dia" x="148" y="4"/>
+<use href="#dia" x="168" y="4"/>
+<use href="#dia" x="188" y="4"/>
+<use href="#dia" x="208" y="4"/>
+<use href="#dia" x="224" y="4"/>
+<use href="#dia" x="240" y="4"/>
+<use href="#dia" x="256" y="4"/>
+
+<!-- BOTTOM edge diamonds -->
+<use href="#dia" x="40" y="390"/>
+<use href="#dia" x="56" y="390"/>
+<use href="#dia" x="72" y="390"/>
+<use href="#dia" x="88" y="390"/>
+<use href="#dia" x="108" y="390"/>
+<use href="#dia" x="128" y="390"/>
+<use href="#dia" x="148" y="390"/>
+<use href="#dia" x="168" y="390"/>
+<use href="#dia" x="188" y="390"/>
+<use href="#dia" x="208" y="390"/>
+<use href="#dia" x="224" y="390"/>
+<use href="#dia" x="240" y="390"/>
+<use href="#dia" x="256" y="390"/>
+
+<!-- LEFT edge diamonds -->
+<use href="#dia" x="4" y="44"/>
+<use href="#dia" x="4" y="64"/>
+<use href="#dia" x="4" y="84"/>
+<use href="#dia" x="4" y="108"/>
+<use href="#dia" x="4" y="136"/>
+<use href="#dia" x="4" y="164"/>
+<use href="#dia" x="4" y="192"/>
+<use href="#dia" x="4" y="220"/>
+<use href="#dia" x="4" y="248"/>
+<use href="#dia" x="4" y="276"/>
+<use href="#dia" x="4" y="304"/>
+<use href="#dia" x="4" y="332"/>
+<use href="#dia" x="4" y="356"/>
+
+<!-- RIGHT edge diamonds -->
+<use href="#dia" x="290" y="44"/>
+<use href="#dia" x="290" y="64"/>
+<use href="#dia" x="290" y="84"/>
+<use href="#dia" x="290" y="108"/>
+<use href="#dia" x="290" y="136"/>
+<use href="#dia" x="290" y="164"/>
+<use href="#dia" x="290" y="192"/>
+<use href="#dia" x="290" y="220"/>
+<use href="#dia" x="290" y="248"/>
+<use href="#dia" x="290" y="276"/>
+<use href="#dia" x="290" y="304"/>
+<use href="#dia" x="290" y="332"/>
+<use href="#dia" x="290" y="356"/>
+
+<!-- ═══ CONNECTING PIXEL DOTS between diamonds (edge chains) ═══ -->
+<!-- Top tiny dots -->
+<use href="#dot" x="46" y="6"/><use href="#dot" x="50" y="6"/>
+<use href="#dot" x="62" y="6"/><use href="#dot" x="66" y="6"/>
+<use href="#dot" x="78" y="6"/><use href="#dot" x="82" y="6"/>
+<use href="#dot" x="94" y="6"/><use href="#dot" x="98" y="6"/>
+<use href="#dot" x="114" y="6"/><use href="#dot" x="118" y="6"/>
+<use href="#dot" x="134" y="6"/><use href="#dot" x="138" y="6"/>
+<use href="#dot" x="154" y="6"/><use href="#dot" x="158" y="6"/>
+<use href="#dot" x="174" y="6"/><use href="#dot" x="178" y="6"/>
+<use href="#dot" x="194" y="6"/><use href="#dot" x="198" y="6"/>
+<use href="#dot" x="214" y="6"/><use href="#dot" x="218" y="6"/>
+<use href="#dot" x="230" y="6"/><use href="#dot" x="234" y="6"/>
+<use href="#dot" x="246" y="6"/><use href="#dot" x="250" y="6"/>
+<use href="#dot" x="262" y="6"/><use href="#dot" x="266" y="6"/>
+
+<!-- Bottom tiny dots -->
+<use href="#dot" x="46" y="392"/><use href="#dot" x="50" y="392"/>
+<use href="#dot" x="62" y="392"/><use href="#dot" x="66" y="392"/>
+<use href="#dot" x="78" y="392"/><use href="#dot" x="82" y="392"/>
+<use href="#dot" x="94" y="392"/><use href="#dot" x="98" y="392"/>
+<use href="#dot" x="114" y="392"/><use href="#dot" x="118" y="392"/>
+<use href="#dot" x="134" y="392"/><use href="#dot" x="138" y="392"/>
+<use href="#dot" x="154" y="392"/><use href="#dot" x="158" y="392"/>
+<use href="#dot" x="174" y="392"/><use href="#dot" x="178" y="392"/>
+<use href="#dot" x="194" y="392"/><use href="#dot" x="198" y="392"/>
+<use href="#dot" x="214" y="392"/><use href="#dot" x="218" y="392"/>
+<use href="#dot" x="230" y="392"/><use href="#dot" x="234" y="392"/>
+<use href="#dot" x="246" y="392"/><use href="#dot" x="250" y="392"/>
+<use href="#dot" x="262" y="392"/><use href="#dot" x="266" y="392"/>
+
+<!-- ═══ INNER FRAME (double pixel border) ═══ -->
+<rect x="3" y="3" width="294" height="394" fill="none" stroke="#7B2FBE" stroke-width="1" opacity=".2"/>
+<rect x="7" y="7" width="286" height="386" fill="none" stroke="#7B2FBE" stroke-width="1" opacity=".12"/>
+
+<!-- ═══ PIXEL CORNER ACCENTS (small L-shapes connecting flower to edge) ═══ -->
+<!-- TL -->
+<rect x="4" y="30" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="4" y="34" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="30" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="34" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- TR -->
+<rect x="294" y="30" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="294" y="34" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="264" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="268" y="4" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- BL -->
+<rect x="4" y="366" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="4" y="362" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="30" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="34" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<!-- BR -->
+<rect x="294" y="366" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="294" y="362" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="264" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+<rect x="268" y="394" width="2" height="2" fill="#00D4FF" opacity=".25"/>
+
+<!-- ═══ CENTER SUBTLE KIKU (very faint background bloom) ═══ -->
+<g opacity=".04" fill="#7B2FBE">
+  <rect x="141" y="120" width="8" height="8"/>
+  <rect x="130" y="131" width="8" height="8"/>
+  <rect x="152" y="131" width="8" height="8"/>
+  <rect x="119" y="145" width="8" height="8"/>
+  <rect x="163" y="145" width="8" height="8"/>
+  <rect x="141" y="160" width="8" height="8"/>
+  <rect x="130" y="160" width="8" height="8"/>
+  <rect x="152" y="160" width="8" height="8"/>
+  <rect x="141" y="148" width="8" height="8" opacity=".15" fill="#00D4FF"/>
+</g>
+</svg></div>
+          <div class="card-icon">
+            <!-- pixel star/sparkle -->
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+              <rect x="14" y="0" width="4" height="6" fill="#FFD700"/>
+              <rect x="14" y="26" width="4" height="6" fill="#FFD700"/>
+              <rect x="0" y="14" width="6" height="4" fill="#FFD700"/>
+              <rect x="26" y="14" width="6" height="4" fill="#FFD700"/>
+              <rect x="4" y="4" width="4" height="4" fill="#FFD700"/>
+              <rect x="24" y="4" width="4" height="4" fill="#FFD700"/>
+              <rect x="4" y="24" width="4" height="4" fill="#FFD700"/>
+              <rect x="24" y="24" width="4" height="4" fill="#FFD700"/>
+              <rect x="10" y="6" width="12" height="20" fill="#7B2FBE"/>
+              <rect x="6" y="10" width="20" height="12" fill="#7B2FBE"/>
+              <rect x="12" y="10" width="8" height="12" fill="#5a1a9e"/>
+              <rect x="10" y="12" width="12" height="8" fill="#5a1a9e"/>
+              <rect x="14" y="14" width="4" height="4" fill="#00D4FF"/>
+              <rect x="8" y="8" width="4" height="4" fill="#FF6B00"/>
+              <rect x="20" y="8" width="4" height="4" fill="#FF6B00"/>
+              <rect x="8" y="20" width="4" height="4" fill="#FF6B00"/>
+              <rect x="20" y="20" width="4" height="4" fill="#FF6B00"/>
+            </svg>
+          </div>
+          <div class="card-name">КРЕАТИВЫ</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="card-back-header">
+            <div class="card-back-title">КРЕАТИВЫ</div>
+          </div>
+          <ul class="card-back-list">
+            <li>Статика · от 8$</li>
+            <li>Motion-видео · от 35$</li>
+            <li>Видео-кружки · от 30$</li>
+            <li>Отрисовки · от 15$</li>
+            <li>Логотипы · от 15$</li>
+            <li>Reels · UGC · VSL · GIF</li>
+          </ul>
+          <div class="card-back-price">от 4$ до 50$+</div>
+          <div class="card-back-cta"><a href="#pricing">[ ПРАЙС-ЛИСТ → ]</a></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════ ABOUT ═══════════════════ -->
+<section id="about">
+  <div class="about-inner">
+
+    <!-- Character -->
+    <div class="about-character reveal">
+      <img src="images/character-about.png" alt="" class="about-char-img" draggable="false">
+    </div>
+
+    <div class="about-text-content">
+      <h2 class="section-title" style="font-size:clamp(28px,4vw,52px);margin-bottom:20px;text-align:left;text-shadow:3px 3px 0 var(--purple)">О НАС</h2>
+
+      <!-- Lead -->
+      <div class="about-lead reveal">
+        <span>YAPPI AGENCY</span> — это не просто дизайн-агентство.<br>
+        Это <span>экосистема</span> для арбитражных команд и digital-бизнеса.<br>
+        2 года на рынке — росли не за счёт шума, а за счёт <span>системных решений</span>.
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-item reveal">
+          <div class="stat-number"><span class="counter" data-target="2">0</span></div>
+          <div class="stat-label">ГОДА НА РЫНКЕ</div>
+        </div>
+        <div class="stat-item reveal">
+          <div class="stat-number"><span class="counter" data-target="1000">0</span>+</div>
+          <div class="stat-label">КЛИЕНТОВ</div>
+        </div>
+        <div class="stat-item reveal">
+          <div class="stat-number"><span class="counter" data-target="100">0</span>+</div>
+          <div class="stat-label">СОТРУДНИЧЕСТВ</div>
+        </div>
+        <div class="stat-item reveal">
+          <div class="stat-number"><span class="counter" data-target="20">0</span>+</div>
+          <div class="stat-label">СОТРУДНИКОВ</div>
+        </div>
+      </div>
+
+      <!-- Two-col what we do -->
+      <div class="about-cols">
+        <div class="about-block reveal">
+          <div class="about-block-title">ЧТО МЫ ДЕЛАЕМ</div>
+          <ul class="about-list">
+            <li>Креативы всех форматов</li>
+            <li>AI Production под ключ</li>
+            <li>Боты отрисовки (фото + видео)</li>
+            <li>Автоматизация / Chatterfy</li>
+            <li>Сайты, боты, платформы</li>
+            <li>Таблицы и системы под бизнес</li>
+            <li>Внедрение ИИ в процессы</li>
+          </ul>
+        </div>
+        <div class="about-block reveal">
+          <div class="about-block-title">ЛЮДИ И КОМЬЮНИТИ</div>
+          <ul class="about-list">
+            <li>Нетворкинг и поддержка</li>
+            <li>Чат с бесплатной рекламой</li>
+            <li>Вакансии и база специалистов</li>
+            <li>Дизайнеры in-house / в аренду</li>
+            <li>Мгновенная замена спеца</li>
+            <li>Ориентация на долгосрок</li>
+            <li>Гибкость форматов работы</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Metra AI callout -->
+      <div class="about-callout reveal">
+        <span class="about-callout-badge">★ AMBASSADOR</span>
+        <div class="about-callout-text">
+          Официальные амбассадоры <a href="https://metra-ai.org" target="_blank">METRA AI</a> —
+          помогаем внедрить AI в Telegram-каналы: перенос контента, автопостинг, AI-персонажи, полная настройка под команду.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CASES ═══════════════════ -->
+<section id="cases">
+  <div class="cases-header reveal">
+    <h2 class="section-title">КЕЙСЫ</h2>
+    <div class="cases-filters">
+      <button class="filter-btn active" data-filter="all">[ ALL STAGES ]</button>
+      <button class="filter-btn" data-filter="ai-video">[ STAGE 1: AI VIDEO ]</button>
+      <button class="filter-btn" data-filter="sites">[ STAGE 2: САЙТЫ ]</button>
+      <button class="filter-btn" data-filter="smm">[ STAGE 3: SMM ]</button>
+      <button class="filter-btn" data-filter="automation">[ STAGE 4: АВТО ]</button>
+    </div>
+  </div>
+
+  <div class="cases-track-wrapper" id="casesWrapper">
+    <div class="cases-track" id="casesTrack">
+      <div class="case-card" data-category="ai-video">
+        <div class="case-img-placeholder">AI</div>
+        <div class="case-body"><div class="case-category">AI Video</div><div class="case-title">Metra AI — Промо-ролик</div><div class="case-desc">AI-аватар, дипфейк, полная постпродакшн для платформы Metra AI</div></div>
+      </div>
+      <div class="case-card" data-category="sites">
+        <div class="case-img-placeholder">WEB</div>
+        <div class="case-body"><div class="case-category">Веб-разработка</div><div class="case-title">Лендинг под ключ</div><div class="case-desc">Конверсионный лендинг с анимациями, адаптивом и интеграцией CRM</div></div>
+      </div>
+      <div class="case-card" data-category="automation">
+        <div class="case-img-placeholder">BOT</div>
+        <div class="case-body"><div class="case-category">Автоматизация</div><div class="case-title">Telegram-бот для продаж</div><div class="case-desc">Чат-бот на Chatterfy с воронкой продаж и интеграцией платёжной системы</div></div>
+      </div>
+      <div class="case-card" data-category="smm">
+        <div class="case-img-placeholder">SMM</div>
+        <div class="case-body"><div class="case-category">SMM</div><div class="case-title">Стратегия соцсетей</div><div class="case-desc">Контент-план + ведение Instagram / TikTok, рост охватов ×3 за 2 месяца</div></div>
+      </div>
+      <div class="case-card" data-category="ai-video">
+        <div class="case-img-placeholder">VID</div>
+        <div class="case-body"><div class="case-category">AI Video</div><div class="case-title">Серия AI-роликов</div><div class="case-desc">10 видео с AI-аватаром для Instagram Reels, viral-стратегия контента</div></div>
+      </div>
+      <div class="case-card" data-category="sites">
+        <div class="case-img-placeholder">UI</div>
+        <div class="case-body"><div class="case-category">Дизайн</div><div class="case-title">Brand Identity Pack</div><div class="case-desc">Полный фирменный стиль: логотип, гайдлайн, шаблоны соцсетей, презентация</div></div>
+      </div>
+    </div>
+
+    <!-- Parallax walking monopoly man -->
+    <div class="cases-monopoly" id="casesWalker">
+      <img src="images/character-running.png" alt="" draggable="false">
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ PRICING ═══════════════════ -->
+<section id="pricing">
+  <div class="coins-bg" id="coinsBg"></div>
+
+  <div class="price-title reveal">
+    <div class="price-title-row" id="priceTitleRow"></div>
+  </div>
+
+  <!-- Персонаж — абсолютно слева в секции, не влияет на сетку -->
+  <div class="price-char-wrap">
+    <img src="images/character-price.png" alt="" draggable="false">
+  </div>
+
+  <div class="pricing-layout">
+    <div class="price-grid">
+
+    <!-- Статика -->
+    <div class="price-card reveal" style="--card-accent:linear-gradient(90deg,#7B2FBE,#9B4FDE);--badge-bg:rgba(123,47,190,.18);--badge-border:rgba(123,47,190,.35)">
+      <div class="price-content">
+        <div class="price-card-header">
+          <div class="price-cat-badge"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="image-rendering:pixelated;display:block">
+  <rect x="2" y="2" width="24" height="18" fill="#3a0f75"/><rect x="4" y="4" width="20" height="14" fill="#0a0015"/>
+  <rect x="6" y="8" width="4" height="6" fill="#7B2FBE" opacity=".8"/><rect x="12" y="6" width="6" height="8" fill="#00D4FF" opacity=".7"/>
+  <rect x="18" y="10" width="4" height="4" fill="#FFD700" opacity=".8"/>
+  <rect x="4" y="14" width="6" height="4" fill="#7B2FBE" opacity=".5"/><rect x="10" y="12" width="4" height="6" fill="#00D4FF" opacity=".5"/>
+  <rect x="2" y="20" width="24" height="4" fill="#5a1a9e"/>
+  <rect x="6" y="22" width="4" height="2" fill="#00D4FF" opacity=".6"/><rect x="12" y="22" width="6" height="2" fill="#FFD700" opacity=".6"/>
+  <rect x="20" y="22" width="4" height="2" fill="#7B2FBE" opacity=".6"/>
+  <rect x="10" y="24" width="8" height="2" fill="#3a0f75"/>
+</svg></div>
+          <div><div class="price-card-title">Статика</div><div class="price-card-sub">Дизайн и графика</div></div>
+        </div>
+        <div class="price-rows">
+          <div class="price-row"><span class="price-row-num">01</span><span class="price-row-name">Статика</span><span class="price-row-dots"></span><span class="price-row-val">8–10$</span></div>
+          <div class="price-row"><span class="price-row-num">02</span><span class="price-row-name">Адаптация статики</span><span class="price-row-dots"></span><span class="price-row-val">4$</span></div>
+          <div class="price-row"><span class="price-row-num">03</span><span class="price-row-name">Проект работы</span><span class="price-row-dots"></span><span class="price-row-val">4$</span></div>
+          <div class="price-row"><span class="price-row-num">04</span><span class="price-row-name">Генерации фото</span><span class="price-row-dots"></span><span class="price-row-val">5$</span></div>
+          <div class="price-row"><span class="price-row-num">05</span><span class="price-row-name">Логотипы</span><span class="price-row-dots"></span><span class="price-row-val">15$</span></div>
+          <div class="price-row"><span class="price-row-num">06</span><span class="price-row-name">Отрисовки</span><span class="price-row-dots"></span><span class="price-row-val">15$</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Production -->
+    <div class="price-card reveal" style="--card-accent:linear-gradient(90deg,#00D4FF,#0088cc);--badge-bg:rgba(0,212,255,.12);--badge-border:rgba(0,212,255,.3)">
+      <div class="price-content">
+        <div class="price-card-header">
+          <div class="price-cat-badge" style="--badge-bg:rgba(0,212,255,.12);--badge-border:rgba(0,212,255,.3)"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="image-rendering:pixelated;display:block">
+  <rect x="8" y="2" width="12" height="4" fill="#00D4FF"/>
+  <rect x="12" y="0" width="4" height="2" fill="#7B2FBE"/>
+  <rect x="2" y="6" width="24" height="16" fill="#7B2FBE"/>
+  <rect x="0" y="8" width="4" height="8" fill="#5a1a9e"/>
+  <rect x="24" y="8" width="4" height="8" fill="#5a1a9e"/>
+  <rect x="6" y="9" width="6" height="6" fill="#00D4FF"/>
+  <rect x="16" y="9" width="6" height="6" fill="#00D4FF"/>
+  <rect x="7" y="10" width="4" height="4" fill="#0a0015"/>
+  <rect x="17" y="10" width="4" height="4" fill="#0a0015"/>
+  <rect x="8" y="11" width="2" height="2" fill="#fff"/>
+  <rect x="18" y="11" width="2" height="2" fill="#fff"/>
+  <rect x="10" y="17" width="8" height="2" fill="#FFD700"/>
+  <rect x="8" y="19" width="2" height="2" fill="#FFD700"/>
+  <rect x="18" y="19" width="2" height="2" fill="#FFD700"/>
+  <rect x="4" y="22" width="20" height="4" fill="#5a1a9e"/>
+  <rect x="6" y="23" width="4" height="2" fill="#00D4FF"/><rect x="12" y="23" width="4" height="2" fill="#FFD700"/><rect x="18" y="23" width="4" height="2" fill="#00D4FF"/>
+</svg></div>
+          <div><div class="price-card-title">AI Production</div><div class="price-card-sub">Синтез и дипфейки</div></div>
+        </div>
+        <div class="price-rows">
+          <div class="price-row"><span class="price-row-num">01</span><span class="price-row-name">Дип фейки</span><span class="price-row-dots"></span><span class="price-row-val">от 15$</span></div>
+          <div class="price-row"><span class="price-row-num">02</span><span class="price-row-name">Текст в голос</span><span class="price-row-dots"></span><span class="price-row-val">3–5$</span></div>
+          <div class="price-row"><span class="price-row-num">03</span><span class="price-row-name">AI Production</span><span class="price-row-dots"></span><span class="price-row-val">от 300$</span></div>
+        </div>
+        <div class="price-note">* Дип фейки: до 15 сек — 15$, каждая секунда сверх — +0.5$</div>
+      </div>
+    </div>
+
+    <!-- Видео -->
+    <div class="price-card reveal" style="--card-accent:linear-gradient(90deg,#FFD700,#f39c12);--badge-bg:rgba(255,215,0,.1);--badge-border:rgba(255,215,0,.3)">
+      <div class="price-content">
+        <div class="price-card-header">
+          <div class="price-cat-badge" style="--badge-bg:rgba(255,215,0,.1);--badge-border:rgba(255,215,0,.3)"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="image-rendering:pixelated;display:block">
+  <rect x="2" y="6" width="24" height="18" fill="#3a0f75"/>
+  <rect x="2" y="2" width="24" height="6" fill="#5a1a9e"/>
+  <rect x="4" y="2" width="4" height="6" fill="#FFD700" opacity=".6"/>
+  <rect x="10" y="2" width="4" height="6" fill="#0a0015"/>
+  <rect x="16" y="2" width="4" height="6" fill="#FFD700" opacity=".6"/>
+  <rect x="22" y="2" width="4" height="6" fill="#0a0015"/>
+  <rect x="0" y="10" width="4" height="4" fill="#5a1a9e"/>
+  <rect x="24" y="10" width="4" height="4" fill="#5a1a9e"/>
+  <rect x="0" y="18" width="4" height="4" fill="#5a1a9e"/>
+  <rect x="24" y="18" width="4" height="4" fill="#5a1a9e"/>
+  <rect x="4" y="8" width="20" height="14" fill="#0a0015"/>
+  <rect x="10" y="11" width="0" height="0" fill="none"/>
+  <rect x="8" y="11" width="4" height="8" fill="#FFD700" opacity=".8"/>
+  <rect x="12" y="13" width="8" height="4" fill="#FFD700" opacity=".6"/>
+  <rect x="20" y="11" width="2" height="2" fill="#7B2FBE" opacity=".7"/>
+</svg></div>
+          <div><div class="price-card-title">Видео</div><div class="price-card-sub">Монтаж и Motion</div></div>
+        </div>
+        <div class="price-rows">
+          <div class="price-row"><span class="price-row-num">01</span><span class="price-row-name">Motion</span><span class="price-row-dots"></span><span class="price-row-val">от 35$</span></div>
+          <div class="price-row"><span class="price-row-num">02</span><span class="price-row-name">Motion + Дип</span><span class="price-row-dots"></span><span class="price-row-val">35$</span></div>
+          <div class="price-row"><span class="price-row-num">03</span><span class="price-row-name">VSL</span><span class="price-row-dots"></span><span class="price-row-val">от 50$</span></div>
+          <div class="price-row"><span class="price-row-num">04</span><span class="price-row-name">Адаптация</span><span class="price-row-dots"></span><span class="price-row-val">15$</span></div>
+          <div class="price-row"><span class="price-row-num">05</span><span class="price-row-name">GIF</span><span class="price-row-dots"></span><span class="price-row-val">15$</span></div>
+          <div class="price-row"><span class="price-row-num">06</span><span class="price-row-name">UGC</span><span class="price-row-dots"></span><span class="price-row-val">от 40$</span></div>
+          <div class="price-row"><span class="price-row-num">07</span><span class="price-row-name">Reels</span><span class="price-row-dots"></span><span class="price-row-val">30$</span></div>
+          <div class="price-row"><span class="price-row-num">08</span><span class="price-row-name">YouTube видео</span><span class="price-row-dots"></span><span class="price-row-val">от 40$</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Другие услуги -->
+    <div class="price-card reveal" style="--card-accent:linear-gradient(90deg,#E74C3C,#c0392b);--badge-bg:rgba(231,76,60,.12);--badge-border:rgba(231,76,60,.3)">
+      <div class="price-content">
+        <div class="price-card-header">
+          <div class="price-cat-badge" style="--badge-bg:rgba(231,76,60,.12);--badge-border:rgba(231,76,60,.3)"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="image-rendering:pixelated;display:block">
+  <rect x="10" y="0" width="8" height="4" fill="#E74C3C"/>
+  <rect x="10" y="24" width="8" height="4" fill="#E74C3C"/>
+  <rect x="0" y="10" width="4" height="8" fill="#E74C3C"/>
+  <rect x="24" y="10" width="4" height="8" fill="#E74C3C"/>
+  <rect x="4" y="4" width="4" height="4" fill="#E74C3C"/>
+  <rect x="20" y="4" width="4" height="4" fill="#E74C3C"/>
+  <rect x="4" y="20" width="4" height="4" fill="#E74C3C"/>
+  <rect x="20" y="20" width="4" height="4" fill="#E74C3C"/>
+  <rect x="6" y="4" width="16" height="20" fill="#c0392b"/>
+  <rect x="4" y="6" width="20" height="16" fill="#c0392b"/>
+  <rect x="10" y="10" width="8" height="8" fill="#0a0015"/>
+  <rect x="12" y="12" width="4" height="4" fill="#FF6B00"/>
+  <rect x="8" y="5" width="12" height="2" fill="#FF6B00" opacity=".5"/>
+  <rect x="8" y="21" width="12" height="2" fill="#FF6B00" opacity=".5"/>
+</svg></div>
+          <div><div class="price-card-title">Другие услуги</div><div class="price-card-sub">Разработка и автоматизация</div></div>
+        </div>
+        <div class="price-rows">
+          <div class="price-row"><span class="price-row-num">01</span><span class="price-row-name">Бот отрисовки</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
+          <div class="price-row"><span class="price-row-num">02</span><span class="price-row-name">Дизайнер в аренду</span><span class="price-row-dots"></span><span class="price-row-val">от 500$</span></div>
+          <div class="price-row"><span class="price-row-num">03</span><span class="price-row-name">Лендинг — верстка</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
+          <div class="price-row"><span class="price-row-num">04</span><span class="price-row-name">Сборка ботов Chatterfy</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
+          <div class="price-row"><span class="price-row-num">05</span><span class="price-row-name">Сборка AI контента METRA AI</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
+          <div class="price-row"><span class="price-row-num">06</span><span class="price-row-name">Сборка таблиц под бизнес</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
+        </div>
+      </div>
+    </div>
+
+    </div><!-- /price-grid -->
+  </div><!-- /pricing-layout -->
+
+  <div class="price-cta reveal">
+    <div class="price-cta-text">Нужен индивидуальный расчёт?</div>
+    <a href="https://t.me/yappi_manager" class="price-cta-btn" target="_blank">✈ Написать менеджеру</a>
+  </div>
+</section>
+
+<!-- ═══════════════════ PARTNERS ═══════════════════ -->
+<section id="partners">
+
+  <div class="partners-header reveal">
+    <span class="hof-header">★★★  HALL OF PARTNERS  ★★★</span>
+    <div class="hof-sub">// НАШИ ПАРТНЁРЫ И СОЮЗНИКИ //</div>
+  </div>
+
+  <div class="partners-grid">
+
+    <!-- ══ METRA AI ══ -->
+    <div class="partner-card reveal"
+         style="--pc-color:#00D4FF;--pc-accent:linear-gradient(90deg,#00D4FF,#7B2FBE);--pc-shadow:rgba(0,212,255,.3)">
+      <div class="pc-top">
+        <div class="pc-logo">
+          <img src="images/social-metra.png" alt="Metra AI"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="pc-logo-fallback" style="display:none">M</div>
+        </div>
+        <div class="pc-meta">
+          <span class="pc-status ambassador">★ OFFICIAL AMBASSADOR</span>
+          <div class="pc-name">METRA AI</div>
+          <div class="pc-tagline">AI-платформа нового поколения</div>
+        </div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-desc">
+          Metra AI — платформа для полной автоматизации Telegram-каналов с помощью искусственного интеллекта. Мы стали официальными амбассадорами платформы и помогаем командам внедрять её в работу под ключ.
+        </div>
+        <ul class="pc-features">
+          <li>AI-персонажи и автоматический постинг</li>
+          <li>Перенос и настройка контента на ИИ</li>
+          <li>Автоматизация обработки трафика</li>
+          <li>Генерация контента под вашу стратегию</li>
+          <li>Полная настройка системы под команду</li>
+        </ul>
+        <div class="pc-btns">
+          <a href="https://metra-ai.org" target="_blank" class="pc-btn pc-btn-primary">
+            🌐 Открыть платформу
+          </a>
+          <a href="https://t.me/metra_ai" target="_blank" class="pc-btn pc-btn-outline">
+            ✈ Telegram канал
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ATLAS GROUP ══ -->
+    <div class="partner-card reveal"
+         style="--pc-color:#FFD700;--pc-accent:linear-gradient(90deg,#FFD700,#FF6B00);--pc-shadow:rgba(255,215,0,.25)">
+      <div class="pc-top">
+        <div class="pc-logo" style="border-color:#FFD700;box-shadow:3px 3px 0 #FFD700">
+          <div class="pc-logo-fallback" style="color:#FFD700;font-size:28px">AG</div>
+        </div>
+        <div class="pc-meta">
+          <span class="pc-status partner">◆ PARTNER</span>
+          <div class="pc-name">ATLAS GROUP</div>
+          <div class="pc-tagline" style="color:#FFD700">Рекрутинг для арбитража</div>
+        </div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-desc">
+          Atlas Group — рекрутинговое агентство, специализирующееся на подборе кадров для арбитражных команд. Быстро находят нужных специалистов под любые задачи — от байеров до технарей.
+        </div>
+        <ul class="pc-features">
+          <li>Подбор байеров, дизайнеров, PM</li>
+          <li>База проверенных специалистов</li>
+          <li>Работа с командами любого масштаба</li>
+          <li>Быстрые сроки закрытия вакансий</li>
+          <li>Условия дешевле рынка</li>
+        </ul>
+        <div class="pc-btns">
+          <a href="https://t.me/atlas_groupHR" target="_blank" class="pc-btn pc-btn-primary"
+             style="background:#FFD700;color:#0a0015;border-color:#FFD700">
+            ✈ Telegram канал
+          </a>
+          <a href="https://t.me/Atlas_SMM1" target="_blank" class="pc-btn pc-btn-outline"
+             style="color:#FFD700;border-color:#FFD700">
+            👤 Написать менеджеру
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+<!-- ═══════════════════ ЭКОСИСТЕМА ═══════════════════ -->
+<section id="social">
+  <div class="section-header reveal">
+    <h2 class="section-title" style="font-size:clamp(20px,3.2vw,44px);text-shadow:3px 3px 0 var(--purple)">ЭКОСИСТЕМА YAPPI</h2>
+  </div>
+
+  <div class="social-grid">
+
+    <!-- ══ YAPPI AGENCY ══ -->
+    <a href="https://t.me/yappi_agency" target="_blank" class="social-card reveal"
+       style="--s-accent:linear-gradient(90deg,#7B2FBE,#00D4FF);--s-border:rgba(123,47,190,.5);--s-shadow:rgba(123,47,190,.35);--s-bg:rgba(123,47,190,.1);--s-hover:rgba(123,47,190,.22);--s-color:#ce93d8">
+      <div class="social-card-top">
+        <div class="social-avatar" style="border-color:rgba(123,47,190,.5);box-shadow:3px 3px 0 rgba(123,47,190,.35)">
+          <img src="images/social-channel.png" alt=""
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#7B2FBE">YA</span>
+        </div>
+        <div class="social-card-meta">
+          <span class="social-label">✈ Telegram канал</span>
+          <div class="social-name">YAPPI<br>AGENCY</div>
+          <div class="social-handle">@yappi_agency</div>
+        </div>
+      </div>
+      <div class="social-card-body">
+        <div class="social-desc">Главный канал агентства — кейсы, новости, лучшие работы и обновления экосистемы</div>
+        <span class="social-btn" style="--s-bg:rgba(123,47,190,.12);--s-border:rgba(123,47,190,.5);--s-shadow:rgba(123,47,190,.3);--s-hover:rgba(123,47,190,.25)">[ ПОДПИСАТЬСЯ → ]</span>
+      </div>
+    </a>
+
+    <!-- ══ YAPPI CHAT ══ -->
+    <a href="https://t.me/+Q0QkqNNKiEY1NDg6" target="_blank" class="social-card reveal"
+       style="--s-accent:linear-gradient(90deg,#FFD700,#FF6B00);--s-border:rgba(255,215,0,.45);--s-shadow:rgba(255,215,0,.25);--s-bg:rgba(255,215,0,.08);--s-hover:rgba(255,215,0,.18);--s-color:#FFD700">
+      <div class="social-card-top">
+        <div class="social-avatar" style="border-color:rgba(255,215,0,.45);box-shadow:3px 3px 0 rgba(255,215,0,.25)">
+          <img src="images/social-chat.png" alt=""
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#FFD700">YC</span>
+        </div>
+        <div class="social-card-meta">
+          <span class="social-label">💬 Telegram чат</span>
+          <div class="social-name">YAPPI<br>ЧАТ</div>
+          <div class="social-handle">Открытое комьюнити</div>
+        </div>
+      </div>
+      <div class="social-card-body">
+        <div class="social-desc">Живое общение, нетворкинг, бесплатная реклама и обмен контактами</div>
+        <span class="social-btn" style="--s-bg:rgba(255,215,0,.1);--s-border:rgba(255,215,0,.45);--s-shadow:rgba(255,215,0,.2);--s-hover:rgba(255,215,0,.22)">[ ВСТУПИТЬ → ]</span>
+      </div>
+    </a>
+
+    <!-- ══ YAPPI MEDIA ══ -->
+    <a href="https://t.me/yappi_media" target="_blank" class="social-card reveal"
+       style="--s-accent:linear-gradient(90deg,#E74C3C,#FF6B00);--s-border:rgba(231,76,60,.45);--s-shadow:rgba(231,76,60,.25);--s-bg:rgba(231,76,60,.08);--s-hover:rgba(231,76,60,.18);--s-color:#ff6b6b">
+      <div class="social-card-top">
+        <div class="social-avatar" style="border-color:rgba(231,76,60,.45);box-shadow:3px 3px 0 rgba(231,76,60,.25)">
+          <img src="images/social-arbitrage.png" alt=""
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#E74C3C">YM</span>
+        </div>
+        <div class="social-card-meta">
+          <span class="social-label">📡 Telegram канал</span>
+          <div class="social-name">YAPPI<br>МЕДИА</div>
+          <div class="social-handle">@yappi_media</div>
+        </div>
+      </div>
+      <div class="social-card-body">
+        <div class="social-desc">Новости арбитража, медиа-рынка, инсайды и аналитика от команды</div>
+        <span class="social-btn" style="--s-bg:rgba(231,76,60,.1);--s-border:rgba(231,76,60,.45);--s-shadow:rgba(231,76,60,.2);--s-hover:rgba(231,76,60,.22)">[ ЧИТАТЬ → ]</span>
+      </div>
+    </a>
+
+    <!-- ══ YAPPI JOBS ══ -->
+    <a href="https://t.me/yappi_jobs" target="_blank" class="social-card reveal"
+       style="--s-accent:linear-gradient(90deg,#27ae60,#2ecc71);--s-border:rgba(46,204,113,.4);--s-shadow:rgba(46,204,113,.22);--s-bg:rgba(46,204,113,.08);--s-hover:rgba(46,204,113,.18);--s-color:#2ecc71">
+      <div class="social-card-top">
+        <div class="social-avatar" style="border-color:rgba(46,204,113,.4);box-shadow:3px 3px 0 rgba(46,204,113,.22)">
+          <img src="images/social-vacancy.png" alt=""
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#2ecc71">YJ</span>
+        </div>
+        <div class="social-card-meta">
+          <span class="social-label">💼 Telegram канал</span>
+          <div class="social-name">YAPPI<br>ВАКАНСИИ</div>
+          <div class="social-handle">@yappi_jobs</div>
+        </div>
+      </div>
+      <div class="social-card-body">
+        <div class="social-desc">Актуальные вакансии в digital, AI, арбитраж и маркетинг от нас и партнёров</div>
+        <span class="social-btn" style="--s-bg:rgba(46,204,113,.1);--s-border:rgba(46,204,113,.4);--s-shadow:rgba(46,204,113,.2);--s-hover:rgba(46,204,113,.22)">[ СМОТРЕТЬ → ]</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <div class="footer-logo">YAPPI AGENCY</div>
+  <div class="footer-text">© 2024 YAPPI Agency — Design &amp; AI Agency</div>
+  <div class="footer-text">Made with 🎲 &amp; AI</div>
+</footer>
+
+<!-- ════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* курсор задан через CSS data-URI */
+
+/* ──────────── SCROLL PROGRESS ──────────── */
+const bar = document.getElementById('scrollBar');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = (h.scrollTop / (h.scrollHeight - window.innerHeight) * 100) + '%';
+}, {passive:true});
+
+/* ──────────── NAVBAR HIDE/SHOW ──────────── */
+let lastY = 0;
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  nav.style.transform = y > 120 && y > lastY ? 'translateY(-100%)' : 'translateY(0)';
+  nav.style.transition = 'transform .3s ease';
+  lastY = y;
+}, {passive:true});
+
+/* ──────────── HERO TYPEWRITER ──────────── */
+function typewrite(el, text, speed, cb){
+  let i = 0; el.textContent = '';
+  const t = setInterval(() => {
+    if(i < text.length){ el.textContent += text[i++]; }
+    else { clearInterval(t); cb && cb(); }
+  }, speed);
+}
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    typewrite(document.getElementById('tw1'), 'YAPPI', 90, () => {
+      setTimeout(() => {
+        typewrite(document.getElementById('tw2'), 'AGENCY', 90, () => {
+          document.getElementById('heroSub').style.opacity = '1';
+          document.getElementById('heroBtns').style.opacity = '1';
+        });
+      }, 200);
+    });
+  }, 600);
+});
+
+/* ──────────── PARTICLES CANVAS ──────────── */
+const cvs = document.getElementById('particles-canvas');
+const ctx = cvs.getContext('2d');
+const SYMS = ['$','♟','★','◆','▲','⬡'];
+const COLS = ['rgba(123,47,190,.5)','rgba(0,212,255,.4)','rgba(255,215,0,.35)','rgba(255,255,255,.2)'];
+
+function resizeCvs(){ cvs.width = window.innerWidth; cvs.height = window.innerHeight; }
+resizeCvs(); window.addEventListener('resize', resizeCvs);
+
+const pts = Array.from({length:28}, () => ({
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight,
+  vx: (Math.random()-.5)*.4, vy: (Math.random()-.5)*.4,
+  size: Math.random()*18+8,
+  sym: SYMS[Math.floor(Math.random()*SYMS.length)],
+  col: COLS[Math.floor(Math.random()*COLS.length)],
+  rot: Math.random()*Math.PI*2, rv:(Math.random()-.5)*.015,
+  op: Math.random()*.35+.08
+}));
+
+(function drawPts(){
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+  pts.forEach(p => {
+    ctx.save(); ctx.globalAlpha = p.op; ctx.fillStyle = p.col;
+    ctx.font = p.size+'px Arial'; ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+    ctx.fillText(p.sym,0,0); ctx.restore();
+    p.x+=p.vx; p.y+=p.vy; p.rot+=p.rv;
+    if(p.x<-40) p.x=cvs.width+40; if(p.x>cvs.width+40) p.x=-40;
+    if(p.y<-40) p.y=cvs.height+40; if(p.y>cvs.height+40) p.y=-40;
+  });
+  requestAnimationFrame(drawPts);
+})();
+
+/* ──────────── INTERSECTION OBSERVER — REVEAL ──────────── */
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold:.12});
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+/* ──────────── COUNTERS ──────────── */
+const cntObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(!e.isIntersecting) return;
+    const el = e.target, target = +el.dataset.target;
+    let val = 0; const step = target / 80;
+    const t = setInterval(() => {
+      val = Math.min(val+step, target);
+      el.textContent = Math.floor(val);
+      if(val >= target) clearInterval(t);
+    }, 18);
+    cntObs.unobserve(el);
+  });
+}, {threshold:.5});
+document.querySelectorAll('.counter').forEach(el => cntObs.observe(el));
+
+/* about typewriter removed — static content now */
+
+/* ──────────── CASES DRAG SCROLL ──────────── */
+const wrapper = document.getElementById('casesWrapper');
+const track   = document.getElementById('casesTrack');
+let isDragging = false, startX = 0, scrollStart = 0;
+
+track.addEventListener('mousedown', e => {
+  isDragging = true; track.classList.add('grabbing');
+  startX = e.pageX; scrollStart = wrapper.scrollLeft;
+});
+window.addEventListener('mouseup',   () => { isDragging = false; track.classList.remove('grabbing'); });
+window.addEventListener('mousemove', e => {
+  if(!isDragging) return;
+  e.preventDefault();
+  wrapper.scrollLeft = scrollStart - (e.pageX - startX) * 1.6;
+});
+track.addEventListener('touchstart', e => { startX = e.touches[0].pageX; scrollStart = wrapper.scrollLeft; }, {passive:true});
+track.addEventListener('touchmove',  e => {
+  wrapper.scrollLeft = scrollStart - (e.touches[0].pageX - startX) * 1.4;
+}, {passive:true});
+
+/* Parallax walker — stays visible across entire scroll, moves left→right in viewport */
+const walker = document.getElementById('casesWalker');
+wrapper.addEventListener('scroll', () => {
+  const sl  = wrapper.scrollLeft;
+  const max = wrapper.scrollWidth - wrapper.clientWidth;
+  const prog = max > 0 ? sl / max : 0;
+  /* viewport position goes from -80px to (clientWidth - 220px) */
+  const viewX = -80 + prog * (wrapper.clientWidth - 140);
+  /* translateX compensates for scroll so walker stays on screen */
+  walker.style.transform = `translateX(${sl + viewX + 120}px)`;
+}, {passive:true});
+
+/* Filter */
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.case-card').forEach(c => {
+      c.style.opacity = f==='all' || c.dataset.category===f ? '1' : '.18';
+      c.style.pointerEvents = f==='all' || c.dataset.category===f ? '' : 'none';
+    });
+  });
+});
+
+/* ──────────── REVIEWS SLIDER ──────────── */
+let slide = 0, total = 3;
+function goSlide(n){
+  document.querySelectorAll('.review-card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+  slide = n;
+  document.getElementById('rev-'+slide).classList.add('active');
+  document.querySelectorAll('.dot')[slide].classList.add('active');
+}
+document.querySelectorAll('.dot').forEach(d => d.addEventListener('click', () => { goSlide(+d.dataset.slide); resetTimer(); }));
+let timer = setInterval(() => goSlide((slide+1)%total), 4000);
+function resetTimer(){ clearInterval(timer); timer = setInterval(() => goSlide((slide+1)%total), 4000); }
+function nextSlide(){ goSlide((slide+1)%total); resetTimer(); }
+
+/* ──────────── FAQ ACCORDION ──────────── */
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if(!open) item.classList.add('open');
+  });
+});
+
+/* ──────────── PRICING WAVE TITLE ──────────── */
+const titleRow = document.getElementById('priceTitleRow');
+'Price List'.split('').forEach((ch, i) => {
+  const s = document.createElement('span');
+  s.textContent = ch === ' ' ? ' ' : ch;
+  s.style.animationDelay = (i * 0.08) + 's';
+  titleRow.appendChild(s);
+});
+
+/* ──────────── PRICING STAGGER ROWS ──────────── */
+const rowObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(!e.isIntersecting) return;
+    e.target.querySelectorAll('.price-row').forEach((r, i) => {
+      r.style.opacity = '0'; r.style.transform = 'translateX(-12px)';
+      r.style.transition = `opacity .4s ${i*0.07}s ease, transform .4s ${i*0.07}s ease`;
+      setTimeout(() => { r.style.opacity='1'; r.style.transform='translateX(0)'; }, 50);
+    });
+    rowObs.unobserve(e.target);
+  });
+}, {threshold:.12});
+document.querySelectorAll('.price-rows').forEach(t => rowObs.observe(t));
+
+/* ──────────── FALLING COINS ──────────── */
+const coinsBg = document.getElementById('coinsBg');
+const coinSyms = ['$','💰','🪙'];
+for(let i=0;i<15;i++){
+  const c = document.createElement('div');
+  c.className = 'coin';
+  c.textContent = coinSyms[Math.floor(Math.random()*coinSyms.length)];
+  c.style.left = Math.random()*100+'%';
+  c.style.fontSize = (Math.random()*14+10)+'px';
+  c.style.animationDuration = (Math.random()*10+9)+'s';
+  c.style.animationDelay = (Math.random()*12)+'s';
+  coinsBg.appendChild(c);
+}
+
+/* ──────────── CONTACT FORM ──────────── */
+document.getElementById('contactForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-btn');
+  const orig = btn.textContent;
+  btn.textContent = '✅ Отправлено! Свяжемся скоро';
+  btn.style.background = 'linear-gradient(135deg,#27ae60,#2ecc71)';
+  setTimeout(() => { btn.textContent = orig; btn.style.background=''; e.target.reset(); }, 3500);
+});
+</script>
+</body>
+</html>
