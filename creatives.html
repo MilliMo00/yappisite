@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Креативы — YAPPI AGENCY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/gilroy-free" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{
+  min-height:100%;
+  background:linear-gradient(160deg,
+    #0d0d0d 0%,#160826 10%,#1a0a2e 20%,
+    #2d0f5a 35%,#3a0f75 50%,#7B2FBE 65%,
+    #5a1a8a 74%,#CC4400 85%,#1a0a2e 93%,#0d0d0d 100%
+  );
+  background-size:280% 280%;
+  animation:gradShimmer 30s ease infinite;
+}
+:root{--dark:#1A0A2E;--purple:#7B2FBE;--cyan:#00D4FF;--yellow:#FFD700;--orange:#FF6B00}
+body{background:transparent;color:#fff;font-family:'Gilroy',sans-serif;overflow-x:hidden}
+@keyframes gradShimmer{
+  0%,100%{background-position:0% 0%}25%{background-position:100% 30%}
+  50%{background-position:60% 100%}75%{background-position:0% 60%}
+}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);pointer-events:none;z-index:9997}
+
+/* ─── NAVBAR ─── */
+.navbar{position:fixed;top:0;left:0;right:0;padding:16px 60px;display:flex;align-items:center;justify-content:space-between;z-index:1000;background:linear-gradient(180deg,rgba(13,5,32,.96) 0%,transparent 100%);backdrop-filter:blur(14px)}
+.nav-back{font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:1px;color:var(--cyan);text-decoration:none;border:2px solid var(--cyan);padding:8px 16px;box-shadow:3px 3px 0 rgba(0,212,255,.25)}
+.nav-back:hover{background:var(--cyan);color:#0d0d0d;transform:translate(2px,2px)}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none}
+.nav-cta{font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:.5px;color:#fff;text-decoration:none;background:linear-gradient(135deg,var(--purple),var(--cyan));padding:9px 18px}
+@media(max-width:768px){.navbar{padding:14px 20px}.nav-logo,.nav-cta{display:none}}
+
+/* ─── HERO ─── */
+#hero{min-height:100vh;position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:120px 60px 80px;overflow:hidden}
+.reel-bg{position:absolute;inset:0;overflow:hidden;z-index:0}
+.reel-track{display:flex;height:100%;width:max-content;animation:reelScroll 38s linear infinite}
+@keyframes reelScroll{from{transform:translateX(0)}to{transform:translateX(-33.3333%)}}
+.reel-img{height:100%;width:calc(100vw / 4);object-fit:cover;flex-shrink:0;opacity:.18;filter:saturate(1.3) contrast(1.1)}
+.reel-mask{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(13,5,32,.95) 0%,rgba(13,5,32,.5) 40%,rgba(13,5,32,.5) 60%,rgba(13,5,32,.95) 100%),linear-gradient(180deg,rgba(13,5,32,.7) 0%,rgba(13,5,32,.3) 40%,rgba(13,5,32,.5) 80%,rgba(13,5,32,.85) 100%)}
+.hero-grid{position:absolute;inset:0;z-index:1;pointer-events:none;background-image:linear-gradient(rgba(0,212,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.04) 1px,transparent 1px);background-size:32px 32px;animation:gridMove 20s linear infinite}
+@keyframes gridMove{0%{transform:translateY(0)}100%{transform:translateY(32px)}}
+.hero-content{position:relative;z-index:2;max-width:820px}
+.hero-label{font-family:'VT323',monospace;font-size:20px;color:var(--cyan);letter-spacing:4px;display:block;margin-bottom:10px;opacity:.8}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,0,0,.5);border:2px solid var(--cyan);padding:6px 14px;margin-bottom:22px;font-family:'Press Start 2P',monospace;font-size:8px;color:var(--cyan);letter-spacing:1px;box-shadow:3px 3px 0 rgba(0,212,255,.2)}
+.hero-title{font-family:'Press Start 2P',monospace;font-size:clamp(22px,5vw,72px);line-height:1.15;letter-spacing:2px;margin-bottom:22px;color:#fff;text-shadow:4px 4px 0 var(--purple),8px 8px 0 rgba(123,47,190,.3)}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.65);max-width:560px;margin-bottom:40px;line-height:1.65}
+.hero-tags{display:flex;gap:14px;flex-wrap:wrap}
+.tag{font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:.5px;padding:11px 20px;border:3px solid}
+.tag-purple{border-color:var(--purple);color:var(--purple);background:rgba(123,47,190,.12);box-shadow:4px 4px 0 rgba(123,47,190,.3)}
+.tag-yellow{border-color:var(--yellow);color:var(--yellow);background:rgba(255,215,0,.1);box-shadow:4px 4px 0 rgba(255,215,0,.25)}
+.tag-cyan{border-color:var(--cyan);color:var(--cyan);background:rgba(0,212,255,.08);box-shadow:4px 4px 0 rgba(0,212,255,.2)}
+.tag-orange{border-color:var(--orange);color:var(--orange);background:rgba(255,107,0,.08);box-shadow:4px 4px 0 rgba(255,107,0,.2)}
+
+/* ─── SECTIONS ─── */
+section{position:relative;z-index:1}
+.sec{padding:80px 60px}
+.sec-inner{max-width:1100px;margin:0 auto}
+.sec-title{font-family:'Press Start 2P',monospace;font-size:clamp(13px,2.2vw,24px);color:#fff;text-shadow:3px 3px 0 var(--purple);letter-spacing:1px;line-height:1.3;margin-bottom:44px}
+.sec-title::before{content:'>> ';color:var(--cyan)}
+@media(max-width:768px){.sec{padding:60px 24px}}
+
+/* ─── УСЛУГИ ДВА БЛОКА ─── */
+#s-services{background:rgba(8,2,20,0.56)}
+.srv-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+@media(max-width:760px){.srv-wrap{grid-template-columns:1fr}}
+.srv-block{background:#07001a;border:3px solid;overflow:hidden}
+.srv-block.static-block{border-color:var(--cyan);box-shadow:6px 6px 0 rgba(0,212,255,.2)}
+.srv-block.video-block{border-color:var(--purple);box-shadow:6px 6px 0 rgba(123,47,190,.25)}
+.srv-block-head{padding:20px 24px 16px;border-bottom:1px solid rgba(255,255,255,.07);position:relative}
+.srv-block-head::after{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.static-block .srv-block-head::after{background:linear-gradient(90deg,var(--cyan),var(--purple))}
+.video-block .srv-block-head::after{background:linear-gradient(90deg,var(--purple),var(--orange))}
+.srv-type{font-family:'Press Start 2P',monospace;font-size:7px;letter-spacing:2px;margin-bottom:10px;display:inline-block;padding:4px 10px;border:1px solid}
+.static-block .srv-type{color:var(--cyan);border-color:rgba(0,212,255,.4);background:rgba(0,212,255,.07)}
+.video-block .srv-type{color:var(--purple);border-color:rgba(123,47,190,.4);background:rgba(123,47,190,.07)}
+.srv-block-title{font-family:'Press Start 2P',monospace;font-size:clamp(11px,1.8vw,16px);color:#fff;line-height:1.3;letter-spacing:.5px}
+.srv-items{padding:20px 24px;display:flex;flex-direction:column;gap:4px}
+.srv-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);transition:background .2s}
+.srv-item:hover{background:rgba(255,255,255,.06)}
+.srv-item-ico{width:28px;height:28px;flex-shrink:0;image-rendering:pixelated}
+.srv-item-name{font-family:'Press Start 2P',monospace;font-size:7px;color:#fff;letter-spacing:.5px;line-height:1.5;flex:1}
+.static-block .srv-item-name{color:rgba(0,212,255,.9)}
+.video-block .srv-item-name{color:rgba(255,255,255,.85)}
+.srv-item-desc{font-family:'VT323',monospace;font-size:15px;color:rgba(255,255,255,.4);line-height:1.4;flex:1.5}
+
+/* ─── ПРОЦЕСС ─── */
+#s-process{background:rgba(4,0,12,0.52)}
+.process-wrap{max-width:820px;margin:0 auto}
+.ps-item{display:flex;position:relative}
+.ps-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:64px}
+.ps-circle{width:50px;height:50px;flex-shrink:0;border:3px solid var(--cyan);background:#07001a;display:flex;align-items:center;justify-content:center;font-family:'Press Start 2P',monospace;font-size:12px;color:var(--cyan);box-shadow:3px 3px 0 rgba(0,212,255,.25);position:relative;z-index:1}
+.ps-vline{width:3px;background:rgba(123,47,190,.3);flex:1;min-height:20px}
+.ps-right{flex:1;padding:0 0 40px 22px}
+.ps-title{font-family:'Press Start 2P',monospace;font-size:10px;color:#fff;margin-bottom:12px;line-height:1.4;letter-spacing:.5px;padding-top:12px}
+.ps-title .accent{color:var(--yellow)}
+.ps-body{padding:16px 18px;background:rgba(0,0,0,.3);border:1px solid rgba(123,47,190,.2);border-left:3px solid rgba(123,47,190,.5)}
+.ps-body li{list-style:none;font-family:'VT323',monospace;font-size:18px;color:rgba(255,255,255,.7);line-height:1.6;padding:2px 0}
+.ps-body li::before{content:'▸ ';color:var(--cyan)}
+
+/* ─── ПРЕДОПЛАТА ЦИТАТА ─── */
+#s-quote{padding:0 60px 80px;background:rgba(4,0,12,0.52)}
+.quote-block{max-width:820px;margin:0 auto;border:3px solid var(--yellow);box-shadow:6px 6px 0 rgba(255,215,0,.3),inset 0 0 0 1px rgba(255,215,0,.1);background:#0c0900;position:relative;overflow:hidden}
+.quote-block::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--yellow),var(--orange),var(--yellow))}
+.quote-titlebar{display:flex;align-items:center;gap:10px;padding:10px 18px;background:rgba(255,215,0,.1);border-bottom:2px solid rgba(255,215,0,.25)}
+.quote-dot{width:10px;height:10px;background:var(--yellow);flex-shrink:0}
+.quote-win-title{font-family:'Press Start 2P',monospace;font-size:7px;color:rgba(255,215,0,.6);letter-spacing:2px}
+.quote-body{padding:28px 30px;display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+.quote-icon{flex-shrink:0;image-rendering:pixelated}
+.quote-text{flex:1;min-width:200px}
+.quote-headline{font-family:'Press Start 2P',monospace;font-size:clamp(11px,1.8vw,16px);color:var(--yellow);line-height:1.4;letter-spacing:.5px;text-shadow:2px 2px 0 rgba(255,215,0,.3);margin-bottom:10px}
+.quote-desc{font-family:'VT323',monospace;font-size:18px;color:rgba(255,255,255,.6);line-height:1.55}
+.quote-blink{display:inline-block;color:var(--yellow);animation:pxBlink .9s step-end infinite}
+@keyframes pxBlink{0%,100%{opacity:1}50%{opacity:0}}
+@media(max-width:768px){#s-quote{padding:0 24px 60px}}
+
+/* ─── ПОМОГАЕМ С ТЗ ─── */
+#s-tz-help{background:rgba(8,2,20,0.52)}
+.tz-help-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:880px}
+@media(max-width:700px){.tz-help-grid{grid-template-columns:1fr}}
+.tz-help-card{padding:26px;background:#07001a;border:2px solid rgba(123,47,190,.3);border-left:4px solid var(--cyan);position:relative;overflow:hidden}
+.tz-help-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),transparent)}
+.tz-help-card.purple-card{border-left-color:var(--purple)}
+.tz-help-card.purple-card::before{background:linear-gradient(90deg,var(--purple),transparent)}
+.tz-help-ico{margin-bottom:14px;image-rendering:pixelated;display:block}
+.tz-help-title{font-family:'Press Start 2P',monospace;font-size:9px;color:var(--cyan);letter-spacing:.5px;line-height:1.5;margin-bottom:12px}
+.tz-help-card.purple-card .tz-help-title{color:var(--purple)}
+.tz-help-text{font-family:'VT323',monospace;font-size:18px;color:rgba(255,255,255,.65);line-height:1.6}
+.tz-help-text strong{color:#fff}
+
+/* ─── ШАБЛОНЫ ТЗ ─── */
+#s-templates{background:rgba(4,0,12,0.52)}
+.tmpl-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+@media(max-width:760px){.tmpl-wrap{grid-template-columns:1fr}}
+.tmpl-card{background:#07001a;border:2px solid;overflow:hidden}
+.tmpl-card.video-tmpl{border-color:rgba(123,47,190,.4);box-shadow:5px 5px 0 rgba(123,47,190,.2)}
+.tmpl-card.static-tmpl{border-color:rgba(0,212,255,.4);box-shadow:5px 5px 0 rgba(0,212,255,.2)}
+.tmpl-head{padding:16px 22px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
+.tmpl-card.video-tmpl .tmpl-head{background:rgba(123,47,190,.08)}
+.tmpl-card.static-tmpl .tmpl-head{background:rgba(0,212,255,.06)}
+.tmpl-badge{font-family:'Press Start 2P',monospace;font-size:7px;letter-spacing:1px;display:inline-block;padding:4px 10px;border:1px solid;margin-bottom:10px}
+.video-tmpl .tmpl-badge{color:var(--purple);border-color:rgba(123,47,190,.5);background:rgba(123,47,190,.1)}
+.static-tmpl .tmpl-badge{color:var(--cyan);border-color:rgba(0,212,255,.5);background:rgba(0,212,255,.08)}
+.tmpl-title{font-family:'Press Start 2P',monospace;font-size:10px;color:#fff;letter-spacing:.5px;line-height:1.4}
+.tmpl-body{padding:20px 22px}
+.tmpl-section{margin-bottom:18px}
+.tmpl-section-title{font-family:'Press Start 2P',monospace;font-size:7px;letter-spacing:1px;margin-bottom:8px;padding:5px 10px;display:inline-block}
+.video-tmpl .tmpl-section-title{color:var(--purple);background:rgba(123,47,190,.1);border-left:2px solid var(--purple)}
+.static-tmpl .tmpl-section-title{color:var(--cyan);background:rgba(0,212,255,.08);border-left:2px solid var(--cyan)}
+.tmpl-fields{display:flex;flex-direction:column;gap:5px}
+.tmpl-field{font-family:'VT323',monospace;font-size:16px;color:rgba(255,255,255,.58);line-height:1.5;padding:5px 10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)}
+.tmpl-field span{color:rgba(255,255,255,.3);font-style:italic}
+.tmpl-note{margin-top:18px;padding:14px 16px;border:1px solid rgba(255,215,0,.25);background:rgba(255,215,0,.05);font-family:'VT323',monospace;font-size:17px;color:rgba(255,215,0,.8);line-height:1.55}
+
+/* ─── CTA ─── */
+#s-cta{padding:90px 60px;background:rgba(8,2,20,0.56);text-align:center}
+.cta-label{font-family:'VT323',monospace;font-size:20px;color:var(--cyan);letter-spacing:4px;display:block;margin-bottom:14px;opacity:.7}
+.cta-title{font-family:'Press Start 2P',monospace;font-size:clamp(14px,2.8vw,28px);color:#fff;line-height:1.35;text-shadow:3px 3px 0 var(--purple);margin-bottom:14px}
+.cta-sub{font-family:'VT323',monospace;font-size:20px;color:rgba(255,255,255,.45);margin-bottom:38px}
+.cta-btn{display:inline-flex;align-items:center;gap:10px;padding:16px 38px;font-family:'Press Start 2P',monospace;font-size:10px;letter-spacing:1px;background:var(--purple);color:#fff;text-decoration:none;border:3px solid var(--cyan);box-shadow:5px 5px 0 var(--cyan)}
+.cta-btn:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--cyan);background:var(--cyan);color:#0d0d0d}
+
+footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:rgba(4,0,12,0.5)}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.footer-txt{font-size:12px;color:rgba(255,255,255,.28)}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div id="scrollBar" style="position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#7B2FBE,#00D4FF);z-index:9999;box-shadow:0 0 12px #00D4FF;transition:width .08s linear"></div>
+
+<nav class="navbar">
+  <a href="index.html#services" class="nav-back">← НАЗАД</a>
+  <a href="index.html" class="nav-logo">YAPPI AGENCY</a>
+  <a href="https://t.me/yappi_manager" target="_blank" class="nav-cta">СВЯЗАТЬСЯ</a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="reel-bg">
+    <div class="reel-track">
+      <img class="reel-img" src="images/cr-case-1.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-2.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-3.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-4.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-5.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-6.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-7.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-8.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-1.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-2.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-3.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-4.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-5.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-6.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-7.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-8.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-1.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-2.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-3.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-4.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-5.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-6.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-7.jpg" alt="" onerror="this.style.display='none'">
+      <img class="reel-img" src="images/cr-case-8.jpg" alt="" onerror="this.style.display='none'">
+    </div>
+  </div>
+  <div class="reel-mask"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">▶ YAPPI AGENCY × PRODUCTION</div>
+    <span class="hero-label">// СТАТИКА · ВИДЕО · ДИЗАЙН //</span>
+    <h1 class="hero-title">КРЕАТИВЫ</h1>
+    <p class="hero-sub">Полный цикл производства рекламных материалов — от статичных крео и логотипов до моушена, VSL и UGC. Делаем то, что конвертит, а не просто красиво выглядит.</p>
+    <div class="hero-tags">
+      <div class="tag tag-cyan">СТАТИКА</div>
+      <div class="tag tag-purple">ВИДЕО</div>
+      <div class="tag tag-orange">МОУШЕН</div>
+      <div class="tag tag-yellow">UGC · VSL</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ЧТО ДЕЛАЕМ ═══ -->
+<section class="sec" id="s-services">
+  <div class="sec-inner">
+    <h2 class="sec-title reveal">ЧТО МЫ ДЕЛАЕМ</h2>
+    <div class="srv-wrap reveal">
+
+      <!-- СТАТИКА -->
+      <div class="srv-block static-block">
+        <div class="srv-block-head">
+          <div class="srv-type">СТАТИКА</div>
+          <div class="srv-block-title">ФОТО И ГРАФИКА</div>
+        </div>
+        <div class="srv-items">
+          <div class="srv-item">
+            <svg class="srv-item-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+              <rect x="2" y="2" width="24" height="24" fill="rgba(0,212,255,.08)" stroke="#00D4FF" stroke-width="2"/>
+              <rect x="4" y="4" width="20" height="14" fill="rgba(0,212,255,.1)"/>
+              <rect x="6" y="6" width="8" height="8" fill="rgba(0,212,255,.25)"/>
+              <rect x="16" y="8" width="6" height="4" fill="rgba(0,212,255,.2)"/>
+              <rect x="4" y="20" width="20" height="2" fill="rgba(0,212,255,.3)"/>
+              <rect x="10" y="24" width="8" height="2" fill="#00D4FF"/>
+            </svg>
+            <div>
+              <div class="srv-item-name">СТАТИКА</div>
+              <div class="srv-item-desc">Рекламные баннеры, крео под любой оффер и вертикаль</div>
+            </div>
+          </div>
+          <div class="srv-item">
+            <svg class="srv-item-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+              <rect x="2" y="2" width="24" height="24" fill="rgba(0,212,255,.06)" stroke="rgba(0,212,255,.4)" stroke-width="2"/>
+              <rect x="4" y="4" width="10" height="10" fill="rgba(0,212,255,.2)"/>
+              <rect x="16" y="4" width="10" height="10" fill="rgba(0,212,255,.15)"/>
+              <rect x="4" y="16" width="10" height="10" fill="rgba(0,212,255,.15)"/>
+              <rect x="16" y="16" width="10" height="10" fill="rgba(0,212,255,.1)"/>
+              <rect x="12" y="12" width="4" height="4" fill="#00D4FF"/>
+            </svg>
+            <div>
+              <div class="srv-item-name">АДАПТ СТАТИКИ</div>
+              <div class="srv-item-desc">Адаптация готового крео под нужные форматы и гео</div>
+            </div>
+          </div>
+          <div class="srv-item">
+            <svg class="srv-item-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+              <rect x="2" y="8" width="24" height="16" fill="rgba(0,212,255,.08)" stroke="rgba(0,212,255,.4)" stroke-width="2"/>
+              <rect x="6" y="4" width="4" height="4" fill="#00D4FF"/>
+              <rect x="12" y="4" width="4" height="4" fill="#00D4FF"/>
+              <rect x="18" y="4" width="4" height="4" fill="#00D4FF"/>
+              <rect x="6" y="14" width="16" height="2" fill="rgba(0,212,255,.5)"/>
+              <rect x="6" y="18" width="12" height="2" fill="rgba(0,212,255,.3)"/>
+            </svg>
+            <div>
+              <div class="srv-item-name">ПРОЕКТНЫЕ РАБОТЫ</div>
+              <div class="srv-item-desc">Комплексное оформление под проект — пакетами</div>
+            </div>
+          </div>
+          <div class="srv-item">
+            <svg class="srv-item-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+              <rect x="4" y="4" width="20" height="16" fill="rgba(0,212,255,.08)" stroke="rgba(0,212,255,.4)" stroke-width="2"/>
+              <rect x="10" y="8" width="8" height="8" fill="rgba(0,212,255,.2)"/>
+              <rect x="12" y="10" width="4" height="4" fill="#00D4FF"/>
+              <rect x="6" y="22" width="16" height="2" fill="rgba(0,212,255,.3)"/>
+              <rect x="8" y="20" width="2" height="2" fill="#00D4FF"/>
+              <rect x="18" y="20" width="2" height="2" fill="#00D4FF"/>
+            </svg>
+            <div>
+              <div class="srv-item-name">ГЕНЕРАЦИЯ ФОТО</div>
+              <div class="srv-item-desc">AI-генерация уникальных фото под любые задачи</div>
+            </div>
+          </div>
+          <div class="srv-item">
+            <svg class="srv-item-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+              <rect x="10" y="2" width="8" height="4" fill="#00D4FF"/>
+              <rect x="8" y="6" width="12" height="2" fill="rgba(0,212,255,.5)"/>
+              <rect x="4" y="8" width="20" height="14" fill="rgba(0,212,255,.08)" stroke="rgba(0,212,255,.4)" stroke-width="2"/>
+              <rect x="8" y="12" width="12" height="6" fill="rgba(0,212,255,.2)"/>
+              <rect x="10" y="14" width="8" height="2" fill="#00D4FF"/>
+              <rect x="8" y="24" width="12" height="2" fill="rgba(0,212,255,.3)"/>
+            </svg>
+            <div>
+              <div class="srv-item-name">ЛОГОТИПЫ</div>
+              <div class="srv-item-desc">Разработка логотипа в пиксельном или кастомном стиле</div>
+            </div>
+          </div>
+          <div class="srv-item">
+            <svg class="srv-item-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+              <rect x="6" y="2" width="16" height="24" fill="rgba(0,212,255,.08)" stroke="rgba(0,212,255,.4)" stroke-width="2"/>
+              <rect x="10" y="6" width="8" height="8" fill="rgba(0,212,255,.2)"/>
+              <rect x="12" y="8" width="4" height="4" fill="#00D4FF"/>
+              <rect x="8" y="18" width="12" height="2" fill="rgba(0,212,255,.4)"/>
+              <rect x="10" y="22" width="8" height="2" fill="rgba(0,212,255,.2)"/>
+            </svg>
+            <div>
+              <div class="srv-item-name">ОТРИСОВКИ</div>
+              <div class="srv-item-desc">Ручная или AI-отрисовка персонажей, продуктов, сцен</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ВИДЕО -->
+      <div class="srv-block video-block">
+        <div class="srv-block-head">
+          <div class="srv-type">ВИДЕО</div>
+          <div class="srv-block-title">ДВИЖУЩИЙСЯ КОНТЕНТ</div>
+        </div>
+        <div class="srv-items">
+          <div class="srv-item">
+            <svg class="srv-item-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+              <rect x="2" y="6" width="18" height="16" fill="rgba(123,47,190,.12)" stroke="#7B2FBE" stroke-width="2"/>
+              <rect x="20" y="9" width="6" height="4" fill="#7B2FBE"/>
+              <rect x="20" y="15" width="6" height="4" fill="rgba(123,47,190,.4)"/>
+              <rect x="6" y="10" width="6" height="8" fill="#7B2FBE"/>
+            </svg>
+            <div>
+              <div class="srv-item-name">МОУШЕН</div>
+              <div class="srv-item-desc">Анимированные рекламные видео с динамичными переходами</div>
+            </div>
+          </div>
+          <div class="srv-item">
+            <svg class="srv-item-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+              <rect x="2" y="6" width="18" height="16" fill="rgba(123,47,190,.12)" stroke="#7B2FBE" stroke-width="2"/>
+              <rect x="20" y="9" width="6" height="4" fill="#7B2FBE"/>
+              <rect x="20" y="15" width="6" height="4" fill="rgba(123,47,190,.4)"/>
+              <rect x="5" y="9" width="4" height="10" fill="#7B2FBE"/>
+              <rect x="11" y="11" width="4" height="6" fill="rgba(123,47,190,.6)"/>
+              <rect x="8" y="8" width="2" height="2" fill="#FFD700"/>
+            </svg>
+            <div>
+              <div class="srv-item-name">МОУШЕН + ДИП</div>
+              <div class="srv-item-desc">Моушен с дипфейк-наложением — персонаж в динамичном крео</div>
+            </div>
+          </div>
+          <div class="srv-item">
+            <svg class="srv-item-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+              <rect x="2" y="2" width="24" height="18" fill="rgba(123,47,190,.1)" stroke="#7B2FBE" stroke-width="2"/>
+              <rect x="4" y="4" width="20" height="14" fill="rgba(123,47,190,.05)"/>
+              <rect x="6" y="7" width="16" height="2" fill="rgba(255,255,255,.3)"/>
+              <rect x="6" y="11" width="12" height="2" fill="rgba(255,255,255,.2)"/>
+              <rect x="6" y="15" width="8" height="2" fill="rgba(255,255,255,.15)"/>
+              <rect x="4" y="22" width="20" height="4" fill="rgba(123,47,190,.25)"/>
+              <rect x="10" y="23" width="8" height="2" fill="#7B2FBE"/>
+            </svg>
+            <div>
+              <div class="srv-item-name">VSL</div>
+              <div class="srv-item-desc">Video Sales Letter — продающий длинный формат под оффер</div>
+            </div>
+          </div>
+          <div class="srv-item">
+            <svg class="srv-item-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+              <rect x="2" y="4" width="10" height="20" fill="rgba(123,47,190,.12)" stroke="#7B2FBE" stroke-width="2"/>
+              <rect x="16" y="4" width="10" height="20" fill="rgba(123,47,190,.08)" stroke="rgba(123,47,190,.4)" stroke-width="1"/>
+              <rect x="13" y="12" width="3" height="4" fill="#7B2FBE"/>
+              <rect x="4" y="10" width="6" height="8" fill="rgba(123,47,190,.3)"/>
+              <rect x="18" y="10" width="6" height="8" fill="rgba(123,47,190,.2)"/>
+            </svg>
+            <div>
+              <div class="srv-item-name">АДАПТ</div>
+              <div class="srv-item-desc">Адаптация готового видео под другой формат или гео</div>
+            </div>
+          </div>
+          <div class="srv-item">
+            <svg class="srv-item-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+              <rect x="2" y="4" width="24" height="20" fill="rgba(123,47,190,.1)" stroke="#7B2FBE" stroke-width="2"/>
+              <rect x="4" y="6" width="6" height="6" fill="rgba(123,47,190,.3)"/>
+              <rect x="12" y="6" width="6" height="6" fill="rgba(123,47,190,.25)"/>
+              <rect x="20" y="6" width="4" height="6" fill="rgba(123,47,190,.2)"/>
+              <rect x="4" y="14" width="6" height="6" fill="rgba(123,47,190,.2)"/>
+              <rect x="12" y="14" width="6" height="6" fill="rgba(123,47,190,.3)"/>
+              <rect x="20" y="14" width="4" height="6" fill="rgba(123,47,190,.15)"/>
+              <rect x="6" y="8" width="2" height="2" fill="#7B2FBE"/>
+              <rect x="14" y="16" width="2" height="2" fill="#7B2FBE"/>
+            </svg>
+            <div>
+              <div class="srv-item-name">GIF</div>
+              <div class="srv-item-desc">Короткие анимированные гифки под баннеры и рекламу</div>
+            </div>
+          </div>
+          <div class="srv-item">
+            <svg class="srv-item-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+              <rect x="8" y="2" width="12" height="24" fill="rgba(123,47,190,.1)" stroke="#7B2FBE" stroke-width="2"/>
+              <rect x="10" y="6" width="8" height="12" fill="rgba(123,47,190,.2)"/>
+              <rect x="12" y="8" width="4" height="8" fill="rgba(123,47,190,.4)"/>
+              <rect x="10" y="20" width="8" height="2" fill="#7B2FBE"/>
+              <rect x="4" y="10" width="4" height="8" fill="rgba(255,107,0,.3)"/>
+              <rect x="20" y="10" width="4" height="8" fill="rgba(255,107,0,.3)"/>
+            </svg>
+            <div>
+              <div class="srv-item-name">UGC</div>
+              <div class="srv-item-desc">User-generated style видео — нативный формат под ленту</div>
+            </div>
+          </div>
+          <div class="srv-item">
+            <svg class="srv-item-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+              <rect x="8" y="2" width="12" height="24" fill="rgba(255,107,0,.1)" stroke="#FF6B00" stroke-width="2"/>
+              <rect x="10" y="5" width="8" height="14" fill="rgba(255,107,0,.15)"/>
+              <rect x="12" y="10" width="4" height="4" fill="#FF6B00"/>
+              <rect x="10" y="21" width="8" height="2" fill="rgba(255,107,0,.5)"/>
+              <rect x="4" y="6" width="4" height="16" fill="rgba(255,107,0,.2)"/>
+              <rect x="20" y="6" width="4" height="16" fill="rgba(255,107,0,.2)"/>
+            </svg>
+            <div>
+              <div class="srv-item-name">REELS</div>
+              <div class="srv-item-desc">Короткие вертикальные видео под Instagram и TikTok</div>
+            </div>
+          </div>
+          <div class="srv-item">
+            <svg class="srv-item-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+              <rect x="2" y="6" width="24" height="16" fill="rgba(255,0,0,.08)" stroke="rgba(255,80,80,.5)" stroke-width="2"/>
+              <rect x="4" y="8" width="20" height="12" fill="rgba(255,0,0,.05)"/>
+              <rect x="10" y="10" width="8" height="8" fill="rgba(255,80,80,.15)"/>
+              <rect x="12" y="12" width="4" height="4" fill="rgba(255,80,80,.6)"/>
+              <rect x="8" y="24" width="12" height="2" fill="rgba(255,80,80,.3)"/>
+            </svg>
+            <div>
+              <div class="srv-item-name">YOUTUBE ВИДЕО</div>
+              <div class="srv-item-desc">Полноформатные видео от 10 минут под YouTube-канал</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ КАК ВЫГЛЯДИТ РАБОТА ═══ -->
+<section class="sec" id="s-process">
+  <div class="sec-inner">
+    <h2 class="sec-title reveal">КАК ВЫГЛЯДИТ РАБОТА</h2>
+    <div class="process-wrap">
+
+      <div class="ps-item reveal">
+        <div class="ps-left"><div class="ps-circle">01</div><div class="ps-vline"></div></div>
+        <div class="ps-right">
+          <div class="ps-title"><span class="accent">ЗАЯВКА</span> — ОПИСЫВАЕШЬ ЗАДАЧУ</div>
+          <div class="ps-body"><ul>
+            <li>Пишешь нам что нужно: тип контента, вертикаль, формат</li>
+            <li>Если нет опыта в составлении ТЗ — не проблема, поможем</li>
+            <li>Используешь наш шаблон ТЗ или описываешь своими словами</li>
+            <li>Прикладываешь референсы если есть</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="ps-item reveal">
+        <div class="ps-left"><div class="ps-circle">02</div><div class="ps-vline"></div></div>
+        <div class="ps-right">
+          <div class="ps-title"><span class="accent">БРИФ</span> — СОГЛАСУЕМ ДЕТАЛИ</div>
+          <div class="ps-body"><ul>
+            <li>Уточняем задачу: что льёшь, на кого, какой результат нужен</li>
+            <li>Подсказываем что лучше конвертит в твоей вертикали</li>
+            <li>Предлагаем формат и подход если нет чёткого видения</li>
+            <li>Фиксируем объём, стоимость и дедлайн</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="ps-item reveal">
+        <div class="ps-left"><div class="ps-circle">03</div><div class="ps-vline"></div></div>
+        <div class="ps-right">
+          <div class="ps-title"><span class="accent">ПРОИЗВОДСТВО</span> — ДЕЛАЕМ</div>
+          <div class="ps-body"><ul>
+            <li>Приступаем после оплаты</li>
+            <li>Дизайнер или видеограф берёт задачу в работу</li>
+            <li>Промежуточные версии при необходимости</li>
+            <li>Соблюдаем дедлайн — если не успеваем, предупреждаем заранее</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="ps-item reveal">
+        <div class="ps-left"><div class="ps-circle">04</div><div class="ps-vline" style="background:transparent"></div></div>
+        <div class="ps-right">
+          <div class="ps-title"><span class="accent">СДАЧА</span> — ПОЛУЧАЕШЬ ФАЙЛЫ</div>
+          <div class="ps-body"><ul>
+            <li>Отдаём готовый материал в нужном формате и разрешении</li>
+            <li>Правки по результату — по договорённости</li>
+            <li>Можем сразу сделать несколько вариантов для A/B-теста</li>
+            <li>Работаем на результат, не на процесс</li>
+          </ul></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ПРЕДОПЛАТА ═══ -->
+<section id="s-quote">
+  <div class="quote-block reveal">
+    <div class="quote-titlebar">
+      <div class="quote-dot"></div>
+      <div class="quote-dot" style="background:var(--orange)"></div>
+      <div class="quote-dot" style="background:rgba(255,215,0,.3)"></div>
+      <span class="quote-win-title">УСЛОВИЯ ОПЛАТЫ</span>
+    </div>
+    <div class="quote-body">
+      <svg class="quote-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" width="48" height="48" style="image-rendering:pixelated">
+        <rect x="4" y="12" width="40" height="28" fill="rgba(255,215,0,.1)" stroke="#FFD700" stroke-width="3"/>
+        <rect x="4" y="20" width="40" height="6" fill="rgba(255,215,0,.2)"/>
+        <rect x="10" y="30" width="10" height="4" fill="#FFD700" opacity=".6"/>
+        <rect x="24" y="30" width="6" height="4" fill="rgba(255,215,0,.4)"/>
+        <rect x="14" y="6" width="6" height="6" fill="#FFD700"/>
+        <rect x="28" y="6" width="6" height="6" fill="#FFD700"/>
+        <rect x="16" y="4" width="2" height="10" fill="#FFD700"/>
+        <rect x="30" y="4" width="2" height="10" fill="#FFD700"/>
+      </svg>
+      <div class="quote-text">
+        <div class="quote-headline">РАБОТАЕМ ПО 100% ПРЕДОПЛАТЕ<span class="quote-blink">_</span></div>
+        <div class="quote-desc">
+          Все проекты принимаются только после полной оплаты до начала работ.<br>
+          Это гарантирует серьёзность намерений и позволяет нам полностью сосредоточиться на твоём проекте без лишних остановок.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ПОМОГАЕМ С ТЗ ═══ -->
+<section class="sec" id="s-tz-help">
+  <div class="sec-inner">
+    <h2 class="sec-title reveal">ПОМОГАЕМ С ЗАДАНИЕМ</h2>
+    <div class="tz-help-grid reveal">
+
+      <div class="tz-help-card">
+        <svg class="tz-help-ico" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+          <rect x="4" y="2" width="24" height="28" fill="rgba(0,212,255,.08)" stroke="#00D4FF" stroke-width="2"/>
+          <rect x="8" y="8" width="16" height="2" fill="rgba(0,212,255,.5)"/>
+          <rect x="8" y="12" width="12" height="2" fill="rgba(0,212,255,.35)"/>
+          <rect x="8" y="16" width="14" height="2" fill="rgba(0,212,255,.25)"/>
+          <rect x="8" y="20" width="10" height="2" fill="rgba(0,212,255,.2)"/>
+          <rect x="20" y="24" width="6" height="4" fill="#00D4FF"/>
+          <rect x="22" y="26" width="2" height="2" fill="#0d0d0d"/>
+        </svg>
+        <div class="tz-help-title">ПОМОГАЕМ СОСТАВИТЬ ТЗ</div>
+        <div class="tz-help-text">
+          Нет опыта в составлении технического задания? <strong>Не проблема.</strong> Расскажи нам словами что нужно — мы сами оформим ТЗ, уточним детали и выберем лучший формат под твою задачу. Работаем с заказчиками любого уровня подготовки.
+        </div>
+      </div>
+
+      <div class="tz-help-card purple-card">
+        <svg class="tz-help-ico" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+          <rect x="2" y="22" width="4" height="8" fill="#7B2FBE"/>
+          <rect x="8" y="14" width="4" height="16" fill="#00D4FF"/>
+          <rect x="14" y="8" width="4" height="22" fill="#FFD700"/>
+          <rect x="20" y="4" width="4" height="26" fill="#7B2FBE"/>
+          <rect x="26" y="12" width="4" height="18" fill="#00D4FF"/>
+          <rect x="0" y="30" width="32" height="2" fill="rgba(255,255,255,.1)"/>
+        </svg>
+        <div class="tz-help-title">ПОКАЗЫВАЕМ ЧТО КОНВЕРТИТ</div>
+        <div class="tz-help-text">
+          Работаем с арбитражными командами и знаем какие форматы дают результат в разных вертикалях. <strong>Порекомендуем подход,</strong> формат и структуру крео, которые реально работают — а не просто выглядят красиво.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ШАБЛОНЫ ТЗ ═══ -->
+<section class="sec" id="s-templates">
+  <div class="sec-inner">
+    <h2 class="sec-title reveal">ШАБЛОНЫ ТЗ</h2>
+    <div class="tmpl-wrap reveal">
+
+      <!-- ШАБЛОН ВИДЕО -->
+      <div class="tmpl-card video-tmpl">
+        <div class="tmpl-head">
+          <div class="tmpl-badge">ШАБЛОН</div>
+          <div class="tmpl-title">ТЗ НА ВИДЕО<br><span style="font-size:7px;opacity:.5;letter-spacing:1px">ДИПЫ · МОУШЕН · VSL · ШЕЙПЫ</span></div>
+        </div>
+        <div class="tmpl-body">
+
+          <div class="tmpl-section">
+            <div class="tmpl-section-title">1. ОБЩИЕ ДАННЫЕ</div>
+            <div class="tmpl-fields">
+              <div class="tmpl-field">Тип видео: <span>[дипфейк / моушен / vsl / gif / адапт / трекинг / шейпы]</span></div>
+              <div class="tmpl-field">Формат: <span>[вертикаль 9:16 / квадрат 1:1 / YouTube 16:9]</span></div>
+              <div class="tmpl-field">Длительность: <span>[сколько секунд]</span></div>
+              <div class="tmpl-field">Язык: <span>[ru / en / другое]</span></div>
+            </div>
+          </div>
+
+          <div class="tmpl-section">
+            <div class="tmpl-section-title">2. СЦЕНАРИЙ / ИДЕЯ</div>
+            <div class="tmpl-fields">
+              <div class="tmpl-field">Основная мысль: <span>[2–3 предложения]</span></div>
+              <div class="tmpl-field">Формат: <span>[сторителлинг / промо / тизер / обучалка / нутра и т.д.]</span></div>
+              <div class="tmpl-field">Динамика: <span>[минимум движений / быстрые переходы / акцент на персонажа]</span></div>
+            </div>
+          </div>
+
+          <div class="tmpl-section">
+            <div class="tmpl-section-title">3. ВИЗУАЛЬНЫЕ ПОЖЕЛАНИЯ</div>
+            <div class="tmpl-fields">
+              <div class="tmpl-field">Цветовая палитра: <span>[брендовые / любые / спокойные / хайповые]</span></div>
+              <div class="tmpl-field">Переходы: <span>[жёсткие / плавные / микс]</span></div>
+              <div class="tmpl-field">Субтитры: <span>[да/нет; стиль субтитров]</span></div>
+              <div class="tmpl-field">Фон: <span>[офис / студия / улица / абстрактный неон]</span></div>
+              <div class="tmpl-field">Персонажи: <span>[описание / рефы / если дип → фото + видео]</span></div>
+            </div>
+          </div>
+
+          <div class="tmpl-section">
+            <div class="tmpl-section-title">4. ТЕКСТЫ И ГОЛОС</div>
+            <div class="tmpl-fields">
+              <div class="tmpl-field">Субтитры: <span>[готовый текст / мы пишем сами]</span></div>
+              <div class="tmpl-field">Озвучка: <span>[да / нет]</span></div>
+              <div class="tmpl-field">Музыка: <span>[да/нет; стиль]</span></div>
+            </div>
+          </div>
+
+          <div class="tmpl-section">
+            <div class="tmpl-section-title">5. РЕФЕРЕНСЫ</div>
+            <div class="tmpl-fields">
+              <div class="tmpl-field">Примеры видео для ориентира</div>
+              <div class="tmpl-field">Детализация: <span>[строго по рефу / креатив на усмотрение]</span></div>
+            </div>
+          </div>
+
+          <div class="tmpl-section">
+            <div class="tmpl-section-title">6. ЧТО ЛЬЁТЕ</div>
+            <div class="tmpl-fields">
+              <div class="tmpl-field"><span>[нутра / крипта / беттинг / гэмблинг / другое]</span></div>
+              <div class="tmpl-field">Акцент: <span>[продукт / эмоции / call-to-action]</span></div>
+            </div>
+          </div>
+
+          <div class="tmpl-note">Если есть трудности с заполнением — просто напиши нам, поможем оформить ТЗ вместе.</div>
+        </div>
+      </div>
+
+      <!-- ШАБЛОН СТАТИКА -->
+      <div class="tmpl-card static-tmpl">
+        <div class="tmpl-head">
+          <div class="tmpl-badge">ШАБЛОН</div>
+          <div class="tmpl-title">ТЗ НА СТАТИКУ<br><span style="font-size:7px;opacity:.5;letter-spacing:1px">БАННЕРЫ · ФОТО · ЛОГОТИПЫ · ОТРИСОВКИ</span></div>
+        </div>
+        <div class="tmpl-body">
+
+          <div class="tmpl-section">
+            <div class="tmpl-section-title">1. ОБЩИЕ ДАННЫЕ</div>
+            <div class="tmpl-fields">
+              <div class="tmpl-field">Гео: <span>[страна / регион]</span></div>
+              <div class="tmpl-field">Персонаж: <span>[пол / типаж / нет персонажа]</span></div>
+              <div class="tmpl-field">Язык текста: <span>[ru / en / другое]</span></div>
+              <div class="tmpl-field">Формат: <span>[квадрат 1:1 / вертикаль 9:16 / 4:5 и т.д.]</span></div>
+              <div class="tmpl-field">Нужна адаптация: <span>[да / нет]</span></div>
+            </div>
+          </div>
+
+          <div class="tmpl-section">
+            <div class="tmpl-section-title">2. ОСНОВНАЯ ИДЕЯ</div>
+            <div class="tmpl-fields">
+              <div class="tmpl-field">Ключевая задумка: <span>[описание в 2–3 предложениях]</span></div>
+              <div class="tmpl-field">Визуальные акценты: <span>[персонаж в центре / товар крупно / эмоции и т.д.]</span></div>
+            </div>
+          </div>
+
+          <div class="tmpl-section">
+            <div class="tmpl-section-title">3. ДОП. ПОЖЕЛАНИЯ</div>
+            <div class="tmpl-fields">
+              <div class="tmpl-field">Цветовая палитра: <span>[брендовые / фирменные / любые]</span></div>
+              <div class="tmpl-field">Фон: <span>[размытый офис / чистый цвет / уличная сцена и т.д.]</span></div>
+              <div class="tmpl-field">Атмосфера: <span>[доверие / динамика / хайп / премиум]</span></div>
+            </div>
+          </div>
+
+          <div class="tmpl-section">
+            <div class="tmpl-section-title">4. ТЕКСТЫ / ШРИФТЫ</div>
+            <div class="tmpl-fields">
+              <div class="tmpl-field">Основной текст: <span>[пример]</span></div>
+              <div class="tmpl-field">Доп. текст: <span>[пример]</span></div>
+              <div class="tmpl-field">Шрифт: <span>[если есть пожелания / референсы]</span></div>
+              <div class="tmpl-field">Логотипы: <span>[приложить / нет]</span></div>
+            </div>
+          </div>
+
+          <div class="tmpl-section">
+            <div class="tmpl-section-title">5. РЕФЕРЕНСЫ</div>
+            <div class="tmpl-fields">
+              <div class="tmpl-field">Примеры работ которые нравятся</div>
+              <div class="tmpl-field">Детализация: <span>[строго по рефу / можно по-своему]</span></div>
+            </div>
+          </div>
+
+          <div class="tmpl-section">
+            <div class="tmpl-section-title">6. ЧТО ЛЬЁТЕ</div>
+            <div class="tmpl-fields">
+              <div class="tmpl-field"><span>[нутра / крипта / беттинг / гэмблинг / другое]</span></div>
+              <div class="tmpl-field">Акцент: <span>[продукт / эмоция / персонаж]</span></div>
+            </div>
+          </div>
+
+          <div class="tmpl-note">Если есть трудности с заполнением — просто напиши нам, поможем оформить ТЗ вместе.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section id="s-cta">
+  <span class="cta-label">// ГОТОВ ЗАКАЗАТЬ? //</span>
+  <div class="cta-title">ОПИШИ ЗАДАЧУ —<br>СДЕЛАЕМ ПОД ТЕБЯ</div>
+  <p class="cta-sub">Статика, видео, моушен, UGC — берём любой формат</p>
+  <a href="https://t.me/yappi_manager" target="_blank" class="cta-btn">
+    <svg style="image-rendering:pixelated;flex-shrink:0" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+      <rect x="1" y="1" width="18" height="13" fill="rgba(0,212,255,.15)" stroke="#00D4FF" stroke-width="2"/>
+      <rect x="4" y="7" width="3" height="3" fill="#00D4FF"/>
+      <rect x="8" y="7" width="3" height="3" fill="#00D4FF"/>
+      <rect x="12" y="7" width="3" height="3" fill="#00D4FF"/>
+      <rect x="4" y="14" width="4" height="2" fill="#00D4FF"/>
+      <rect x="2" y="16" width="2" height="2" fill="#00D4FF"/>
+    </svg>
+    НАПИСАТЬ МЕНЕДЖЕРУ
+  </a>
+</section>
+
+<footer>
+  <span class="footer-logo">YAPPI AGENCY</span>
+  <span class="footer-txt">© 2024 Креативы — Design &amp; AI Agency</span>
+</footer>
+
+<script>
+'use strict';
+const bar=document.getElementById('scrollBar');
+window.addEventListener('scroll',()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+const reveals=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}});},{threshold:0.1});
+reveals.forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
