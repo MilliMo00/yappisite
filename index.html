@@ -13,6 +13,24 @@
    RESET & CSS VARIABLES
 ───────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+/* ── Full-page gradient wallpaper ── */
+html{
+  min-height:100%;
+  background:linear-gradient(160deg,
+    #0d0d0d   0%,
+    #160826  10%,
+    #1a0a2e  20%,
+    #2d0f5a  35%,
+    #3a0f75  50%,
+    #7B2FBE  65%,
+    #5a1a8a  74%,
+    #CC4400  85%,
+    #1a0a2e  93%,
+    #0d0d0d  100%
+  );
+  background-size:280% 280%;
+  animation:gradShimmer 30s ease infinite;
+}
 :root{
   --dark:#1A0A2E;
   --dark2:#120720;
@@ -32,7 +50,7 @@
 .p8{font-family:'Press Start 2P',monospace}
 html{scroll-behavior:smooth}
 body{
-  background:var(--dark);
+  background:transparent;
   color:var(--white);
   font-family:'Gilroy',sans-serif;
   cursor:auto;
@@ -318,13 +336,25 @@ section{position:relative;z-index:1}
   animation:blink 1s step-end infinite;
 }
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes gradShimmer{
+  0%,100%{background-position:0% 0%}
+  25%{background-position:100% 30%}
+  50%{background-position:60% 100%}
+  75%{background-position:0% 60%}
+}
 
 /* ─────────────────────────────────────────
    SERVICES
 ───────────────────────────────────────── */
 #services{
   padding:120px 60px;
-  background:linear-gradient(180deg,var(--dark) 0%,var(--dark2) 50%,var(--dark) 100%);
+  background:rgba(8,2,20,0.52);
+  position:relative;overflow:hidden;
+}
+#services::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(123,47,190,.1),transparent 70%);
+  pointer-events:none;
 }
 .services-grid{
   display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
@@ -446,12 +476,12 @@ section{position:relative;z-index:1}
 ───────────────────────────────────────── */
 #about{
   padding:100px 60px;
-  background:linear-gradient(180deg,var(--dark) 0%,#0a0015 50%,var(--dark) 100%);
+  background:rgba(4,0,12,0.48);
   position:relative;overflow:hidden;
 }
 #about::before{
   content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(123,47,190,.08),transparent 70%);
+  background:radial-gradient(ellipse 65% 70% at 80% 50%,rgba(123,47,190,.12),transparent 70%);
   pointer-events:none;
 }
 .about-inner{
@@ -623,12 +653,12 @@ section{position:relative;z-index:1}
 ───────────────────────────────────────── */
 #partners{
   padding:100px 60px;
-  background:linear-gradient(180deg,#050010 0%,#0a0018 100%);
+  background:rgba(6,3,0,0.48);
   position:relative;overflow:hidden;
 }
 #partners::before{
   content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(123,47,190,.06),transparent 70%);
+  background:radial-gradient(ellipse 65% 55% at 50% 50%,rgba(255,215,0,.07),transparent 65%);
   pointer-events:none;
 }
 .partners-header{text-align:center;margin-bottom:64px;position:relative;z-index:1}
@@ -882,7 +912,12 @@ section{position:relative;z-index:1}
 ───────────────────────────────────────── */
 #pricing{
   padding:100px 60px 80px;position:relative;overflow:hidden;
-  background:#0a0015;
+  background:rgba(10,2,18,0.52);
+}
+#pricing::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 55% 50% at 50% 0%,rgba(123,47,190,.15),transparent 70%);
+  pointer-events:none;z-index:0;
 }
 /* CRT scanlines extra on pricing */
 #pricing::after{
@@ -1169,12 +1204,12 @@ section{position:relative;z-index:1}
 ───────────────────────────────────────── */
 #social{
   padding:100px 60px;
-  background:linear-gradient(180deg,var(--dark2) 0%,var(--dark) 100%);
+  background:rgba(4,0,16,0.50);
   position:relative;overflow:hidden;
 }
 #social::before{
   content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(123,47,190,.12),transparent 70%);
+  background:radial-gradient(ellipse 75% 55% at 50% 100%,rgba(123,47,190,.14),transparent 70%);
   pointer-events:none;
 }
 /* ─────────────────────────────────────────
@@ -3027,7 +3062,7 @@ footer{
       <div class="pc-top">
         <div class="pc-logo">
           <img src="images/social-metra.png" alt="Metra AI"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+               onerror="imgFallback(this)">
           <div class="pc-logo-fallback" style="display:none">M</div>
         </div>
         <div class="pc-meta">
@@ -3063,7 +3098,9 @@ footer{
          style="--pc-color:#FFD700;--pc-accent:linear-gradient(90deg,#FFD700,#FF6B00);--pc-shadow:rgba(255,215,0,.25)">
       <div class="pc-top">
         <div class="pc-logo" style="border-color:#FFD700;box-shadow:3px 3px 0 #FFD700">
-          <div class="pc-logo-fallback" style="color:#FFD700;font-size:28px">AG</div>
+          <img src="images/partner-atlas.jpg" alt="Atlas Group"
+               onerror="imgFallback(this)">
+          <div class="pc-logo-fallback" style="color:#FFD700;font-size:28px;display:none">AG</div>
         </div>
         <div class="pc-meta">
           <span class="pc-status partner">◆ PARTNER</span>
@@ -3118,7 +3155,7 @@ footer{
       <div class="social-card-top">
         <div class="social-avatar" style="border-color:rgba(123,47,190,.5);box-shadow:3px 3px 0 rgba(123,47,190,.35)">
           <img src="images/social-channel.png" alt=""
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+               onerror="imgFallback(this)">
           <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#7B2FBE">YA</span>
         </div>
         <div class="social-card-meta">
@@ -3139,12 +3176,12 @@ footer{
       <div class="social-card-top">
         <div class="social-avatar" style="border-color:rgba(255,215,0,.45);box-shadow:3px 3px 0 rgba(255,215,0,.25)">
           <img src="images/social-chat.png" alt=""
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+               onerror="imgFallback(this)">
           <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#FFD700">YC</span>
         </div>
         <div class="social-card-meta">
           <span class="social-label">💬 Telegram чат</span>
-          <div class="social-name">YAPPI<br>ЧАТ</div>
+          <div class="social-name">YAPPI<br>CHAT</div>
           <div class="social-handle">Открытое комьюнити</div>
         </div>
       </div>
@@ -3160,12 +3197,12 @@ footer{
       <div class="social-card-top">
         <div class="social-avatar" style="border-color:rgba(231,76,60,.45);box-shadow:3px 3px 0 rgba(231,76,60,.25)">
           <img src="images/social-arbitrage.png" alt=""
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+               onerror="imgFallback(this)">
           <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#E74C3C">YM</span>
         </div>
         <div class="social-card-meta">
           <span class="social-label">📡 Telegram канал</span>
-          <div class="social-name">YAPPI<br>МЕДИА</div>
+          <div class="social-name">YAPPI<br>MEDIA</div>
           <div class="social-handle">@yappi_media</div>
         </div>
       </div>
@@ -3181,12 +3218,12 @@ footer{
       <div class="social-card-top">
         <div class="social-avatar" style="border-color:rgba(46,204,113,.4);box-shadow:3px 3px 0 rgba(46,204,113,.22)">
           <img src="images/social-vacancy.png" alt=""
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+               onerror="imgFallback(this)">
           <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#2ecc71">YJ</span>
         </div>
         <div class="social-card-meta">
           <span class="social-label">💼 Telegram канал</span>
-          <div class="social-name">YAPPI<br>ВАКАНСИИ</div>
+          <div class="social-name">YAPPI<br>JOBS</div>
           <div class="social-handle">@yappi_jobs</div>
         </div>
       </div>
@@ -3212,7 +3249,19 @@ footer{
 <script>
 'use strict';
 
-/* курсор задан через CSS data-URI */
+/* ──────────── IMAGE FALLBACK PNG ↔ JPG ──────────── */
+function imgFallback(el) {
+  var src = el.src;
+  if (/\.png$/i.test(src)) {
+    el.onerror = function(){ this.onerror=null; this.style.display='none'; var fb=this.nextElementSibling; if(fb) fb.style.display='flex'; };
+    el.src = src.replace(/\.png$/i, '.jpg');
+  } else if (/\.jpg$/i.test(src)) {
+    el.onerror = function(){ this.onerror=null; this.style.display='none'; var fb=this.nextElementSibling; if(fb) fb.style.display='flex'; };
+    el.src = src.replace(/\.jpg$/i, '.png');
+  } else {
+    el.style.display='none'; var fb=el.nextElementSibling; if(fb) fb.style.display='flex';
+  }
+}
 
 /* ──────────── SCROLL PROGRESS ──────────── */
 const bar = document.getElementById('scrollBar');
