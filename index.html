@@ -1646,6 +1646,8 @@ footer{
 @media(max-width:480px){
   #pushNotif{right:12px;bottom:16px;width:calc(100vw - 24px);max-width:272px}
 }
+.lang-switch{font-family:'Press Start 2P',monospace;font-size:8px;color:var(--cyan);background:transparent;border:1px solid var(--cyan);padding:5px 10px;cursor:pointer;letter-spacing:1px;transition:background .2s;margin-left:10px}
+.lang-switch:hover{background:rgba(0,212,255,.15)}
 </style>
 </head>
 <body>
@@ -1660,14 +1662,15 @@ footer{
 <nav class="navbar" id="navbar">
   <a href="https://t.me/yappi_agency" class="nav-logo" target="_blank">YAPPI</a>
   <ul class="nav-links">
-    <li><a href="#services">Услуги</a></li>
-    <li><a href="#about">О нас</a></li>
-    <li><a href="#cases">Кейсы</a></li>
-    <li><a href="#pricing">Прайс</a></li>
-    <li><a href="#partners">Партнёры</a></li>
-    <li><a href="#social">Источники</a></li>
-    <li><a href="https://t.me/yappi_manager" target="_blank" class="nav-cta">Связаться</a></li>
+    <li><a href="#services" data-i18n="nav.services">Услуги</a></li>
+    <li><a href="#about" data-i18n="nav.about">О нас</a></li>
+    <li><a href="#cases" data-i18n="nav.cases">Кейсы</a></li>
+    <li><a href="#pricing" data-i18n="nav.pricing">Прайс</a></li>
+    <li><a href="#partners" data-i18n="nav.partners">Партнёры</a></li>
+    <li><a href="#social" data-i18n="nav.social">Источники</a></li>
+    <li><a href="https://t.me/yappi_manager" target="_blank" class="nav-cta" data-i18n="nav.contact">Связаться</a></li>
   </ul>
+  <button class="lang-switch" onclick="switchLang()" title="Switch to English">EN</button>
 </nav>
 
 <!-- ═══════════════════ HERO ═══════════════════ -->
@@ -1683,18 +1686,18 @@ footer{
 
   <div class="hero-content">
     <span class="hero-jp">ヤッピー！ エージェンシー</span>
-    <div class="hero-badge">// DESIGN &amp; AI AGENCY</div>
+    <div class="hero-badge" data-i18n-html="hero.badge">// DESIGN &amp; AI AGENCY</div>
     <h1 class="hero-title">
       <span class="line1" id="tw1"></span>
       <span class="line2" id="tw2"></span>
     </h1>
-    <p class="hero-subtitle" id="heroSub" style="opacity:0;transition:opacity .6s .4s;font-family:'VT323',monospace;font-size:22px;color:rgba(255,255,255,.7);line-height:1.5">
+    <p class="hero-subtitle" id="heroSub" data-i18n-html="hero.subtitle" style="opacity:0;transition:opacity .6s .4s;font-family:'VT323',monospace;font-size:22px;color:rgba(255,255,255,.7);line-height:1.5">
       &gt; Мы делаем бизнес заметным.<br>
       &gt; <span style="color:var(--cyan)">AI</span> + <span style="color:var(--yellow)">Design</span> + <span style="color:var(--orange)">Automation</span>
     </p>
     <div class="hero-buttons" id="heroBtns" style="opacity:0;transition:opacity .6s .6s">
-      <a href="#contact" class="btn-primary">[ 💬 СВЯЗАТЬСЯ ]</a>
-      <a href="https://t.me/yappi_agency" target="_blank" class="btn-outline">[ ✈ НАШ КАНАЛ ]</a>
+      <a href="#contact" class="btn-primary" data-i18n="hero.btn.contact">[ 💬 СВЯЗАТЬСЯ ]</a>
+      <a href="https://t.me/yappi_agency" target="_blank" class="btn-outline" data-i18n="hero.btn.channel">[ ✈ НАШ КАНАЛ ]</a>
     </div>
   </div>
 
@@ -1718,7 +1721,7 @@ footer{
 <!-- ═══════════════════ SERVICES ═══════════════════ -->
 <section id="services">
   <div class="section-header reveal">
-    <h2 class="section-title">НАШИ УСЛУГИ</h2>
+    <h2 class="section-title" data-i18n="services.title">НАШИ УСЛУГИ</h2>
   </div>
 
   <div class="services-grid">
@@ -1927,21 +1930,21 @@ footer{
               <rect x="20" y="26" width="4" height="2" fill="#00D4FF"/>
             </svg>
           </div>
-          <div class="card-name">AI PRODUCTION</div>
+          <div class="card-name" data-i18n="svc.ai.name">AI PRODUCTION</div>
         </div>
         <div class="flip-card-back">
           <div class="card-back-header">
-            <div class="card-back-title">AI PRODUCTION</div>
+            <div class="card-back-title" data-i18n="svc.ai.title">AI PRODUCTION</div>
           </div>
           <ul class="card-back-list">
-            <li>Создание AI-персонажа с нуля</li>
-            <li>Образ под вашу нишу и ЦА</li>
-            <li>50 фото (эмоции, позы, сцены)</li>
-            <li>30+ видео-кружков</li>
-            <li>~15 уникальных видео-сцен</li>
-            <li>Дипфейки · Липсинг · Аватары</li>
+            <li data-i18n="svc.ai.li1">Создание AI-персонажа с нуля</li>
+            <li data-i18n="svc.ai.li2">Образ под вашу нишу и ЦА</li>
+            <li data-i18n="svc.ai.li3">50 фото (эмоции, позы, сцены)</li>
+            <li data-i18n="svc.ai.li4">30+ видео-кружков</li>
+            <li data-i18n="svc.ai.li5">~15 уникальных видео-сцен</li>
+            <li data-i18n="svc.ai.li6">Дипфейки · Липсинг · Аватары</li>
           </ul>
-          <div class="card-back-price">50 фото + 45 видео в пакете</div>
+          <div class="card-back-price" data-i18n="svc.ai.price">50 фото + 45 видео в пакете</div>
           <div style="margin-top:10px">
             <a href="ai-production.html"
                style="display:block;text-align:center;padding:10px 14px;
@@ -1949,7 +1952,7 @@ footer{
                       background:rgba(0,212,255,.1);border:2px solid var(--cyan);
                       color:var(--cyan);text-decoration:none;
                       box-shadow:3px 3px 0 rgba(0,212,255,.25)">
-              КАК МЫ РАБОТАЕМ →
+              <span data-i18n="svc.ai.cta">КАК МЫ РАБОТАЕМ →</span>
             </a>
           </div>
         </div>
@@ -2156,21 +2159,21 @@ footer{
               <rect x="10" y="24" width="12" height="2" fill="#00D4FF"/>
             </svg>
           </div>
-          <div class="card-name">АВТОМАТИЗАЦИЯ</div>
+          <div class="card-name" data-i18n="svc.auto.name">АВТОМАТИЗАЦИЯ</div>
         </div>
         <div class="flip-card-back">
           <div class="card-back-header">
-            <div class="card-back-title">АВТОМАТИЗАЦИЯ</div>
+            <div class="card-back-title" data-i18n="svc.auto.title">АВТОМАТИЗАЦИЯ</div>
           </div>
           <ul class="card-back-list">
-            <li>Воронки FD/RD на Chatterfy</li>
-            <li>FD — 650$ · RD — от 1000$</li>
-            <li>Инвайт-боты + пуш-механика</li>
-            <li>Аналитика через Webhook</li>
-            <li>Настройка Metra AI — 100$</li>
-            <li>Связка трафик → бот → продажа</li>
+            <li data-i18n="svc.auto.li1">Воронки FD/RD на Chatterfy</li>
+            <li data-i18n="svc.auto.li2">FD — 650$ · RD — от 1000$</li>
+            <li data-i18n="svc.auto.li3">Инвайт-боты + пуш-механика</li>
+            <li data-i18n="svc.auto.li4">Аналитика через Webhook</li>
+            <li data-i18n="svc.auto.li5">Настройка Metra AI — 100$</li>
+            <li data-i18n="svc.auto.li6">Связка трафик → бот → продажа</li>
           </ul>
-          <div class="card-back-price">от 50$ до 1000$+</div>
+          <div class="card-back-price" data-i18n="svc.auto.price">от 50$ до 1000$+</div>
           <div style="margin-top:10px">
             <a href="automation.html"
                style="display:block;text-align:center;padding:10px 14px;
@@ -2178,7 +2181,7 @@ footer{
                       background:rgba(0,212,255,.1);border:2px solid var(--cyan);
                       color:var(--cyan);text-decoration:none;
                       box-shadow:3px 3px 0 rgba(0,212,255,.25)">
-              КАК МЫ РАБОТАЕМ →
+              <span data-i18n="svc.ai.cta">КАК МЫ РАБОТАЕМ →</span>
             </a>
           </div>
         </div>
@@ -2387,21 +2390,21 @@ footer{
               <rect x="18" y="22" width="6" height="2" fill="#FFD700"/>
             </svg>
           </div>
-          <div class="card-name">ТАБЛИЦЫ ПОД ЗАКАЗ</div>
+          <div class="card-name" data-i18n="svc.tables.name">ТАБЛИЦЫ ПОД ЗАКАЗ</div>
         </div>
         <div class="flip-card-back">
           <div class="card-back-header">
-            <div class="card-back-title">ТАБЛИЦЫ ПОД ЗАКАЗ</div>
+            <div class="card-back-title" data-i18n="svc.tables.title">ТАБЛИЦЫ ПОД ЗАКАЗ</div>
           </div>
           <ul class="card-back-list">
-            <li>Excel · Google Sheets · Notion</li>
-            <li>Финансовый учёт и аналитика</li>
-            <li>Воронки продаж в таблицах</li>
-            <li>CRM-системы на базе таблиц</li>
-            <li>Авторасчёты и формулы</li>
-            <li>Любая бизнес-задача под ключ</li>
+            <li data-i18n="svc.tables.li1">Excel · Google Sheets · Notion</li>
+            <li data-i18n="svc.tables.li2">Финансовый учёт и аналитика</li>
+            <li data-i18n="svc.tables.li3">Воронки продаж в таблицах</li>
+            <li data-i18n="svc.tables.li4">CRM-системы на базе таблиц</li>
+            <li data-i18n="svc.tables.li5">Авторасчёты и формулы</li>
+            <li data-i18n="svc.tables.li6">Любая бизнес-задача под ключ</li>
           </ul>
-          <div class="card-back-price">Индивидуально</div>
+          <div class="card-back-price" data-i18n="svc.web.price">Индивидуально</div>
           <div style="margin-top:10px">
             <a href="tables.html"
                style="display:block;text-align:center;padding:10px 14px;
@@ -2409,7 +2412,7 @@ footer{
                       background:rgba(0,212,255,.1);border:2px solid var(--cyan);
                       color:var(--cyan);text-decoration:none;
                       box-shadow:3px 3px 0 rgba(0,212,255,.25)">
-              КАК МЫ РАБОТАЕМ →
+              <span data-i18n="svc.ai.cta">КАК МЫ РАБОТАЕМ →</span>
             </a>
           </div>
         </div>
@@ -2613,21 +2616,21 @@ footer{
               <rect x="22" y="8" width="2" height="2" fill="#FFD700"/>
             </svg>
           </div>
-          <div class="card-name">ВЕБ-РАЗРАБОТКА</div>
+          <div class="card-name" data-i18n="svc.web.name">ВЕБ-РАЗРАБОТКА</div>
         </div>
         <div class="flip-card-back">
           <div class="card-back-header">
-            <div class="card-back-title">ВЕБ-РАЗРАБОТКА</div>
+            <div class="card-back-title" data-i18n="svc.web.title">ВЕБ-РАЗРАБОТКА</div>
           </div>
           <ul class="card-back-list">
-            <li>Сайты · Лендинги · Платформы</li>
-            <li>Telegram-боты любой сложности</li>
-            <li>Биржи · Приложения · Дашборды</li>
-            <li>Большая IT-команда под задачу</li>
-            <li>Интеграции с любыми API</li>
-            <li>Любой нестандартный запрос</li>
+            <li data-i18n="svc.web.li1">Сайты · Лендинги · Платформы</li>
+            <li data-i18n="svc.web.li2">Telegram-боты любой сложности</li>
+            <li data-i18n="svc.web.li3">Биржи · Приложения · Дашборды</li>
+            <li data-i18n="svc.web.li4">Большая IT-команда под задачу</li>
+            <li data-i18n="svc.web.li5">Интеграции с любыми API</li>
+            <li data-i18n="svc.web.li6">Любой нестандартный запрос</li>
           </ul>
-          <div class="card-back-price">Индивидуально</div>
+          <div class="card-back-price" data-i18n="svc.web.price">Индивидуально</div>
           <div style="margin-top:10px">
             <a href="web-dev.html"
                style="display:block;text-align:center;padding:10px 14px;
@@ -2635,7 +2638,7 @@ footer{
                       background:rgba(0,212,255,.1);border:2px solid var(--cyan);
                       color:var(--cyan);text-decoration:none;
                       box-shadow:3px 3px 0 rgba(0,212,255,.25)">
-              КАК МЫ РАБОТАЕМ →
+              <span data-i18n="svc.ai.cta">КАК МЫ РАБОТАЕМ →</span>
             </a>
           </div>
         </div>
@@ -2838,21 +2841,21 @@ footer{
               <rect x="2" y="14" width="14" height="4" fill="#5a1a9e"/>
             </svg>
           </div>
-          <div class="card-name">БОТЫ В АРЕНДУ</div>
+          <div class="card-name" data-i18n="svc.bots.name">БОТЫ В АРЕНДУ</div>
         </div>
         <div class="flip-card-back">
           <div class="card-back-header">
-            <div class="card-back-title">БОТЫ ОТРИСОВКИ</div>
+            <div class="card-back-title" data-i18n="svc.bots.title">БОТЫ ОТРИСОВКИ</div>
           </div>
           <ul class="card-back-list">
-            <li>Видео+фото пакет — 350$/мес</li>
-            <li>10 фото + 1 видео в месяц</li>
-            <li>Только статика — до 100$</li>
-            <li>(до 10 фото, без видео)</li>
-            <li>Доп. видео — 35$ · 5 фото — 10$</li>
-            <li>Адаптация под ваш прогрев</li>
+            <li data-i18n="svc.bots.li1">Видео+фото пакет — 350$/мес</li>
+            <li data-i18n="svc.bots.li2">10 фото + 1 видео в месяц</li>
+            <li data-i18n="svc.bots.li3">Только статика — до 100$</li>
+            <li data-i18n="svc.bots.li4">(до 10 фото, без видео)</li>
+            <li data-i18n="svc.bots.li5">Доп. видео — 35$ · 5 фото — 10$</li>
+            <li data-i18n="svc.bots.li6">Адаптация под ваш прогрев</li>
           </ul>
-          <div class="card-back-price">от 100$ / статика · 350$ / видео</div>
+          <div class="card-back-price" data-i18n="svc.bots.price">от 100$ / статика · 350$ / видео</div>
           <div style="margin-top:10px">
             <a href="bots-rental.html"
                style="display:block;text-align:center;padding:10px 14px;
@@ -2860,7 +2863,7 @@ footer{
                       background:rgba(0,212,255,.1);border:2px solid var(--cyan);
                       color:var(--cyan);text-decoration:none;
                       box-shadow:3px 3px 0 rgba(0,212,255,.25)">
-              КАК МЫ РАБОТАЕМ →
+              <span data-i18n="svc.ai.cta">КАК МЫ РАБОТАЕМ →</span>
             </a>
           </div>
         </div>
@@ -3070,21 +3073,21 @@ footer{
               <rect x="20" y="20" width="4" height="4" fill="#FF6B00"/>
             </svg>
           </div>
-          <div class="card-name">КРЕАТИВЫ</div>
+          <div class="card-name" data-i18n="svc.creatives.name">КРЕАТИВЫ</div>
         </div>
         <div class="flip-card-back">
           <div class="card-back-header">
-            <div class="card-back-title">КРЕАТИВЫ</div>
+            <div class="card-back-title" data-i18n="svc.creatives.title">КРЕАТИВЫ</div>
           </div>
           <ul class="card-back-list">
-            <li>Статика · от 8$</li>
-            <li>Motion-видео · от 35$</li>
-            <li>Видео-кружки · от 30$</li>
-            <li>Отрисовки · от 15$</li>
-            <li>Логотипы · от 15$</li>
-            <li>Reels · UGC · VSL · GIF</li>
+            <li data-i18n="svc.creatives.li1">Статика · от 8$</li>
+            <li data-i18n="svc.creatives.li2">Motion-видео · от 35$</li>
+            <li data-i18n="svc.creatives.li3">Видео-кружки · от 30$</li>
+            <li data-i18n="svc.creatives.li4">Отрисовки · от 15$</li>
+            <li data-i18n="svc.creatives.li5">Логотипы · от 15$</li>
+            <li data-i18n="svc.creatives.li6">Reels · UGC · VSL · GIF</li>
           </ul>
-          <div class="card-back-price">от 4$ до 50$+</div>
+          <div class="card-back-price" data-i18n="svc.creatives.price">от 4$ до 50$+</div>
           <div style="margin-top:10px">
             <a href="creatives.html"
                style="display:block;text-align:center;padding:10px 14px;
@@ -3092,7 +3095,7 @@ footer{
                       background:rgba(0,212,255,.1);border:2px solid var(--cyan);
                       color:var(--cyan);text-decoration:none;
                       box-shadow:3px 3px 0 rgba(0,212,255,.25)">
-              КАК МЫ РАБОТАЕМ →
+              <span data-i18n="svc.ai.cta">КАК МЫ РАБОТАЕМ →</span>
             </a>
           </div>
         </div>
@@ -3112,10 +3115,10 @@ footer{
     </div>
 
     <div class="about-text-content">
-      <h2 class="section-title" style="font-size:clamp(28px,4vw,52px);margin-bottom:20px;text-align:left;text-shadow:3px 3px 0 var(--purple)">О НАС</h2>
+      <h2 class="section-title" style="font-size:clamp(28px,4vw,52px);margin-bottom:20px;text-align:left;text-shadow:3px 3px 0 var(--purple)" data-i18n="about.title">О НАС</h2>
 
       <!-- Lead -->
-      <div class="about-lead reveal">
+      <div class="about-lead reveal" data-i18n-html="about.lead">
         <span>YAPPI AGENCY</span> — это не просто дизайн-агентство.<br>
         Это <span>экосистема</span> для арбитражных команд и digital-бизнеса.<br>
         2 года на рынке — росли не за счёт шума, а за счёт <span>системных решений</span>.
@@ -3125,46 +3128,46 @@ footer{
       <div class="stats-grid">
         <div class="stat-item reveal">
           <div class="stat-number"><span class="counter" data-target="2">0</span></div>
-          <div class="stat-label">ГОДА НА РЫНКЕ</div>
+          <div class="stat-label" data-i18n="about.stat.years">ГОДА НА РЫНКЕ</div>
         </div>
         <div class="stat-item reveal">
           <div class="stat-number"><span class="counter" data-target="1000">0</span>+</div>
-          <div class="stat-label">КЛИЕНТОВ</div>
+          <div class="stat-label" data-i18n="about.stat.clients">КЛИЕНТОВ</div>
         </div>
         <div class="stat-item reveal">
           <div class="stat-number"><span class="counter" data-target="100">0</span>+</div>
-          <div class="stat-label">СОТРУДНИЧЕСТВ</div>
+          <div class="stat-label" data-i18n="about.stat.partners">СОТРУДНИЧЕСТВ</div>
         </div>
         <div class="stat-item reveal">
           <div class="stat-number"><span class="counter" data-target="20">0</span>+</div>
-          <div class="stat-label">СОТРУДНИКОВ</div>
+          <div class="stat-label" data-i18n="about.stat.team">СОТРУДНИКОВ</div>
         </div>
       </div>
 
       <!-- Two-col what we do -->
       <div class="about-cols">
         <div class="about-block reveal">
-          <div class="about-block-title">ЧТО МЫ ДЕЛАЕМ</div>
+          <div class="about-block-title" data-i18n="about.block1.title">ЧТО МЫ ДЕЛАЕМ</div>
           <ul class="about-list">
-            <li>Креативы всех форматов</li>
-            <li>AI Production под ключ</li>
-            <li>Боты отрисовки (фото + видео)</li>
-            <li>Автоматизация / Chatterfy</li>
-            <li>Сайты, боты, платформы</li>
-            <li>Таблицы и системы под бизнес</li>
-            <li>Внедрение ИИ в процессы</li>
+            <li data-i18n="about.block1.li1">Креативы всех форматов</li>
+            <li data-i18n="about.block1.li2">AI Production под ключ</li>
+            <li data-i18n="about.block1.li3">Боты отрисовки (фото + видео)</li>
+            <li data-i18n="about.block1.li4">Автоматизация / Chatterfy</li>
+            <li data-i18n="about.block1.li5">Сайты, боты, платформы</li>
+            <li data-i18n="about.block1.li6">Таблицы и системы под бизнес</li>
+            <li data-i18n="about.block1.li7">Внедрение ИИ в процессы</li>
           </ul>
         </div>
         <div class="about-block reveal">
-          <div class="about-block-title">ЛЮДИ И КОМЬЮНИТИ</div>
+          <div class="about-block-title" data-i18n="about.block2.title">ЛЮДИ И КОМЬЮНИТИ</div>
           <ul class="about-list">
-            <li>Нетворкинг и поддержка</li>
-            <li>Чат с бесплатной рекламой</li>
-            <li>Вакансии и база специалистов</li>
-            <li>Дизайнеры in-house / в аренду</li>
-            <li>Мгновенная замена спеца</li>
-            <li>Ориентация на долгосрок</li>
-            <li>Гибкость форматов работы</li>
+            <li data-i18n="about.block2.li1">Нетворкинг и поддержка</li>
+            <li data-i18n="about.block2.li2">Чат с бесплатной рекламой</li>
+            <li data-i18n="about.block2.li3">Вакансии и база специалистов</li>
+            <li data-i18n="about.block2.li4">Дизайнеры in-house / в аренду</li>
+            <li data-i18n="about.block2.li5">Мгновенная замена спеца</li>
+            <li data-i18n="about.block2.li6">Ориентация на долгосрок</li>
+            <li data-i18n="about.block2.li7">Гибкость форматов работы</li>
           </ul>
         </div>
       </div>
@@ -3172,7 +3175,7 @@ footer{
       <!-- Metra AI callout -->
       <div class="about-callout reveal">
         <span class="about-callout-badge">★ AMBASSADOR</span>
-        <div class="about-callout-text">
+        <div class="about-callout-text" data-i18n-html="about.callout">
           Официальные амбассадоры <a href="https://metra-ai.org" target="_blank">METRA AI</a> —
           помогаем внедрить AI в Telegram-каналы: перенос контента, автопостинг, AI-персонажи, полная настройка под команду.
         </div>
@@ -3184,15 +3187,15 @@ footer{
 <!-- ═══════════════════ CASES ═══════════════════ -->
 <section id="cases">
   <div class="cases-header reveal">
-    <h2 class="section-title">КЕЙСЫ</h2>
+    <h2 class="section-title" data-i18n="cases.title">КЕЙСЫ</h2>
     <div class="cases-filters">
-      <button class="filter-btn active" data-filter="all">★ ВСЕ</button>
-      <button class="filter-btn" data-filter="static">СТАТИКА</button>
-      <button class="filter-btn" data-filter="motion">МОУШЕН</button>
-      <button class="filter-btn" data-filter="ai">AI ПРОДАКШН</button>
+      <button class="filter-btn active" data-filter="all" data-i18n="filter.all">★ ВСЕ</button>
+      <button class="filter-btn" data-filter="static" data-i18n="filter.static">СТАТИКА</button>
+      <button class="filter-btn" data-filter="motion" data-i18n="filter.motion">МОУШЕН</button>
+      <button class="filter-btn" data-filter="ai" data-i18n="filter.ai">AI ПРОДАКШН</button>
       <button class="filter-btn" data-filter="chatterfy">CHATTERFY</button>
-      <button class="filter-btn" data-filter="avatar">АВАТАРКИ</button>
-      <button class="filter-btn" data-filter="cartoon">МУЛЬТФИЛЬМЫ</button>
+      <button class="filter-btn" data-filter="avatar" data-i18n="filter.avatar">АВАТАРКИ</button>
+      <button class="filter-btn" data-filter="cartoon" data-i18n="filter.cartoon">МУЛЬТФИЛЬМЫ</button>
     </div>
   </div>
 
@@ -3404,15 +3407,15 @@ footer{
 
   <div class="ck-more">
     <div class="ck-star">★</div>
-    <div class="ck-h">ЭТО ЛИШЬ ЧАСТЬ НАШИХ РАБОТ</div>
-    <div class="ck-sub">У нас значительно больше кейсов — напиши менеджеру и покажем полное портфолио</div>
-    <a href="https://t.me/yappi_manager" target="_blank" class="ck-btn">✈ НАПИСАТЬ МЕНЕДЖЕРУ</a>
+    <div class="ck-h" data-i18n="ck.more.h">ЭТО ЛИШЬ ЧАСТЬ НАШИХ РАБОТ</div>
+    <div class="ck-sub" data-i18n="ck.more.sub">У нас значительно больше кейсов — напиши менеджеру и покажем полное портфолио</div>
+    <a href="https://t.me/yappi_manager" target="_blank" class="ck-btn" data-i18n="ck.more.btn">✈ НАПИСАТЬ МЕНЕДЖЕРУ</a>
   </div>
 </section>
 
 <!-- МОДАЛКА КЕЙСОВ -->
 <div id="ck-modal">
-  <button class="ck-mclose" onclick="ckClose()">✕ ЗАКРЫТЬ</button>
+  <button class="ck-mclose" onclick="ckClose()" data-i18n="ck.modal.close">✕ ЗАКРЫТЬ</button>
   <div id="ck-mi"></div>
 </div>
 
@@ -3446,15 +3449,15 @@ footer{
   <rect x="20" y="22" width="4" height="2" fill="#7B2FBE" opacity=".6"/>
   <rect x="10" y="24" width="8" height="2" fill="#3a0f75"/>
 </svg></div>
-          <div><div class="price-card-title">Статика</div><div class="price-card-sub">Дизайн и графика</div></div>
+          <div><div class="price-card-title" data-i18n="price.stat.title">Статика</div><div class="price-card-sub" data-i18n="price.stat.sub">Дизайн и графика</div></div>
         </div>
         <div class="price-rows">
-          <div class="price-row"><span class="price-row-num">01</span><span class="price-row-name">Статика</span><span class="price-row-dots"></span><span class="price-row-val">8–10$</span></div>
-          <div class="price-row"><span class="price-row-num">02</span><span class="price-row-name">Адаптация статики</span><span class="price-row-dots"></span><span class="price-row-val">4$</span></div>
-          <div class="price-row"><span class="price-row-num">03</span><span class="price-row-name">Проект работы</span><span class="price-row-dots"></span><span class="price-row-val">4$</span></div>
-          <div class="price-row"><span class="price-row-num">04</span><span class="price-row-name">Генерации фото</span><span class="price-row-dots"></span><span class="price-row-val">5$</span></div>
-          <div class="price-row"><span class="price-row-num">05</span><span class="price-row-name">Логотипы</span><span class="price-row-dots"></span><span class="price-row-val">15$</span></div>
-          <div class="price-row"><span class="price-row-num">06</span><span class="price-row-name">Отрисовки</span><span class="price-row-dots"></span><span class="price-row-val">15$</span></div>
+          <div class="price-row"><span class="price-row-num">01</span><span class="price-row-name" data-i18n="price.stat.r1">Статика</span><span class="price-row-dots"></span><span class="price-row-val">8–10$</span></div>
+          <div class="price-row"><span class="price-row-num">02</span><span class="price-row-name" data-i18n="price.stat.r2">Адаптация статики</span><span class="price-row-dots"></span><span class="price-row-val">4$</span></div>
+          <div class="price-row"><span class="price-row-num">03</span><span class="price-row-name" data-i18n="price.stat.r3">Проект работы</span><span class="price-row-dots"></span><span class="price-row-val">4$</span></div>
+          <div class="price-row"><span class="price-row-num">04</span><span class="price-row-name" data-i18n="price.stat.r4">Генерации фото</span><span class="price-row-dots"></span><span class="price-row-val">5$</span></div>
+          <div class="price-row"><span class="price-row-num">05</span><span class="price-row-name" data-i18n="price.stat.r5">Логотипы</span><span class="price-row-dots"></span><span class="price-row-val">15$</span></div>
+          <div class="price-row"><span class="price-row-num">06</span><span class="price-row-name" data-i18n="price.stat.r6">Отрисовки</span><span class="price-row-dots"></span><span class="price-row-val">15$</span></div>
         </div>
       </div>
     </div>
@@ -3481,14 +3484,14 @@ footer{
   <rect x="4" y="22" width="20" height="4" fill="#5a1a9e"/>
   <rect x="6" y="23" width="4" height="2" fill="#00D4FF"/><rect x="12" y="23" width="4" height="2" fill="#FFD700"/><rect x="18" y="23" width="4" height="2" fill="#00D4FF"/>
 </svg></div>
-          <div><div class="price-card-title">AI Production</div><div class="price-card-sub">Синтез и дипфейки</div></div>
+          <div><div class="price-card-title" data-i18n="price.ai.title">AI Production</div><div class="price-card-sub" data-i18n="price.ai.sub">Синтез и дипфейки</div></div>
         </div>
         <div class="price-rows">
-          <div class="price-row"><span class="price-row-num">01</span><span class="price-row-name">Дип фейки</span><span class="price-row-dots"></span><span class="price-row-val">от 15$</span></div>
-          <div class="price-row"><span class="price-row-num">02</span><span class="price-row-name">Текст в голос</span><span class="price-row-dots"></span><span class="price-row-val">3–5$</span></div>
-          <div class="price-row"><span class="price-row-num">03</span><span class="price-row-name">AI Production</span><span class="price-row-dots"></span><span class="price-row-val">от 300$</span></div>
+          <div class="price-row"><span class="price-row-num">01</span><span class="price-row-name" data-i18n="price.ai.r1">Дип фейки</span><span class="price-row-dots"></span><span class="price-row-val">от 15$</span></div>
+          <div class="price-row"><span class="price-row-num">02</span><span class="price-row-name" data-i18n="price.ai.r2">Текст в голос</span><span class="price-row-dots"></span><span class="price-row-val">3–5$</span></div>
+          <div class="price-row"><span class="price-row-num">03</span><span class="price-row-name" data-i18n="price.ai.r3">AI Production</span><span class="price-row-dots"></span><span class="price-row-val">от 300$</span></div>
         </div>
-        <div class="price-note">* Дип фейки: до 15 сек — 15$, каждая секунда сверх — +0.5$</div>
+        <div class="price-note" data-i18n="price.ai.note">* Дип фейки: до 15 сек — 15$, каждая секунда сверх — +0.5$</div>
       </div>
     </div>
 
@@ -3513,17 +3516,17 @@ footer{
   <rect x="12" y="13" width="8" height="4" fill="#FFD700" opacity=".6"/>
   <rect x="20" y="11" width="2" height="2" fill="#7B2FBE" opacity=".7"/>
 </svg></div>
-          <div><div class="price-card-title">Видео</div><div class="price-card-sub">Монтаж и Motion</div></div>
+          <div><div class="price-card-title" data-i18n="price.video.title">Видео</div><div class="price-card-sub" data-i18n="price.video.sub">Монтаж и Motion</div></div>
         </div>
         <div class="price-rows">
-          <div class="price-row"><span class="price-row-num">01</span><span class="price-row-name">Motion</span><span class="price-row-dots"></span><span class="price-row-val">от 35$</span></div>
-          <div class="price-row"><span class="price-row-num">02</span><span class="price-row-name">Motion + Дип</span><span class="price-row-dots"></span><span class="price-row-val">35$</span></div>
-          <div class="price-row"><span class="price-row-num">03</span><span class="price-row-name">VSL</span><span class="price-row-dots"></span><span class="price-row-val">от 50$</span></div>
-          <div class="price-row"><span class="price-row-num">04</span><span class="price-row-name">Адаптация</span><span class="price-row-dots"></span><span class="price-row-val">15$</span></div>
-          <div class="price-row"><span class="price-row-num">05</span><span class="price-row-name">GIF</span><span class="price-row-dots"></span><span class="price-row-val">15$</span></div>
-          <div class="price-row"><span class="price-row-num">06</span><span class="price-row-name">UGC</span><span class="price-row-dots"></span><span class="price-row-val">от 40$</span></div>
-          <div class="price-row"><span class="price-row-num">07</span><span class="price-row-name">Reels</span><span class="price-row-dots"></span><span class="price-row-val">30$</span></div>
-          <div class="price-row"><span class="price-row-num">08</span><span class="price-row-name">YouTube видео</span><span class="price-row-dots"></span><span class="price-row-val">от 40$</span></div>
+          <div class="price-row"><span class="price-row-num">01</span><span class="price-row-name" data-i18n="price.video.r1">Motion</span><span class="price-row-dots"></span><span class="price-row-val">от 35$</span></div>
+          <div class="price-row"><span class="price-row-num">02</span><span class="price-row-name" data-i18n="price.video.r2">Motion + Дип</span><span class="price-row-dots"></span><span class="price-row-val">35$</span></div>
+          <div class="price-row"><span class="price-row-num">03</span><span class="price-row-name" data-i18n="price.video.r3">VSL</span><span class="price-row-dots"></span><span class="price-row-val">от 50$</span></div>
+          <div class="price-row"><span class="price-row-num">04</span><span class="price-row-name" data-i18n="price.video.r4">Адаптация</span><span class="price-row-dots"></span><span class="price-row-val">15$</span></div>
+          <div class="price-row"><span class="price-row-num">05</span><span class="price-row-name" data-i18n="price.video.r5">GIF</span><span class="price-row-dots"></span><span class="price-row-val">15$</span></div>
+          <div class="price-row"><span class="price-row-num">06</span><span class="price-row-name" data-i18n="price.video.r6">UGC</span><span class="price-row-dots"></span><span class="price-row-val">от 40$</span></div>
+          <div class="price-row"><span class="price-row-num">07</span><span class="price-row-name" data-i18n="price.video.r7">Reels</span><span class="price-row-dots"></span><span class="price-row-val">30$</span></div>
+          <div class="price-row"><span class="price-row-num">08</span><span class="price-row-name" data-i18n="price.video.r8">YouTube видео</span><span class="price-row-dots"></span><span class="price-row-val">от 40$</span></div>
         </div>
       </div>
     </div>
@@ -3548,15 +3551,15 @@ footer{
   <rect x="8" y="5" width="12" height="2" fill="#FF6B00" opacity=".5"/>
   <rect x="8" y="21" width="12" height="2" fill="#FF6B00" opacity=".5"/>
 </svg></div>
-          <div><div class="price-card-title">Другие услуги</div><div class="price-card-sub">Разработка и автоматизация</div></div>
+          <div><div class="price-card-title" data-i18n="price.other.title">Другие услуги</div><div class="price-card-sub" data-i18n="price.other.sub">Разработка и автоматизация</div></div>
         </div>
         <div class="price-rows">
-          <div class="price-row"><span class="price-row-num">01</span><span class="price-row-name">Бот отрисовки</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
-          <div class="price-row"><span class="price-row-num">02</span><span class="price-row-name">Дизайнер в аренду</span><span class="price-row-dots"></span><span class="price-row-val">от 500$</span></div>
-          <div class="price-row"><span class="price-row-num">03</span><span class="price-row-name">Лендинг — верстка</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
-          <div class="price-row"><span class="price-row-num">04</span><span class="price-row-name">Сборка ботов Chatterfy</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
-          <div class="price-row"><span class="price-row-num">05</span><span class="price-row-name">Сборка AI контента METRA AI</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
-          <div class="price-row"><span class="price-row-num">06</span><span class="price-row-name">Сборка таблиц под бизнес</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
+          <div class="price-row"><span class="price-row-num">01</span><span class="price-row-name" data-i18n="price.other.r1">Бот отрисовки</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
+          <div class="price-row"><span class="price-row-num">02</span><span class="price-row-name" data-i18n="price.other.r2">Дизайнер в аренду</span><span class="price-row-dots"></span><span class="price-row-val">от 500$</span></div>
+          <div class="price-row"><span class="price-row-num">03</span><span class="price-row-name" data-i18n="price.other.r3">Лендинг — верстка</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
+          <div class="price-row"><span class="price-row-num">04</span><span class="price-row-name" data-i18n="price.other.r4">Сборка ботов Chatterfy</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
+          <div class="price-row"><span class="price-row-num">05</span><span class="price-row-name" data-i18n="price.other.r5">Сборка AI контента METRA AI</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
+          <div class="price-row"><span class="price-row-num">06</span><span class="price-row-name" data-i18n="price.other.r6">Сборка таблиц под бизнес</span><span class="price-row-dots"></span><span class="price-row-val">от 100$</span></div>
         </div>
       </div>
     </div>
@@ -3565,8 +3568,8 @@ footer{
   </div><!-- /pricing-layout -->
 
   <div class="price-cta reveal">
-    <div class="price-cta-text">Нужен индивидуальный расчёт?</div>
-    <a href="https://t.me/yappi_manager" class="price-cta-btn" target="_blank">✈ Написать менеджеру</a>
+    <div class="price-cta-text" data-i18n="price.cta.text">Нужен индивидуальный расчёт?</div>
+    <a href="https://t.me/yappi_manager" class="price-cta-btn" target="_blank" data-i18n="price.cta.btn">✈ Написать менеджеру</a>
   </div>
 </section>
 
@@ -3575,7 +3578,7 @@ footer{
 
   <div class="partners-header reveal">
     <span class="hof-header">★★★  HALL OF PARTNERS  ★★★</span>
-    <div class="hof-sub">// НАШИ ПАРТНЁРЫ И СОЮЗНИКИ //</div>
+    <div class="hof-sub" data-i18n="partners.sub">// НАШИ ПАРТНЁРЫ И СОЮЗНИКИ //</div>
   </div>
 
   <div class="partners-grid">
@@ -3592,26 +3595,26 @@ footer{
         <div class="pc-meta">
           <span class="pc-status ambassador">★ OFFICIAL AMBASSADOR</span>
           <div class="pc-name">METRA AI</div>
-          <div class="pc-tagline">AI-платформа нового поколения</div>
+          <div class="pc-tagline" data-i18n="partners.metra.tagline">AI-платформа нового поколения</div>
         </div>
       </div>
       <div class="pc-body">
         <div class="pc-desc">
-          Metra AI — платформа для полной автоматизации Telegram-каналов с помощью искусственного интеллекта. Мы стали официальными амбассадорами платформы и помогаем командам внедрять её в работу под ключ.
+          <span data-i18n="partners.metra.desc">Metra AI — платформа для полной автоматизации Telegram-каналов с помощью искусственного интеллекта. Мы стали официальными амбассадорами платформы и помогаем командам внедрять её в работу под ключ.</span>
         </div>
         <ul class="pc-features">
-          <li>AI-персонажи и автоматический постинг</li>
-          <li>Перенос и настройка контента на ИИ</li>
-          <li>Автоматизация обработки трафика</li>
-          <li>Генерация контента под вашу стратегию</li>
-          <li>Полная настройка системы под команду</li>
+          <li data-i18n="partners.metra.f1">AI-персонажи и автоматический постинг</li>
+          <li data-i18n="partners.metra.f2">Перенос и настройка контента на ИИ</li>
+          <li data-i18n="partners.metra.f3">Автоматизация обработки трафика</li>
+          <li data-i18n="partners.metra.f4">Генерация контента под вашу стратегию</li>
+          <li data-i18n="partners.metra.f5">Полная настройка системы под команду</li>
         </ul>
         <div class="pc-btns">
           <a href="https://metra-ai.org" target="_blank" class="pc-btn pc-btn-primary">
-            🌐 Открыть платформу
+            <span data-i18n="partners.metra.btn1">🌐 Открыть платформу</span>
           </a>
           <a href="https://t.me/metra_ai" target="_blank" class="pc-btn pc-btn-outline">
-            ✈ Telegram канал
+            <span data-i18n="partners.metra.btn2">✈ Telegram канал</span>
           </a>
         </div>
       </div>
@@ -3629,28 +3632,28 @@ footer{
         <div class="pc-meta">
           <span class="pc-status partner">◆ PARTNER</span>
           <div class="pc-name">ATLAS GROUP</div>
-          <div class="pc-tagline" style="color:#FFD700">Рекрутинг для арбитража</div>
+          <div class="pc-tagline" style="color:#FFD700" data-i18n="partners.atlas.tagline">Рекрутинг для арбитража</div>
         </div>
       </div>
       <div class="pc-body">
         <div class="pc-desc">
-          Atlas Group — рекрутинговое агентство, специализирующееся на подборе кадров для арбитражных команд. Быстро находят нужных специалистов под любые задачи — от байеров до технарей.
+          <span data-i18n="partners.atlas.desc">Atlas Group — рекрутинговое агентство, специализирующееся на подборе кадров для арбитражных команд. Быстро находят нужных специалистов под любые задачи — от байеров до технарей.</span>
         </div>
         <ul class="pc-features">
-          <li>Подбор байеров, дизайнеров, PM</li>
-          <li>База проверенных специалистов</li>
-          <li>Работа с командами любого масштаба</li>
-          <li>Быстрые сроки закрытия вакансий</li>
-          <li>Условия дешевле рынка</li>
+          <li data-i18n="partners.atlas.f1">Подбор байеров, дизайнеров, PM</li>
+          <li data-i18n="partners.atlas.f2">База проверенных специалистов</li>
+          <li data-i18n="partners.atlas.f3">Работа с командами любого масштаба</li>
+          <li data-i18n="partners.atlas.f4">Быстрые сроки закрытия вакансий</li>
+          <li data-i18n="partners.atlas.f5">Условия дешевле рынка</li>
         </ul>
         <div class="pc-btns">
           <a href="https://t.me/atlas_groupHR" target="_blank" class="pc-btn pc-btn-primary"
              style="background:#FFD700;color:#0a0015;border-color:#FFD700">
-            ✈ Telegram канал
+            <span data-i18n="partners.atlas.btn1">✈ Telegram канал</span>
           </a>
           <a href="https://t.me/Atlas_SMM1" target="_blank" class="pc-btn pc-btn-outline"
              style="color:#FFD700;border-color:#FFD700">
-            👤 Написать менеджеру
+            <span data-i18n="partners.atlas.btn2">👤 Написать менеджеру</span>
           </a>
         </div>
       </div>
@@ -3662,14 +3665,14 @@ footer{
   <!-- CTA — стать партнёром -->
   <div style="text-align:center;padding:48px 20px 64px" class="reveal">
     <div style="display:inline-block;border:2px solid rgba(255,215,0,.25);padding:28px 40px;background:rgba(255,215,0,.04);box-shadow:4px 4px 0 rgba(255,215,0,.12);max-width:520px;width:100%">
-      <div style="font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:1px;color:rgba(255,215,0,.5);margin-bottom:10px">★ ПАРТНЁРСТВО ★</div>
-      <div style="font-family:'Press Start 2P',monospace;font-size:clamp(10px,1.5vw,13px);color:#fff;line-height:1.8;margin-bottom:20px">ХОЧЕШЬ СТАТЬ<br>НАШИМ ПАРТНЁРОМ?</div>
-      <div style="font-family:'VT323',monospace;font-size:18px;color:rgba(255,255,255,.55);margin-bottom:24px;line-height:1.5">Напиши нам с предложением — рассмотрим все варианты сотрудничества</div>
+      <div style="font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:1px;color:rgba(255,215,0,.5);margin-bottom:10px" data-i18n="partners.cta.label">★ ПАРТНЁРСТВО ★</div>
+      <div style="font-family:'Press Start 2P',monospace;font-size:clamp(10px,1.5vw,13px);color:#fff;line-height:1.8;margin-bottom:20px" data-i18n-html="partners.cta.title">ХОЧЕШЬ СТАТЬ<br>НАШИМ ПАРТНЁРОМ?</div>
+      <div style="font-family:'VT323',monospace;font-size:18px;color:rgba(255,255,255,.55);margin-bottom:24px;line-height:1.5" data-i18n="partners.cta.sub">Напиши нам с предложением — рассмотрим все варианты сотрудничества</div>
       <a href="https://t.me/yappi_manager" target="_blank"
          style="display:inline-block;font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:.5px;padding:14px 28px;background:rgba(255,215,0,.1);border:2px solid #FFD700;color:#FFD700;text-decoration:none;box-shadow:4px 4px 0 rgba(255,215,0,.25);transition:all .2s"
          onmouseover="this.style.background='rgba(255,215,0,.2)';this.style.transform='translate(-2px,-2px)';this.style.boxShadow='6px 6px 0 rgba(255,215,0,.3)'"
          onmouseout="this.style.background='rgba(255,215,0,.1)';this.style.transform='';this.style.boxShadow='4px 4px 0 rgba(255,215,0,.25)'">
-        ✈ НАПИСАТЬ С ПРЕДЛОЖЕНИЕМ
+        <span data-i18n="partners.cta.btn">✈ НАПИСАТЬ С ПРЕДЛОЖЕНИЕМ</span>
       </a>
     </div>
   </div>
@@ -3685,7 +3688,7 @@ footer{
 <!-- ═══════════════════ ЭКОСИСТЕМА ═══════════════════ -->
 <section id="social">
   <div class="section-header reveal">
-    <h2 class="section-title" style="font-size:clamp(20px,3.2vw,44px);text-shadow:3px 3px 0 var(--purple)">ЭКОСИСТЕМА YAPPI</h2>
+    <h2 class="section-title" style="font-size:clamp(20px,3.2vw,44px);text-shadow:3px 3px 0 var(--purple)" data-i18n="social.title">ЭКОСИСТЕМА YAPPI</h2>
   </div>
 
   <div class="social-grid">
@@ -3700,14 +3703,14 @@ footer{
           <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#7B2FBE">YA</span>
         </div>
         <div class="social-card-meta">
-          <span class="social-label">✈ Telegram канал</span>
+          <span class="social-label" data-i18n="social.agency.label">✈ Telegram канал</span>
           <div class="social-name">YAPPI<br>AGENCY</div>
           <div class="social-handle">@yappi_agency</div>
         </div>
       </div>
       <div class="social-card-body">
-        <div class="social-desc">Главный канал агентства — кейсы, новости, лучшие работы и обновления экосистемы</div>
-        <span class="social-btn" style="--s-bg:rgba(123,47,190,.12);--s-border:rgba(123,47,190,.5);--s-shadow:rgba(123,47,190,.3);--s-hover:rgba(123,47,190,.25)">[ ПОДПИСАТЬСЯ → ]</span>
+        <div class="social-desc" data-i18n="social.agency.desc">Главный канал агентства — кейсы, новости, лучшие работы и обновления экосистемы</div>
+        <span class="social-btn" style="--s-bg:rgba(123,47,190,.12);--s-border:rgba(123,47,190,.5);--s-shadow:rgba(123,47,190,.3);--s-hover:rgba(123,47,190,.25)" data-i18n="social.agency.btn">[ ПОДПИСАТЬСЯ → ]</span>
       </div>
     </a>
 
@@ -3721,14 +3724,14 @@ footer{
           <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#FFD700">YC</span>
         </div>
         <div class="social-card-meta">
-          <span class="social-label">💬 Telegram чат</span>
+          <span class="social-label" data-i18n="social.chat.label">💬 Telegram чат</span>
           <div class="social-name">YAPPI<br>CHAT</div>
-          <div class="social-handle">Открытое комьюнити</div>
+          <div class="social-handle" data-i18n="social.chat.handle">Открытое комьюнити</div>
         </div>
       </div>
       <div class="social-card-body">
-        <div class="social-desc">Живое общение, нетворкинг, бесплатная реклама и обмен контактами</div>
-        <span class="social-btn" style="--s-bg:rgba(255,215,0,.1);--s-border:rgba(255,215,0,.45);--s-shadow:rgba(255,215,0,.2);--s-hover:rgba(255,215,0,.22)">[ ВСТУПИТЬ → ]</span>
+        <div class="social-desc" data-i18n="social.chat.desc">Живое общение, нетворкинг, бесплатная реклама и обмен контактами</div>
+        <span class="social-btn" style="--s-bg:rgba(255,215,0,.1);--s-border:rgba(255,215,0,.45);--s-shadow:rgba(255,215,0,.2);--s-hover:rgba(255,215,0,.22)" data-i18n="social.chat.btn">[ ВСТУПИТЬ → ]</span>
       </div>
     </a>
 
@@ -3742,14 +3745,14 @@ footer{
           <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#E74C3C">YM</span>
         </div>
         <div class="social-card-meta">
-          <span class="social-label">📡 Telegram канал</span>
+          <span class="social-label" data-i18n="social.media.label">📡 Telegram канал</span>
           <div class="social-name">YAPPI<br>MEDIA</div>
           <div class="social-handle">@yappi_media</div>
         </div>
       </div>
       <div class="social-card-body">
-        <div class="social-desc">Новости арбитража, медиа-рынка, инсайды и аналитика от команды</div>
-        <span class="social-btn" style="--s-bg:rgba(231,76,60,.1);--s-border:rgba(231,76,60,.45);--s-shadow:rgba(231,76,60,.2);--s-hover:rgba(231,76,60,.22)">[ ЧИТАТЬ → ]</span>
+        <div class="social-desc" data-i18n="social.media.desc">Новости арбитража, медиа-рынка, инсайды и аналитика от команды</div>
+        <span class="social-btn" style="--s-bg:rgba(231,76,60,.1);--s-border:rgba(231,76,60,.45);--s-shadow:rgba(231,76,60,.2);--s-hover:rgba(231,76,60,.22)" data-i18n="social.media.btn">[ ЧИТАТЬ → ]</span>
       </div>
     </a>
 
@@ -3763,14 +3766,14 @@ footer{
           <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#2ecc71">YJ</span>
         </div>
         <div class="social-card-meta">
-          <span class="social-label">💼 Telegram канал</span>
+          <span class="social-label" data-i18n="social.jobs.label">💼 Telegram канал</span>
           <div class="social-name">YAPPI<br>JOBS</div>
           <div class="social-handle">@yappi_jobs</div>
         </div>
       </div>
       <div class="social-card-body">
-        <div class="social-desc">Актуальные вакансии в digital, AI, арбитраж и маркетинг от нас и партнёров</div>
-        <span class="social-btn" style="--s-bg:rgba(46,204,113,.1);--s-border:rgba(46,204,113,.4);--s-shadow:rgba(46,204,113,.2);--s-hover:rgba(46,204,113,.22)">[ СМОТРЕТЬ → ]</span>
+        <div class="social-desc" data-i18n="social.jobs.desc">Актуальные вакансии в digital, AI, арбитраж и маркетинг от нас и партнёров</div>
+        <span class="social-btn" style="--s-bg:rgba(46,204,113,.1);--s-border:rgba(46,204,113,.4);--s-shadow:rgba(46,204,113,.2);--s-hover:rgba(46,204,113,.22)" data-i18n="social.jobs.btn">[ СМОТРЕТЬ → ]</span>
       </div>
     </a>
 
@@ -3782,8 +3785,8 @@ footer{
   <div class="rating-wrap reveal">
     <div class="rating-box">
 
-      <div class="rating-label">★ ОЦЕНКА КЛИЕНТОВ ★</div>
-      <div class="rating-title">КАК МЫ РАБОТАЕМ?</div>
+      <div class="rating-label" data-i18n="rating.label">★ ОЦЕНКА КЛИЕНТОВ ★</div>
+      <div class="rating-title" data-i18n="rating.title">КАК МЫ РАБОТАЕМ?</div>
 
       <!-- Средняя оценка -->
       <div class="rating-avg-row">
@@ -3792,12 +3795,12 @@ footer{
           <!-- заполняется JS -->
         </div>
       </div>
-      <div class="rating-votes" id="ratingVotes">загрузка...</div>
+      <div class="rating-votes" id="ratingVotes" data-i18n="rating.loading">загрузка...</div>
 
       <div class="rating-divider"></div>
 
       <!-- Интерактивные звёзды -->
-      <div class="rating-prompt">ОСТАВЬТЕ СВОЮ ОЦЕНКУ</div>
+      <div class="rating-prompt" data-i18n="rating.prompt">ОСТАВЬТЕ СВОЮ ОЦЕНКУ</div>
       <div class="stars-interactive" id="starsInteractive">
         <svg class="si-star" data-val="1" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
           <polygon points="11,2 13.5,8.5 20.5,8.5 15,13 17,20 11,16 5,20 7,13 1.5,8.5 8.5,8.5" fill="rgba(255,215,0,.18)" stroke="rgba(255,215,0,.5)" stroke-width="1.2" class="star-poly"/>
@@ -3816,7 +3819,7 @@ footer{
         </svg>
       </div>
 
-      <div class="rating-voted" id="ratingVotedMsg">★ ВАШ ГОЛОС ЗАСЧИТАН!</div>
+      <div class="rating-voted" id="ratingVotedMsg" data-i18n="rating.voted">★ ВАШ ГОЛОС ЗАСЧИТАН!</div>
 
     </div>
   </div>
@@ -3827,9 +3830,9 @@ footer{
 <section id="s-feedback">
   <div class="fb-inner reveal">
 
-    <div class="fb-section-label">// ОБРАТНАЯ СВЯЗЬ //</div>
-    <div class="fb-section-title">ЖАЛОБА ИЛИ ПОЖЕЛАНИЕ?</div>
-    <div class="fb-section-sub">Расскажите что не так — мы читаем и реагируем</div>
+    <div class="fb-section-label" data-i18n="fb.label">// ОБРАТНАЯ СВЯЗЬ //</div>
+    <div class="fb-section-title" data-i18n="fb.title">ЖАЛОБА ИЛИ ПОЖЕЛАНИЕ?</div>
+    <div class="fb-section-sub" data-i18n="fb.sub">Расскажите что не так — мы читаем и реагируем</div>
 
     <!-- Выбор типа -->
     <div class="fb-type-row">
@@ -3855,8 +3858,8 @@ footer{
           <rect x="4" y="22" width="2" height="2" fill="#FF4455" opacity=".4"/>
           <rect x="22" y="22" width="2" height="2" fill="#FF4455" opacity=".4"/>
         </svg>
-        <div class="fb-card-lbl">ЖАЛОБА</div>
-        <div class="fb-card-hint">Что-то пошло не так</div>
+        <div class="fb-card-lbl" data-i18n="fb.complaint.lbl">ЖАЛОБА</div>
+        <div class="fb-card-hint" data-i18n="fb.complaint.hint">Что-то пошло не так</div>
       </div>
 
       <div class="fb-type-card" id="fbCardWish"
@@ -3886,8 +3889,8 @@ footer{
           <rect x="4" y="4" width="2" height="2" fill="#00D4FF" opacity=".35"/>
           <rect x="22" y="4" width="2" height="2" fill="#00D4FF" opacity=".35"/>
         </svg>
-        <div class="fb-card-lbl">ПОЖЕЛАНИЕ</div>
-        <div class="fb-card-hint">Идея или совет</div>
+        <div class="fb-card-lbl" data-i18n="fb.wish.lbl">ПОЖЕЛАНИЕ</div>
+        <div class="fb-card-hint" data-i18n="fb.wish.hint">Идея или совет</div>
       </div>
 
     </div>
@@ -3896,15 +3899,15 @@ footer{
     <div class="fb-form-area" id="fbFormArea">
       <div class="fb-form-tag" id="fbFormTag">■ ЖАЛОБА</div>
       <textarea class="fb-textarea" id="fbTextarea"
-                placeholder="Опишите подробнее..."></textarea>
+                data-i18n-placeholder="fb.textarea.placeholder" placeholder="Опишите подробнее..."></textarea>
       <div class="fb-actions">
-        <button class="fb-submit-btn" id="fbSubmitBtn" onclick="submitFb()">ОТПРАВИТЬ →</button>
-        <button class="fb-cancel-btn" onclick="closeFbForm()">ОТМЕНА</button>
+        <button class="fb-submit-btn" id="fbSubmitBtn" onclick="submitFb()" data-i18n="fb.submit">ОТПРАВИТЬ →</button>
+        <button class="fb-cancel-btn" onclick="closeFbForm()" data-i18n="fb.cancel">ОТМЕНА</button>
       </div>
     </div>
 
     <!-- Успех -->
-    <div class="fb-success" id="fbSuccess">
+    <div class="fb-success" id="fbSuccess" data-i18n-html="fb.success">
       ✅ ПОЛУЧЕНО!<br>Разберёмся в ближайшее время.
     </div>
 
@@ -4285,7 +4288,7 @@ for(let i=0;i<15;i++){
     const area = document.getElementById('fbFormArea');
     const ca   = document.getElementById('fbCardComplaint');
     const cw   = document.getElementById('fbCardWish');
-    tag.textContent = type === 'complaint' ? '■ ЖАЛОБА' : '■ ПОЖЕЛАНИЕ';
+    tag.textContent = type === 'complaint' ? window.t('fb.form.tag.complaint') : window.t('fb.form.tag.wish');
     tag.style.color = type === 'complaint' ? '#FF4455' : 'var(--cyan)';
     ca.classList.toggle('fb-active', type === 'complaint');
     cw.classList.toggle('fb-active', type === 'wish');
@@ -4306,7 +4309,7 @@ for(let i=0;i<15;i++){
     const text = document.getElementById('fbTextarea').value.trim();
     if (!text || !fbType) return;
     const btn = document.getElementById('fbSubmitBtn');
-    btn.textContent = 'ОТПРАВЛЯЮ...';
+    btn.textContent = window.t('fb.submitting');
     btn.disabled = true;
 
     const id       = fbType + '_' + Date.now();
@@ -4343,7 +4346,7 @@ for(let i=0;i<15;i++){
       }
     } catch(e) { console.error('FB send error', e); }
 
-    btn.textContent = 'ОТПРАВИТЬ →';
+    btn.textContent = window.t('fb.submit');
     btn.disabled = false;
   };
 })();
@@ -4353,7 +4356,7 @@ document.getElementById('contactForm').addEventListener('submit', e => {
   e.preventDefault();
   const btn = e.target.querySelector('.form-btn');
   const orig = btn.textContent;
-  btn.textContent = '✅ Отправлено! Свяжемся скоро';
+  btn.textContent = window.t('contact.sent');
   btn.style.background = 'linear-gradient(135deg,#27ae60,#2ecc71)';
   setTimeout(() => { btn.textContent = orig; btn.style.background=''; e.target.reset(); }, 3500);
 });
@@ -4415,8 +4418,8 @@ onValue(ratingRef, snapshot => {
   document.getElementById('ratingAvgNum').textContent = dispStr;
   document.getElementById('ratingVotes').textContent  =
     data.voteCount > 0
-      ? `на основе ${data.voteCount} ${plural(data.voteCount,'оценки','оценок','оценок')}`
-      : 'Будьте первым!';
+      ? (window.t('rating.votes.based') + ' ' + data.voteCount + ' ' + window.t('rating.votes.ratings'))
+      : window.t('rating.votes.first');
   renderAvgStars(dispAvg);
 });
 
@@ -4494,16 +4497,16 @@ siStars.forEach(star => {
 
   <!-- Titlebar -->
   <div class="pn-titlebar">
-    <span class="pn-titlebar-label"><span class="pn-blink">★</span> АКЦИЯ YAPPI AGENCY</span>
+    <span class="pn-titlebar-label" data-i18n-html="pn.title"><span class="pn-blink">★</span> АКЦИЯ YAPPI AGENCY</span>
     <button class="pn-close" onclick="closePush()" aria-label="Закрыть">✕</button>
   </div>
 
   <!-- Body -->
   <div class="pn-body">
-    <div class="pn-discount">−16%<br>НА ВСЁ</div>
-    <div class="pn-deadline">ДО 16 ИЮНЯ 2026</div>
-    <p class="pn-text">Скидка 16% на все услуги агентства — AI-продакшн, веб-разработку, автоматизацию и не только. Успей оформить заявку.</p>
-    <a href="https://t.me/yappi_manager" target="_blank" class="pn-btn">✈ НАПИСАТЬ МЕНЕДЖЕРУ</a>
+    <div class="pn-discount" data-i18n-html="pn.discount">−16%<br>НА ВСЁ</div>
+    <div class="pn-deadline" data-i18n="pn.deadline">ДО 16 ИЮНЯ 2026</div>
+    <p class="pn-text" data-i18n="pn.text">Скидка 16% на все услуги агентства — AI-продакшн, веб-разработку, автоматизацию и не только. Успей оформить заявку.</p>
+    <a href="https://t.me/yappi_manager" target="_blank" class="pn-btn" data-i18n="pn.btn">✈ НАПИСАТЬ МЕНЕДЖЕРУ</a>
   </div>
 </div>
 
@@ -4525,5 +4528,6 @@ siStars.forEach(star => {
   };
 })();
 </script>
+<script src="i18n.js"></script>
 </body>
 </html>
