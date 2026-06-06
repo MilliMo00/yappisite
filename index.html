@@ -1363,6 +1363,82 @@ footer{
 }
 .footer-text{font-size:12px;color:rgba(255,255,255,.35)}
 @media(max-width:768px){footer{justify-content:center;text-align:center}}
+
+/* ─── RATING SECTION ─── */
+#s-rating{padding:80px 60px;background:rgba(4,0,12,0.52);text-align:center}
+#s-rating::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='1' height='1' fill='rgba(123,47,190,.04)'/%3E%3C/svg%3E") repeat;pointer-events:none}
+.rating-wrap{position:relative;z-index:1;max-width:600px;margin:0 auto}
+.rating-box{
+  display:inline-block;width:100%;
+  border:3px solid var(--yellow);
+  box-shadow:6px 6px 0 rgba(255,215,0,.25),inset 0 0 40px rgba(255,215,0,.03);
+  background:rgba(255,215,0,.04);
+  padding:44px 52px;
+  position:relative;
+}
+.rating-box::before{
+  content:'';position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;
+  border:1px solid rgba(255,215,0,.15);pointer-events:none;
+}
+.rating-label{
+  font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:1.5px;
+  color:rgba(255,215,0,.5);text-transform:uppercase;margin-bottom:8px;
+}
+.rating-title{
+  font-family:'Press Start 2P',monospace;font-size:clamp(11px,2vw,16px);
+  color:#fff;letter-spacing:.5px;margin-bottom:32px;line-height:1.7;
+}
+.rating-avg-row{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  margin-bottom:28px;
+}
+.rating-avg-num{
+  font-family:'Press Start 2P',monospace;font-size:clamp(28px,5vw,48px);
+  color:var(--yellow);line-height:1;
+  text-shadow:4px 4px 0 rgba(255,215,0,.25);
+}
+.rating-avg-stars{display:flex;gap:4px;align-items:center}
+.avg-star{
+  width:22px;height:22px;position:relative;
+  font-size:22px;line-height:1;
+}
+.avg-star svg{width:22px;height:22px}
+.rating-votes{
+  font-family:'VT323',monospace;font-size:18px;
+  color:rgba(255,255,255,.45);letter-spacing:.5px;margin-bottom:36px;
+}
+.rating-divider{
+  width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(255,215,0,.4),transparent);
+  margin-bottom:32px;
+}
+.rating-prompt{
+  font-family:'Press Start 2P',monospace;font-size:9px;
+  color:rgba(255,255,255,.6);letter-spacing:.5px;margin-bottom:20px;
+}
+.stars-interactive{
+  display:flex;justify-content:center;gap:8px;margin-bottom:24px;
+  cursor:pointer;
+}
+.si-star{
+  width:36px;height:36px;transition:transform .15s;cursor:pointer;
+}
+.si-star:hover,.si-star.hov,.si-star.sel{transform:scale(1.18)}
+.rating-voted{
+  font-family:'Press Start 2P',monospace;font-size:9px;
+  color:var(--yellow);letter-spacing:.5px;
+  padding:12px 20px;
+  border:2px solid rgba(255,215,0,.4);
+  background:rgba(255,215,0,.08);
+  box-shadow:3px 3px 0 rgba(255,215,0,.15);
+  display:none;
+}
+.rating-voted.show{display:inline-block}
+@media(max-width:768px){
+  #s-rating{padding:60px 20px}
+  .rating-box{padding:32px 24px}
+  .rating-avg-num{font-size:36px}
+}
 </style>
 </head>
 <body>
@@ -3290,6 +3366,52 @@ footer{
   </div>
 </section>
 
+<!-- ═══════════════════ РЕЙТИНГ ═══════════════════ -->
+<section id="s-rating">
+  <div class="rating-wrap reveal">
+    <div class="rating-box">
+
+      <div class="rating-label">★ ОЦЕНКА КЛИЕНТОВ ★</div>
+      <div class="rating-title">КАК МЫ РАБОТАЕМ?</div>
+
+      <!-- Средняя оценка -->
+      <div class="rating-avg-row">
+        <div class="rating-avg-num" id="ratingAvgNum">—</div>
+        <div class="rating-avg-stars" id="ratingAvgStars">
+          <!-- заполняется JS -->
+        </div>
+      </div>
+      <div class="rating-votes" id="ratingVotes">загрузка...</div>
+
+      <div class="rating-divider"></div>
+
+      <!-- Интерактивные звёзды -->
+      <div class="rating-prompt">ОСТАВЬТЕ СВОЮ ОЦЕНКУ</div>
+      <div class="stars-interactive" id="starsInteractive">
+        <svg class="si-star" data-val="1" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="11,2 13.5,8.5 20.5,8.5 15,13 17,20 11,16 5,20 7,13 1.5,8.5 8.5,8.5" fill="rgba(255,215,0,.18)" stroke="rgba(255,215,0,.5)" stroke-width="1.2" class="star-poly"/>
+        </svg>
+        <svg class="si-star" data-val="2" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="11,2 13.5,8.5 20.5,8.5 15,13 17,20 11,16 5,20 7,13 1.5,8.5 8.5,8.5" fill="rgba(255,215,0,.18)" stroke="rgba(255,215,0,.5)" stroke-width="1.2" class="star-poly"/>
+        </svg>
+        <svg class="si-star" data-val="3" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="11,2 13.5,8.5 20.5,8.5 15,13 17,20 11,16 5,20 7,13 1.5,8.5 8.5,8.5" fill="rgba(255,215,0,.18)" stroke="rgba(255,215,0,.5)" stroke-width="1.2" class="star-poly"/>
+        </svg>
+        <svg class="si-star" data-val="4" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="11,2 13.5,8.5 20.5,8.5 15,13 17,20 11,16 5,20 7,13 1.5,8.5 8.5,8.5" fill="rgba(255,215,0,.18)" stroke="rgba(255,215,0,.5)" stroke-width="1.2" class="star-poly"/>
+        </svg>
+        <svg class="si-star" data-val="5" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="11,2 13.5,8.5 20.5,8.5 15,13 17,20 11,16 5,20 7,13 1.5,8.5 8.5,8.5" fill="rgba(255,215,0,.18)" stroke="rgba(255,215,0,.5)" stroke-width="1.2" class="star-poly"/>
+        </svg>
+      </div>
+
+      <div class="rating-voted" id="ratingVotedMsg">★ ВАШ ГОЛОС ЗАСЧИТАН!</div>
+
+    </div>
+  </div>
+</section>
+
+
 <!-- ═══════════════════ FOOTER ═══════════════════ -->
 <footer>
   <div class="footer-logo">YAPPI AGENCY</div>
@@ -3527,6 +3649,123 @@ document.getElementById('contactForm').addEventListener('submit', e => {
   btn.textContent = '✅ Отправлено! Свяжемся скоро';
   btn.style.background = 'linear-gradient(135deg,#27ae60,#2ecc71)';
   setTimeout(() => { btn.textContent = orig; btn.style.background=''; e.target.reset(); }, 3500);
+});
+</script>
+
+<!-- ──────────── FIREBASE SDK ──────────── -->
+<!-- TODO: замените firebaseConfig на данные вашего проекта Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+/* ── ЗАМЕНИТЕ ЭТО НА ВАШИ ДАННЫЕ из Firebase Console → Project Settings ── */
+const firebaseConfig = {
+  apiKey:            "ВАШИ_ДАННЫЕ",
+  authDomain:        "ваш-проект.firebaseapp.com",
+  databaseURL:       "https://ваш-проект-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:         "ваш-проект",
+  storageBucket:     "ваш-проект.appspot.com",
+  messagingSenderId: "ВАШИ_ДАННЫЕ",
+  appId:             "ВАШИ_ДАННЫЕ"
+};
+/* ──────────────────────────────────────────────────────────────────────── */
+
+const RATING_MIN = 3.5; // минимум отображаемого рейтинга
+
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+const ratingRef = ref(db, 'yappi-rating');
+
+/* ── SVG-шаблоны звёзд для средней оценки ── */
+function starSVG(fill) {
+  const c = fill === 'full' ? '#FFD700' : fill === 'half' ? 'url(#halfGrad)' : 'rgba(255,215,0,.18)';
+  const id = 'hg_' + Math.random().toString(36).slice(2);
+  const grad = fill === 'half'
+    ? `<defs><linearGradient id="${id}" x1="0" x2="1" y1="0" y2="0"><stop offset="50%" stop-color="#FFD700"/><stop offset="50%" stop-color="rgba(255,215,0,.18)"/></linearGradient></defs>`
+    : '';
+  const fc = fill === 'half' ? `url(#${id})` : c;
+  return `<svg class="avg-star" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">${grad}<polygon points="11,2 13.5,8.5 20.5,8.5 15,13 17,20 11,16 5,20 7,13 1.5,8.5 8.5,8.5" fill="${fc}" stroke="rgba(255,215,0,.6)" stroke-width="1.2"/></svg>`;
+}
+
+function renderAvgStars(avg) {
+  const el = document.getElementById('ratingAvgStars');
+  let html = '';
+  for (let i = 1; i <= 5; i++) {
+    if (avg >= i) html += starSVG('full');
+    else if (avg >= i - 0.5) html += starSVG('half');
+    else html += starSVG('empty');
+  }
+  el.innerHTML = html;
+}
+
+/* ── Real-time слушатель ── */
+onValue(ratingRef, snapshot => {
+  const data = snapshot.val() || { totalScore: 0, voteCount: 0 };
+  const rawAvg  = data.voteCount > 0 ? data.totalScore / data.voteCount : 5.0;
+  const dispAvg = Math.max(RATING_MIN, rawAvg);
+  const dispStr = dispAvg.toFixed(1);
+
+  document.getElementById('ratingAvgNum').textContent = dispStr;
+  document.getElementById('ratingVotes').textContent  =
+    data.voteCount > 0
+      ? `на основе ${data.voteCount} ${plural(data.voteCount,'оценки','оценок','оценок')}`
+      : 'Будьте первым!';
+  renderAvgStars(dispAvg);
+});
+
+function plural(n, f1, f2, f5) {
+  const m = Math.abs(n) % 100, r = m % 10;
+  if (m > 10 && m < 20) return f5;
+  if (r > 1 && r < 5)   return f2;
+  if (r === 1)           return f1;
+  return f5;
+}
+
+/* ── Интерактивные звёзды ── */
+const siStars  = document.querySelectorAll('.si-star');
+const votedMsg = document.getElementById('ratingVotedMsg');
+const starsBox = document.getElementById('starsInteractive');
+
+const VOTE_KEY = 'yappi_rating_voted';
+const hasVoted = localStorage.getItem(VOTE_KEY);
+
+if (hasVoted) {
+  starsBox.style.pointerEvents = 'none';
+  votedMsg.classList.add('show');
+}
+
+siStars.forEach(star => {
+  star.addEventListener('mouseenter', () => {
+    if (hasVoted) return;
+    const val = +star.dataset.val;
+    siStars.forEach(s => {
+      s.querySelector('.star-poly').setAttribute('fill',
+        +s.dataset.val <= val ? '#FFD700' : 'rgba(255,215,0,.18)');
+    });
+  });
+  star.addEventListener('mouseleave', () => {
+    if (hasVoted) return;
+    siStars.forEach(s => {
+      s.querySelector('.star-poly').setAttribute('fill', 'rgba(255,215,0,.18)');
+    });
+  });
+  star.addEventListener('click', () => {
+    if (localStorage.getItem(VOTE_KEY)) return;
+    const val = +star.dataset.val;
+    /* заморозить выбранные звёзды */
+    siStars.forEach(s => {
+      s.querySelector('.star-poly').setAttribute('fill',
+        +s.dataset.val <= val ? '#FFD700' : 'rgba(255,215,0,.18)');
+    });
+    starsBox.style.pointerEvents = 'none';
+    votedMsg.classList.add('show');
+    localStorage.setItem(VOTE_KEY, val.toString());
+
+    runTransaction(ratingRef, current => {
+      const d = current || { totalScore: 0, voteCount: 0 };
+      return { totalScore: d.totalScore + val, voteCount: d.voteCount + 1 };
+    });
+  });
 });
 </script>
 </body>
