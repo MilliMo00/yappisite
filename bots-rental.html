@@ -99,10 +99,10 @@ section{position:relative;z-index:1}
 .plan-card.yellow .plan-list li::before{color:var(--yellow)}
 .plan-extras{margin-top:16px;padding:14px 16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
 .plan-extras-title{font-family:'Press Start 2P',monospace;font-size:7px;color:rgba(255,255,255,.35);letter-spacing:1px;margin-bottom:10px}
+.plan-extras ul{list-style:none}
 .plan-extras li{font-family:'VT323',monospace;font-size:17px;color:rgba(255,255,255,.55);line-height:1.55;list-style:none;padding:2px 0}
 .plan-card.cyan .plan-extras li::before{content:'+ ';color:var(--cyan)}
 .plan-card.yellow .plan-extras li::before{content:'+ ';color:var(--yellow)}
-.plan-extras li::before{content:'+ '}
 
 /* ─── ПРЕИМУЩЕСТВА АВТОМАТИЗАЦИИ ─── */
 #s-why{background:rgba(8,2,20,0.52)}
@@ -143,8 +143,7 @@ section{position:relative;z-index:1}
 /* ─── CTA ─── */
 #s-cta{padding:90px 60px;background:rgba(8,2,20,0.56);text-align:center}
 .cta-label{font-family:'VT323',monospace;font-size:20px;color:var(--cyan);letter-spacing:4px;display:block;margin-bottom:14px;opacity:.7}
-.cta-title{font-family:'Press Start 2P',monospace;font-size:clamp(14px,2.8vw,28px);color:#fff;line-height:1.35;text-shadow:3px 3px 0 var(--purple);margin-bottom:14px}
-.cta-sub{font-family:'VT323',monospace;font-size:20px;color:rgba(255,255,255,.45);margin-bottom:38px}
+.cta-title{font-family:'Press Start 2P',monospace;font-size:clamp(14px,2.8vw,28px);color:#fff;line-height:1.35;text-shadow:3px 3px 0 var(--purple);margin-bottom:38px}
 .cta-btn{display:inline-flex;align-items:center;gap:10px;padding:16px 38px;font-family:'Press Start 2P',monospace;font-size:10px;letter-spacing:1px;background:var(--purple);color:#fff;text-decoration:none;border:3px solid var(--cyan);box-shadow:5px 5px 0 var(--cyan)}
 .cta-btn:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--cyan);background:var(--cyan);color:#0d0d0d}
 
@@ -162,9 +161,9 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
 <div id="scrollBar" style="position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#7B2FBE,#00D4FF);z-index:9999;box-shadow:0 0 12px #00D4FF;transition:width .08s linear"></div>
 
 <nav class="navbar">
-  <a href="index.html#services" class="nav-back">← НАЗАД</a>
+  <a href="index.html#services" class="nav-back" data-i18n="nav.back">← НАЗАД</a>
   <a href="index.html" class="nav-logo">YAPPI AGENCY</a>
-  <a href="https://t.me/yappi_manager" target="_blank" class="nav-cta">СВЯЗАТЬСЯ</a>
+  <a href="https://t.me/yappi_manager" target="_blank" class="nav-cta" data-i18n="nav.contactup">СВЯЗАТЬСЯ</a>
 </nav>
 
 <!-- ═══ HERO ═══ -->
@@ -201,14 +200,14 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
   <div class="hero-grid"></div>
   <div class="hero-content">
     <div class="hero-badge">▶ YAPPI AGENCY × CONTENT AUTOMATION</div>
-    <span class="hero-label">// КОНТЕНТ БЕЗ ПРОДАКШНА //</span>
-    <h1 class="hero-title">БОТЫ<br>В АРЕНДУ</h1>
-    <p class="hero-sub">Готовое решение для постоянного потока уникального контента — без найма команды, без съёмок, без зависимости от актёров. Бот работает автоматически под твою стратегию.</p>
+    <span class="hero-label" data-i18n="bots.hero.label">// КОНТЕНТ БЕЗ ПРОДАКШНА //</span>
+    <h1 class="hero-title" data-i18n-html="bots.hero.title">БОТЫ<br>В АРЕНДУ</h1>
+    <p class="hero-sub" data-i18n="bots.hero.sub">Готовое решение для постоянного потока уникального контента — без найма команды, без съёмок, без зависимости от актёров. Бот работает автоматически под твою стратегию.</p>
     <div class="hero-tags">
-      <div class="tag tag-cyan">АВТОМАТИЗАЦИЯ</div>
-      <div class="tag tag-purple">ОТРИСОВКА AI</div>
-      <div class="tag tag-yellow">УНИКАЛЬНЫЙ КОНТЕНТ</div>
-      <div class="tag tag-orange">ПОД КАЖДОГО ЛИДА</div>
+      <div class="tag tag-cyan" data-i18n="bots.tag1">АВТОМАТИЗАЦИЯ</div>
+      <div class="tag tag-purple" data-i18n="bots.tag2">ОТРИСОВКА AI</div>
+      <div class="tag tag-yellow" data-i18n="bots.tag3">УНИКАЛЬНЫЙ КОНТЕНТ</div>
+      <div class="tag tag-orange" data-i18n="bots.tag4">ПОД КАЖДОГО ЛИДА</div>
     </div>
   </div>
 </section>
@@ -216,18 +215,18 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
 <!-- ═══ О УСЛУГЕ ═══ -->
 <section class="sec" id="s-about">
   <div class="sec-inner">
-    <h2 class="sec-title reveal">ЧТО ТАКОЕ БОТ ОТРИСОВКИ</h2>
+    <h2 class="sec-title reveal" data-i18n="bots.s1">ЧТО ТАКОЕ БОТ ОТРИСОВКИ</h2>
     <div class="about-text reveal" style="max-width:860px">
-      <p>
+      <p data-i18n-html="bots.about.p1">
         Бот отрисовки — это <strong>автоматизированный инструмент генерации контента</strong>, который собирает уникальные фото и видео под твои задачи без участия продакшна. Ты получаешь поток готового материала, адаптированного под твою модель прогрева, формат канала и целевую аудиторию.
       </p>
-      <p>
+      <p data-i18n-html="bots.about.p2">
         Главное преимущество — <strong>полная автоматизация</strong>. Бот работает без ручного вмешательства: загружаешь параметры один раз, получаешь контент регулярно. Не нужна студия, не нужны актёры, не нужна команда монтажа.
       </p>
-      <p>
+      <p data-i18n-html="bots.about.p3">
         Ещё одно ключевое преимущество — <strong>уникальная отрисовка под каждого лида</strong>. Это значит, что для каждого нового контакта можно генерировать персонализированный материал, который никогда не повторяется. Это кратно повышает конверсию по сравнению с одним универсальным контентом.
       </p>
-      <p>
+      <p data-i18n-html="bots.about.p4">
         Работаем в двух форматах: <strong>полный пакет с видео</strong> и <strong>статик-пакет</strong> — выбирай под свои задачи и бюджет.
       </p>
     </div>
@@ -237,22 +236,22 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
 <!-- ═══ ТАРИФЫ ═══ -->
 <section class="sec" id="s-plans">
   <div class="sec-inner">
-    <h2 class="sec-title reveal">ТАРИФЫ</h2>
+    <h2 class="sec-title reveal" data-i18n="bots.s2">ТАРИФЫ</h2>
     <div class="plans-grid reveal">
 
       <!-- ТАРИФ 1: ПОЛНЫЙ -->
       <div class="plan-card yellow">
         <div class="plan-head">
-          <div class="plan-badge">★ ПОЛНЫЙ ПАКЕТ</div>
-          <div class="plan-name">БОТ ОТРИСОВКИ<br>ВИДЕО + ФОТО</div>
-          <div class="plan-sub">Для тех, кому нужен полноценный поток контента — статика и видео под прогрев</div>
+          <div class="plan-badge" data-i18n="bots.plan1.badge">★ ПОЛНЫЙ ПАКЕТ</div>
+          <div class="plan-name" data-i18n-html="bots.plan1.name">БОТ ОТРИСОВКИ<br>ВИДЕО + ФОТО</div>
+          <div class="plan-sub" data-i18n="bots.plan1.sub">Для тех, кому нужен полноценный поток контента — статика и видео под прогрев</div>
         </div>
         <div class="plan-price-block">
           <span class="plan-price">350$</span>
-          <span class="plan-period">в месяц · аренда бота</span>
+          <span class="plan-period" data-i18n="bots.plan1.period">в месяц · аренда бота</span>
         </div>
         <div class="plan-body">
-          <ul class="plan-list">
+          <ul class="plan-list" data-i18n-html="bots.plan1.list">
             <li>Сборка любого видео и фото с нуля или по шаблону</li>
             <li>10 статичных фото под отрисовку в месяц</li>
             <li>1 видео в месяц</li>
@@ -260,27 +259,29 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
             <li>Адаптация под формат канала и обработку</li>
             <li>Уникальная отрисовка — контент не повторяется</li>
           </ul>
-          <ul class="plan-extras">
-            <div class="plan-extras-title">ДОПОЛНИТЕЛЬНО</div>
-            <li>Каждое дополнительное видео — 35$</li>
-            <li>Каждые 5 дополнительных фото — 10$</li>
-          </ul>
+          <div class="plan-extras">
+            <div class="plan-extras-title" data-i18n="bots.plan.extras.title">ДОПОЛНИТЕЛЬНО</div>
+            <ul data-i18n-html="bots.plan1.extras">
+              <li>Каждое дополнительное видео — 35$</li>
+              <li>Каждые 5 дополнительных фото — 10$</li>
+            </ul>
+          </div>
         </div>
       </div>
 
       <!-- ТАРИФ 2: СТАТИК -->
       <div class="plan-card cyan">
         <div class="plan-head">
-          <div class="plan-badge">СТАТИК ПАКЕТ</div>
-          <div class="plan-name">БОТ ОТРИСОВКИ<br>ТОЛЬКО ФОТО</div>
-          <div class="plan-sub">Для тех, кому нужен постоянный поток статичного контента без видео</div>
+          <div class="plan-badge" data-i18n="bots.plan2.badge">СТАТИК ПАКЕТ</div>
+          <div class="plan-name" data-i18n-html="bots.plan2.name">БОТ ОТРИСОВКИ<br>ТОЛЬКО ФОТО</div>
+          <div class="plan-sub" data-i18n="bots.plan2.sub">Для тех, кому нужен постоянный поток статичного контента без видео</div>
         </div>
         <div class="plan-price-block">
           <span class="plan-price">100$</span>
-          <span class="plan-period">в месяц · до 10 фото</span>
+          <span class="plan-period" data-i18n="bots.plan2.period">в месяц · до 10 фото</span>
         </div>
         <div class="plan-body">
-          <ul class="plan-list">
+          <ul class="plan-list" data-i18n-html="bots.plan2.list">
             <li>До 10 уникальных статичных фото под отрисовку</li>
             <li>Без видео — только фото-контент</li>
             <li>Адаптация под формат и модель прогрева</li>
@@ -288,11 +289,13 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
             <li>Можно персонализировать под каждого лида</li>
             <li>Экономичный старт без больших вложений</li>
           </ul>
-          <ul class="plan-extras">
-            <div class="plan-extras-title">ДОПОЛНИТЕЛЬНО</div>
-            <li>Каждые 5 дополнительных фото — +10$ к аренде</li>
-            <li>11–15 фото = 110$ · 16–20 фото = 120$ и т.д.</li>
-          </ul>
+          <div class="plan-extras">
+            <div class="plan-extras-title" data-i18n="bots.plan.extras.title">ДОПОЛНИТЕЛЬНО</div>
+            <ul data-i18n-html="bots.plan2.extras">
+              <li>Каждые 5 дополнительных фото — +10$ к аренде</li>
+              <li>11–15 фото = 110$ · 16–20 фото = 120$ и т.д.</li>
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -303,7 +306,7 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
 <!-- ═══ ПОЧЕМУ АВТОМАТИЗАЦИЯ ═══ -->
 <section class="sec" id="s-why">
   <div class="sec-inner">
-    <h2 class="sec-title reveal">ПОЧЕМУ ЭТО РАБОТАЕТ</h2>
+    <h2 class="sec-title reveal" data-i18n="bots.s3">ПОЧЕМУ ЭТО РАБОТАЕТ</h2>
     <div class="why-grid">
 
       <div class="why-card reveal">
@@ -317,8 +320,8 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
           <rect x="12" y="22" width="8" height="2" fill="rgba(0,212,255,.5)"/>
           <rect x="14" y="24" width="4" height="4" fill="#00D4FF"/>
         </svg>
-        <div class="why-title">ПОЛНАЯ АВТОМАТИЗАЦИЯ</div>
-        <div class="why-text">Бот работает без твоего участия — настроил один раз, контент генерируется регулярно без ручного вмешательства</div>
+        <div class="why-title" data-i18n="bots.why1.title">ПОЛНАЯ АВТОМАТИЗАЦИЯ</div>
+        <div class="why-text" data-i18n="bots.why1.text">Бот работает без твоего участия — настроил один раз, контент генерируется регулярно без ручного вмешательства</div>
       </div>
 
       <div class="why-card reveal">
@@ -336,8 +339,8 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
           <rect x="15" y="23" width="2" height="2" fill="#7B2FBE"/>
           <rect x="25" y="23" width="2" height="2" fill="#00D4FF"/>
         </svg>
-        <div class="why-title">УНИКАЛЬНО ПОД КАЖДОГО ЛИДА</div>
-        <div class="why-text">Для каждого контакта — свой уникальный контент. Персонализация кратно повышает конверсию по сравнению с универсальным материалом</div>
+        <div class="why-title" data-i18n="bots.why2.title">УНИКАЛЬНО ПОД КАЖДОГО ЛИДА</div>
+        <div class="why-text" data-i18n="bots.why2.text">Для каждого контакта — свой уникальный контент. Персонализация кратно повышает конверсию по сравнению с универсальным материалом</div>
       </div>
 
       <div class="why-card reveal">
@@ -348,8 +351,8 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
           <rect x="20" y="4" width="4" height="26" fill="#00D4FF"/>
           <rect x="26" y="10" width="4" height="20" fill="#7B2FBE"/>
         </svg>
-        <div class="why-title">ПОСТОЯННЫЙ ПОТОК</div>
-        <div class="why-text">Контент генерируется регулярно — ты никогда не остаёшься без материала для канала или воронки</div>
+        <div class="why-title" data-i18n="bots.why3.title">ПОСТОЯННЫЙ ПОТОК</div>
+        <div class="why-text" data-i18n="bots.why3.text">Контент генерируется регулярно — ты никогда не остаёшься без материала для канала или воронки</div>
       </div>
 
       <div class="why-card reveal">
@@ -361,8 +364,8 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
           <rect x="8" y="20" width="10" height="2" fill="rgba(255,215,0,.15)"/>
           <rect x="24" y="24" width="4" height="4" fill="#FFD700"/>
         </svg>
-        <div class="why-title">БЕЗ ПРОДАКШНА</div>
-        <div class="why-text">Не нужна студия, актёры, монтажёр и фотограф. Всё заменяет один бот — дешевле и быстрее в разы</div>
+        <div class="why-title" data-i18n="bots.why4.title">БЕЗ ПРОДАКШНА</div>
+        <div class="why-text" data-i18n="bots.why4.text">Не нужна студия, актёры, монтажёр и фотограф. Всё заменяет один бот — дешевле и быстрее в разы</div>
       </div>
 
       <div class="why-card reveal">
@@ -374,8 +377,8 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
           <rect x="4" y="24" width="24" height="6" fill="rgba(123,47,190,.2)" stroke="#7B2FBE" stroke-width="1"/>
           <rect x="14" y="24" width="4" height="6" fill="#7B2FBE"/>
         </svg>
-        <div class="why-title">ПОД ЛЮБОЙ ФОРМАТ</div>
-        <div class="why-text">Контент адаптируется под твою модель прогрева, стиль канала и нишу. Не шаблон — инструмент под твою стратегию</div>
+        <div class="why-title" data-i18n="bots.why5.title">ПОД ЛЮБОЙ ФОРМАТ</div>
+        <div class="why-text" data-i18n="bots.why5.text">Контент адаптируется под твою модель прогрева, стиль канала и нишу. Не шаблон — инструмент под твою стратегию</div>
       </div>
 
       <div class="why-card reveal">
@@ -387,8 +390,8 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
           <rect x="13" y="13" width="6" height="6" fill="#FF6B00"/>
           <rect x="14" y="14" width="4" height="4" fill="#FFD700"/>
         </svg>
-        <div class="why-title">МАСШТАБИРУЕМОСТЬ</div>
-        <div class="why-text">Нужно больше контента — просто добавляешь пакеты. Масштаб без пропорционального роста затрат на продакшн</div>
+        <div class="why-title" data-i18n="bots.why6.title">МАСШТАБИРУЕМОСТЬ</div>
+        <div class="why-text" data-i18n="bots.why6.text">Нужно больше контента — просто добавляешь пакеты. Масштаб без пропорционального роста затрат на продакшн</div>
       </div>
 
     </div>
@@ -398,43 +401,43 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
 <!-- ═══ СЦЕНАРИИ ИСПОЛЬЗОВАНИЯ ═══ -->
 <section class="sec" id="s-cases">
   <div class="sec-inner">
-    <h2 class="sec-title reveal">КАК ЭТО ИСПОЛЬЗУЮТ</h2>
+    <h2 class="sec-title reveal" data-i18n="bots.s4">КАК ЭТО ИСПОЛЬЗУЮТ</h2>
     <div class="cases-grid reveal">
 
       <div class="case-card">
         <span class="case-num">01</span>
-        <div class="case-title">ПРОГРЕВ<br>ВОРОНКИ</div>
-        <div class="case-text">Уникальный контент на каждом шаге воронки. Под каждого лида — своя отрисовка, которая не повторяется у другого</div>
+        <div class="case-title" data-i18n-html="bots.case1.title">ПРОГРЕВ<br>ВОРОНКИ</div>
+        <div class="case-text" data-i18n="bots.case1.text">Уникальный контент на каждом шаге воронки. Под каждого лида — своя отрисовка, которая не повторяется у другого</div>
       </div>
 
       <div class="case-card">
         <span class="case-num">02</span>
-        <div class="case-title">АРБИТРАЖНЫЙ<br>КАНАЛ</div>
-        <div class="case-text">Постоянный поток фото и видео для канала без продакшна. Контент не банится повторами — каждый раз уникальный</div>
+        <div class="case-title" data-i18n-html="bots.case2.title">АРБИТРАЖНЫЙ<br>КАНАЛ</div>
+        <div class="case-text" data-i18n="bots.case2.text">Постоянный поток фото и видео для канала без продакшна. Контент не банится повторами — каждый раз уникальный</div>
       </div>
 
       <div class="case-card">
         <span class="case-num">03</span>
-        <div class="case-title">ПЕРСОНАЛИЗАЦИЯ<br>ПОД ЛИДА</div>
-        <div class="case-text">Для каждого нового контакта генерируется свой визуал. Персонализированный контент конвертит в разы лучше универсального</div>
+        <div class="case-title" data-i18n-html="bots.case3.title">ПЕРСОНАЛИЗАЦИЯ<br>ПОД ЛИДА</div>
+        <div class="case-text" data-i18n="bots.case3.text">Для каждого нового контакта генерируется свой визуал. Персонализированный контент конвертит в разы лучше универсального</div>
       </div>
 
       <div class="case-card">
         <span class="case-num">04</span>
-        <div class="case-title">ЗАМЕНА<br>ФОТОГРАФА</div>
-        <div class="case-text">Не нужно организовывать съёмки. Бот генерирует фото под нужный стиль и нишу за минуты</div>
+        <div class="case-title" data-i18n-html="bots.case4.title">ЗАМЕНА<br>ФОТОГРАФА</div>
+        <div class="case-text" data-i18n="bots.case4.text">Не нужно организовывать съёмки. Бот генерирует фото под нужный стиль и нишу за минуты</div>
       </div>
 
       <div class="case-card">
         <span class="case-num">05</span>
-        <div class="case-title">ТЕСТ<br>ГИПОТЕЗ</div>
-        <div class="case-text">Быстро тестируешь разные визуалы без затрат на продакшн. Нашёл что работает — масштабируй</div>
+        <div class="case-title" data-i18n-html="bots.case5.title">ТЕСТ<br>ГИПОТЕЗ</div>
+        <div class="case-text" data-i18n="bots.case5.text">Быстро тестируешь разные визуалы без затрат на продакшн. Нашёл что работает — масштабируй</div>
       </div>
 
       <div class="case-card">
         <span class="case-num">06</span>
-        <div class="case-title">КОНТЕНТ<br>ДЛЯ РЕКЛАМЫ</div>
-        <div class="case-text">Уникальные крео под каждый оффер и сплит. Больше не нужно платить за каждый новый визуал отдельно</div>
+        <div class="case-title" data-i18n-html="bots.case6.title">КОНТЕНТ<br>ДЛЯ РЕКЛАМЫ</div>
+        <div class="case-text" data-i18n="bots.case6.text">Уникальные крео под каждый оффер и сплит. Больше не нужно платить за каждый новый визуал отдельно</div>
       </div>
 
     </div>
@@ -448,7 +451,7 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
       <div class="prepay-dot"></div>
       <div class="prepay-dot" style="background:var(--orange)"></div>
       <div class="prepay-dot" style="background:rgba(255,215,0,.3)"></div>
-      <span class="prepay-win-title">УСЛОВИЯ ОПЛАТЫ</span>
+      <span class="prepay-win-title" data-i18n="common.prepay.title">УСЛОВИЯ ОПЛАТЫ</span>
     </div>
     <div class="prepay-body">
       <svg class="prepay-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" width="48" height="48" style="image-rendering:pixelated">
@@ -462,8 +465,8 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
         <rect x="30" y="4" width="2" height="10" fill="#FFD700"/>
       </svg>
       <div>
-        <div class="prepay-headline">РАБОТАЕМ ПО 100% ПРЕДОПЛАТЕ<span class="prepay-blink">_</span></div>
-        <div class="prepay-desc">
+        <div class="prepay-headline" data-i18n-html="common.prepay.headline">РАБОТАЕМ ПО 100% ПРЕДОПЛАТЕ<span class="prepay-blink">_</span></div>
+        <div class="prepay-desc" data-i18n-html="bots.prepay.desc">
           Все проекты принимаются только после полной оплаты до начала работ.<br>
           Это гарантирует серьёзность намерений и позволяет нам полностью сосредоточиться на твоём проекте без лишних остановок.
         </div>
@@ -474,9 +477,8 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
 
 <!-- ═══ CTA ═══ -->
 <section id="s-cta">
-  <span class="cta-label">// ГОТОВ НАЧАТЬ? //</span>
-  <div class="cta-title">ПОДКЛЮЧИ БОТА —<br>КОНТЕНТ ПОЙДЁТ СРАЗУ</div>
-
+  <span class="cta-label" data-i18n="bots.cta.label">// ГОТОВ НАЧАТЬ? //</span>
+  <div class="cta-title" data-i18n-html="bots.cta.title">ПОДКЛЮЧИ БОТА —<br>КОНТЕНТ ПОЙДЁТ СРАЗУ</div>
   <a href="https://t.me/yappi_manager" target="_blank" class="cta-btn">
     <svg style="image-rendering:pixelated;flex-shrink:0" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
       <rect x="1" y="1" width="18" height="13" fill="rgba(0,212,255,.15)" stroke="#00D4FF" stroke-width="2"/>
@@ -486,7 +488,7 @@ footer{padding:28px 60px;border-top:1px solid rgba(123,47,190,.2);display:grid;g
       <rect x="4" y="14" width="4" height="2" fill="#00D4FF"/>
       <rect x="2" y="16" width="2" height="2" fill="#00D4FF"/>
     </svg>
-    НАПИСАТЬ МЕНЕДЖЕРУ
+    <span data-i18n="common.cta.btn">НАПИСАТЬ МЕНЕДЖЕРУ</span>
   </a>
 </section>
 
@@ -504,5 +506,6 @@ const reveals=document.querySelectorAll('.reveal');
 const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}});},{threshold:0.1});
 reveals.forEach(el=>io.observe(el));
 </script>
+<script src="i18n.js"></script>
 </body>
 </html>
