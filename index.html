@@ -1364,6 +1364,69 @@ footer{
 .footer-text{font-size:12px;color:rgba(255,255,255,.35)}
 @media(max-width:768px){footer{justify-content:center;text-align:center}}
 
+/* ─── FEEDBACK SECTION ─── */
+#s-feedback{padding:70px 60px 80px;background:rgba(6,0,16,0.55)}
+.fb-inner{max-width:640px;margin:0 auto}
+.fb-section-label{font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:2px;color:rgba(255,255,255,.3);text-align:center;margin-bottom:10px}
+.fb-section-title{font-family:'Press Start 2P',monospace;font-size:clamp(12px,2.2vw,18px);color:#fff;text-align:center;letter-spacing:.5px;margin-bottom:8px;line-height:1.7}
+.fb-section-sub{font-family:'VT323',monospace;font-size:20px;color:rgba(255,255,255,.45);text-align:center;margin-bottom:36px}
+.fb-type-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:4px}
+.fb-type-card{
+  padding:26px 18px;text-align:center;cursor:pointer;
+  border:2px solid var(--fbc);background:rgba(var(--fbr),.06);
+  box-shadow:4px 4px 0 rgba(var(--fbr),.2);
+  transition:all .18s;user-select:none;
+}
+.fb-type-card:hover,.fb-type-card.fb-active{
+  background:rgba(var(--fbr),.15);
+  transform:translate(-2px,-2px);
+  box-shadow:6px 6px 0 rgba(var(--fbr),.3);
+}
+.fb-card-ico{width:44px;height:44px;margin:0 auto 12px;display:block}
+.fb-card-lbl{font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:.5px;color:var(--fbc)}
+.fb-card-hint{font-family:'VT323',monospace;font-size:16px;color:rgba(255,255,255,.4);margin-top:6px}
+.fb-form-area{
+  display:none;margin-top:14px;
+  border:2px solid rgba(255,255,255,.1);
+  background:rgba(0,0,0,.35);padding:22px;
+}
+.fb-form-area.fb-open{display:block}
+.fb-form-tag{font-family:'Press Start 2P',monospace;font-size:8px;margin-bottom:14px;letter-spacing:.5px}
+.fb-textarea{
+  width:100%;min-height:110px;box-sizing:border-box;
+  background:rgba(0,0,0,.45);border:2px solid rgba(255,255,255,.12);
+  color:#fff;font-family:'VT323',monospace;font-size:20px;
+  padding:12px 14px;resize:vertical;outline:none;line-height:1.5;
+}
+.fb-textarea:focus{border-color:rgba(255,255,255,.35)}
+.fb-textarea::placeholder{color:rgba(255,255,255,.28)}
+.fb-actions{display:flex;gap:10px;margin-top:12px}
+.fb-submit-btn{
+  flex:1;font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:.5px;
+  padding:12px 18px;background:rgba(0,212,255,.1);
+  border:2px solid var(--cyan);color:var(--cyan);cursor:pointer;
+  box-shadow:3px 3px 0 rgba(0,212,255,.22);transition:all .18s;
+}
+.fb-submit-btn:hover{background:rgba(0,212,255,.2);transform:translate(-1px,-1px)}
+.fb-submit-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.fb-cancel-btn{
+  font-family:'Press Start 2P',monospace;font-size:8px;padding:12px 14px;
+  background:transparent;border:2px solid rgba(255,255,255,.18);
+  color:rgba(255,255,255,.38);cursor:pointer;transition:all .18s;
+}
+.fb-cancel-btn:hover{border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.6)}
+.fb-success{
+  display:none;font-family:'Press Start 2P',monospace;font-size:8px;line-height:2;
+  color:#2ecc71;border:2px solid rgba(46,204,113,.4);
+  background:rgba(46,204,113,.06);box-shadow:3px 3px 0 rgba(46,204,113,.18);
+  padding:16px 20px;text-align:center;margin-top:16px;
+}
+.fb-success.fb-show{display:block}
+@media(max-width:768px){
+  #s-feedback{padding:60px 20px 70px}
+  .fb-type-row{grid-template-columns:1fr}
+}
+
 /* ─── RATING SECTION ─── */
 #s-rating{padding:80px 60px;background:rgba(4,0,12,0.52);text-align:center}
 #s-rating::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='1' height='1' fill='rgba(123,47,190,.04)'/%3E%3C/svg%3E") repeat;pointer-events:none}
@@ -3262,7 +3325,24 @@ footer{
       </div>
     </div>
 
+
+  </div><!-- /partners-grid -->
+
+  <!-- CTA — стать партнёром -->
+  <div style="text-align:center;padding:48px 20px 64px" class="reveal">
+    <div style="display:inline-block;border:2px solid rgba(255,215,0,.25);padding:28px 40px;background:rgba(255,215,0,.04);box-shadow:4px 4px 0 rgba(255,215,0,.12);max-width:520px;width:100%">
+      <div style="font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:1px;color:rgba(255,215,0,.5);margin-bottom:10px">★ ПАРТНЁРСТВО ★</div>
+      <div style="font-family:'Press Start 2P',monospace;font-size:clamp(10px,1.5vw,13px);color:#fff;line-height:1.8;margin-bottom:20px">ХОЧЕШЬ СТАТЬ<br>НАШИМ ПАРТНЁРОМ?</div>
+      <div style="font-family:'VT323',monospace;font-size:18px;color:rgba(255,255,255,.55);margin-bottom:24px;line-height:1.5">Напиши нам с предложением — рассмотрим все варианты сотрудничества</div>
+      <a href="https://t.me/yappi_manager" target="_blank"
+         style="display:inline-block;font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:.5px;padding:14px 28px;background:rgba(255,215,0,.1);border:2px solid #FFD700;color:#FFD700;text-decoration:none;box-shadow:4px 4px 0 rgba(255,215,0,.25);transition:all .2s"
+         onmouseover="this.style.background='rgba(255,215,0,.2)';this.style.transform='translate(-2px,-2px)';this.style.boxShadow='6px 6px 0 rgba(255,215,0,.3)'"
+         onmouseout="this.style.background='rgba(255,215,0,.1)';this.style.transform='';this.style.boxShadow='4px 4px 0 rgba(255,215,0,.25)'">
+        ✈ НАПИСАТЬ С ПРЕДЛОЖЕНИЕМ
+      </a>
+    </div>
   </div>
+
 </section>
 
 
@@ -3408,6 +3488,95 @@ footer{
       <div class="rating-voted" id="ratingVotedMsg">★ ВАШ ГОЛОС ЗАСЧИТАН!</div>
 
     </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ ОБРАТНАЯ СВЯЗЬ ═══════════════════ -->
+<section id="s-feedback">
+  <div class="fb-inner reveal">
+
+    <div class="fb-section-label">// ОБРАТНАЯ СВЯЗЬ //</div>
+    <div class="fb-section-title">ЖАЛОБА ИЛИ ПОЖЕЛАНИЕ?</div>
+    <div class="fb-section-sub">Расскажите что не так — мы читаем и реагируем</div>
+
+    <!-- Выбор типа -->
+    <div class="fb-type-row">
+
+      <div class="fb-type-card" id="fbCardComplaint"
+           style="--fbc:#FF4455;--fbr:255,68,85"
+           onclick="openFbForm('complaint')">
+        <!-- pixel alert icon -->
+        <svg class="fb-card-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated">
+          <rect x="0" y="0" width="28" height="28" fill="#1a0008"/>
+          <rect x="2" y="0" width="24" height="2" fill="#FF4455"/>
+          <rect x="2" y="26" width="24" height="2" fill="#FF4455"/>
+          <rect x="0" y="2" width="2" height="24" fill="#FF4455"/>
+          <rect x="26" y="2" width="2" height="24" fill="#FF4455"/>
+          <rect x="0" y="0" width="2" height="2" fill="#FF6677"/>
+          <rect x="26" y="0" width="2" height="2" fill="#FF6677"/>
+          <rect x="0" y="26" width="2" height="2" fill="#FF6677"/>
+          <rect x="26" y="26" width="2" height="2" fill="#FF6677"/>
+          <rect x="11" y="5" width="6" height="10" fill="#FF4455"/>
+          <rect x="11" y="18" width="6" height="6" fill="#FFD700"/>
+          <rect x="4" y="4" width="2" height="2" fill="#FF4455" opacity=".4"/>
+          <rect x="22" y="4" width="2" height="2" fill="#FF4455" opacity=".4"/>
+          <rect x="4" y="22" width="2" height="2" fill="#FF4455" opacity=".4"/>
+          <rect x="22" y="22" width="2" height="2" fill="#FF4455" opacity=".4"/>
+        </svg>
+        <div class="fb-card-lbl">ЖАЛОБА</div>
+        <div class="fb-card-hint">Что-то пошло не так</div>
+      </div>
+
+      <div class="fb-type-card" id="fbCardWish"
+           style="--fbc:#00D4FF;--fbr:0,212,255"
+           onclick="openFbForm('wish')">
+        <!-- pixel lightbulb icon -->
+        <svg class="fb-card-ico" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated">
+          <rect x="0" y="0" width="28" height="28" fill="#001020"/>
+          <rect x="2" y="0" width="24" height="2" fill="#00D4FF"/>
+          <rect x="2" y="26" width="24" height="2" fill="#00D4FF"/>
+          <rect x="0" y="2" width="2" height="24" fill="#00D4FF"/>
+          <rect x="26" y="2" width="2" height="24" fill="#00D4FF"/>
+          <rect x="0" y="0" width="2" height="2" fill="#0099CC"/>
+          <rect x="26" y="0" width="2" height="2" fill="#0099CC"/>
+          <rect x="0" y="26" width="2" height="2" fill="#0099CC"/>
+          <rect x="26" y="26" width="2" height="2" fill="#0099CC"/>
+          <rect x="10" y="3" width="8" height="2" fill="#00D4FF"/>
+          <rect x="8" y="5" width="12" height="2" fill="#00D4FF"/>
+          <rect x="6" y="7" width="16" height="4" fill="#00D4FF"/>
+          <rect x="8" y="11" width="12" height="2" fill="#00D4FF"/>
+          <rect x="10" y="13" width="8" height="2" fill="#00D4FF"/>
+          <rect x="10" y="15" width="8" height="2" fill="#7B2FBE"/>
+          <rect x="9" y="17" width="10" height="2" fill="#00D4FF"/>
+          <rect x="9" y="21" width="10" height="2" fill="#00D4FF"/>
+          <rect x="11" y="23" width="6" height="2" fill="#00D4FF"/>
+          <rect x="11" y="8" width="6" height="4" fill="#7BFFFF" opacity=".45"/>
+          <rect x="4" y="4" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+          <rect x="22" y="4" width="2" height="2" fill="#00D4FF" opacity=".35"/>
+        </svg>
+        <div class="fb-card-lbl">ПОЖЕЛАНИЕ</div>
+        <div class="fb-card-hint">Идея или совет</div>
+      </div>
+
+    </div>
+
+    <!-- Форма (скрыта до выбора) -->
+    <div class="fb-form-area" id="fbFormArea">
+      <div class="fb-form-tag" id="fbFormTag">■ ЖАЛОБА</div>
+      <textarea class="fb-textarea" id="fbTextarea"
+                placeholder="Опишите подробнее..."></textarea>
+      <div class="fb-actions">
+        <button class="fb-submit-btn" id="fbSubmitBtn" onclick="submitFb()">ОТПРАВИТЬ →</button>
+        <button class="fb-cancel-btn" onclick="closeFbForm()">ОТМЕНА</button>
+      </div>
+    </div>
+
+    <!-- Успех -->
+    <div class="fb-success" id="fbSuccess">
+      ✅ ПОЛУЧЕНО!<br>Разберёмся в ближайшее время.
+    </div>
+
   </div>
 </section>
 
@@ -3640,6 +3809,81 @@ for(let i=0;i<15;i++){
   c.style.animationDelay = (Math.random()*12)+'s';
   coinsBg.appendChild(c);
 }
+
+/* ──────────── FEEDBACK FORM ──────────── */
+(function(){
+  const TG_TOKEN  = '8846106201:AAFjFWIYQ7ANksFV_AX2g8ZYqezOh7YvPG8';
+  const TG_ADMIN  = '7609412955';
+  let fbType = null;
+
+  window.openFbForm = function(type) {
+    fbType = type;
+    const tag  = document.getElementById('fbFormTag');
+    const area = document.getElementById('fbFormArea');
+    const ca   = document.getElementById('fbCardComplaint');
+    const cw   = document.getElementById('fbCardWish');
+    tag.textContent = type === 'complaint' ? '■ ЖАЛОБА' : '■ ПОЖЕЛАНИЕ';
+    tag.style.color = type === 'complaint' ? '#FF4455' : 'var(--cyan)';
+    ca.classList.toggle('fb-active', type === 'complaint');
+    cw.classList.toggle('fb-active', type === 'wish');
+    area.classList.add('fb-open');
+    document.getElementById('fbTextarea').value = '';
+    document.getElementById('fbSuccess').classList.remove('fb-show');
+    setTimeout(() => document.getElementById('fbTextarea').focus(), 50);
+  };
+
+  window.closeFbForm = function() {
+    document.getElementById('fbFormArea').classList.remove('fb-open');
+    document.getElementById('fbCardComplaint').classList.remove('fb-active');
+    document.getElementById('fbCardWish').classList.remove('fb-active');
+    fbType = null;
+  };
+
+  window.submitFb = async function() {
+    const text = document.getElementById('fbTextarea').value.trim();
+    if (!text || !fbType) return;
+    const btn = document.getElementById('fbSubmitBtn');
+    btn.textContent = 'ОТПРАВЛЯЮ...';
+    btn.disabled = true;
+
+    const id       = fbType + '_' + Date.now();
+    const emoji    = fbType === 'complaint' ? '🚨' : '💡';
+    const typeRu   = fbType === 'complaint' ? 'ЖАЛОБА' : 'ПОЖЕЛАНИЕ';
+    const time     = new Date().toLocaleString('ru-RU', {timeZone:'Europe/Moscow'});
+
+    const msg = emoji + ' <b>' + typeRu + '</b>\n\n' +
+                '📝 ' + text + '\n\n' +
+                '🕐 ' + time;
+
+    try {
+      const res = await fetch('https://api.telegram.org/bot' + TG_TOKEN + '/sendMessage', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          chat_id: TG_ADMIN,
+          text: msg,
+          parse_mode: 'HTML',
+          reply_markup: {
+            inline_keyboard: [[
+              {text: '✅ Выполнено', callback_data: 'done_' + id},
+              {text: '🔄 В работе',  callback_data: 'wip_'  + id}
+            ]]
+          }
+        })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        closeFbForm();
+        const suc = document.getElementById('fbSuccess');
+        suc.classList.add('fb-show');
+        setTimeout(() => suc.classList.remove('fb-show'), 5000);
+      }
+    } catch(e) { console.error('FB send error', e); }
+
+    btn.textContent = 'ОТПРАВИТЬ →';
+    btn.disabled = false;
+  };
+})();
 
 /* ──────────── CONTACT FORM ──────────── */
 document.getElementById('contactForm').addEventListener('submit', e => {
