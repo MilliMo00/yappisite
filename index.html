@@ -588,61 +588,132 @@ section{position:relative;z-index:1}
 /* ─────────────────────────────────────────
    CASES
 ───────────────────────────────────────── */
-#cases{padding:120px 0;overflow:hidden}
+#cases{padding:100px 0 60px}
 .cases-header{padding:0 60px;margin-bottom:40px}
 .cases-filters{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
 .filter-btn{
   background:#0a0015;border:2px solid rgba(123,47,190,.4);
   color:rgba(255,255,255,.5);padding:8px 14px;border-radius:0;
   font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:.5px;
-  transition:none;
-  box-shadow:2px 2px 0 rgba(123,47,190,.2);
+  cursor:pointer;transition:all .18s;
 }
 .filter-btn.active,.filter-btn:hover{
-  background:var(--purple);border-color:var(--cyan);color:#fff;
-  box-shadow:3px 3px 0 var(--cyan);
-  transform:translate(-1px,-1px);
+  background:var(--purple);border-color:var(--purple);color:#fff;
+  box-shadow:0 0 16px rgba(123,47,190,.5);
 }
 
-.cases-track-wrapper{
-  position:relative;overflow-x:scroll;
-  scrollbar-width:none;-ms-overflow-style:none;
+/* ── лента-тикер ── */
+.ck-wrap{
+  overflow-x:scroll;scrollbar-width:none;-ms-overflow-style:none;
+  user-select:none;position:relative;cursor:grab;
 }
-.cases-track-wrapper::-webkit-scrollbar{display:none}
+.ck-wrap::-webkit-scrollbar{display:none}
+.ck-wrap.grabbing{cursor:grabbing}
+.ck-strip{
+  display:flex;align-items:center;gap:12px;
+  padding:20px 60px 36px;width:max-content;
+}
 
-.cases-track{
-  display:flex;gap:24px;padding:16px 60px 60px;
-  width:max-content;cursor:grab;user-select:none;
+/* ── item: высота фиксирована, ширина — авто от контента ── */
+.ci{
+  position:relative;height:400px;flex-shrink:0;
+  overflow:hidden;border:2px solid rgba(123,47,190,.25);
+  cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s;
 }
-.cases-track.grabbing{cursor:grabbing}
+.ci:hover{border-color:var(--cyan);box-shadow:0 0 22px rgba(0,212,255,.22);transform:scale(1.02)}
 
-.case-card{
-  width:360px;flex-shrink:0;border-radius:12px;overflow:hidden;
-  background:#1c0b34;border:1px solid rgba(123,47,190,.3);
-  transition:transform .3s,border-color .3s;
+/* placeholder — задаёт ширину до загрузки файла */
+.ci-ph{
+  height:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;padding:20px;
 }
-.case-card:hover{transform:translateY(-8px);border-color:var(--purple)}
+.ci[data-cat="static"]    .ci-ph,
+.ci[data-cat="avatar"]    .ci-ph    { width:320px; background:rgba(0,212,255,.07) }
+.ci[data-cat="motion"]    .ci-ph,
+.ci[data-cat="cartoon"]   .ci-ph    { width:225px; background:rgba(123,47,190,.12) }
+.ci[data-cat="ai"]        .ci-ph    { width:200px; background:rgba(255,130,0,.09) }
+.ci[data-cat="chatterfy"] .ci-ph    { width:320px; background:rgba(0,212,100,.08) }
 
-.case-img-placeholder{
-  width:100%;height:220px;
-  background:linear-gradient(145deg,#2a0f4a,#0a1628);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Bebas Neue',sans-serif;font-size:72px;letter-spacing:4px;
-  color:rgba(255,255,255,.08);
-}
-.case-body{padding:22px}
-.case-category{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--cyan);font-weight:700;margin-bottom:6px}
-.case-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;margin-bottom:6px}
-.case-desc{font-size:13px;color:rgba(255,255,255,.55);line-height:1.6}
+.ci-ph-ico{font-size:28px;opacity:.3}
+.ci-ph-name{font-family:'Press Start 2P',monospace;font-size:7px;color:rgba(255,255,255,.28);text-align:center;line-height:2}
 
-/* Parallax monopoly character that walks during horizontal scroll */
-.cases-monopoly{
-  position:absolute;bottom:0;left:-120px;
-  width:180px;pointer-events:none;z-index:4;
-  transition:transform .05s linear;
+/* ── медиа: h=100%, w=auto → сохраняет оригинальное соотношение сторон ── */
+.ci-media{
+  position:absolute;top:0;left:0;
+  height:100%;width:auto;
+  z-index:1;opacity:0;transition:opacity .4s ease;
+  pointer-events:none;
 }
-.cases-monopoly img{width:100%;height:auto;display:block;
-  filter:drop-shadow(0 0 20px rgba(123,47,190,.4));
+
+/* ── кружки AI (меньше) ── */
+.ci.circle{
+  width:200px!important;height:200px;
+  border-radius:50%;
+  border:3px solid var(--cyan);
+  box-shadow:0 0 20px rgba(0,212,255,.18);
+  align-self:center;
+}
+.ci.circle:hover{box-shadow:0 0 32px rgba(0,212,255,.45)}
+.ci.circle .ci-ph{width:200px;height:200px;background:rgba(255,130,0,.09)}
+.ci.circle .ci-media{width:100%;height:100%;object-fit:cover}
+
+/* ── оверлей при ховере ── */
+.ci-ov{
+  position:absolute;inset:0;z-index:2;background:rgba(0,0,0,.52);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;opacity:0;transition:opacity .2s;
+}
+.ci:hover .ci-ov{opacity:1}
+.ci-play{font-size:38px;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.9);line-height:1}
+.ci-tag{font-family:'Press Start 2P',monospace;font-size:7px;background:var(--purple);color:#fff;padding:4px 10px}
+.ci.hidden{display:none}
+
+/* ── «больше кейсов» ── */
+.ck-more{
+  border:2px solid var(--yellow);background:rgba(255,215,0,.04);
+  padding:40px 32px;margin:20px 60px;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  text-align:center;position:relative;
+}
+.ck-more::before,.ck-more::after{content:'';position:absolute;width:8px;height:8px;background:var(--yellow)}
+.ck-more::before{top:-2px;left:-2px}
+.ck-more::after{bottom:-2px;right:-2px}
+.ck-star{font-family:'Press Start 2P',monospace;font-size:18px;color:var(--yellow);animation:ckBlink 1.8s step-end infinite}
+@keyframes ckBlink{0%,100%{opacity:1}50%{opacity:.25}}
+.ck-h{font-family:'Press Start 2P',monospace;font-size:11px;color:#fff;line-height:1.8}
+.ck-sub{font-family:'VT323',monospace;font-size:22px;color:rgba(255,255,255,.5);max-width:500px;line-height:1.4}
+.ck-btn{
+  display:inline-block;font-family:'Press Start 2P',monospace;font-size:9px;
+  padding:12px 22px;background:var(--yellow);color:#000;text-decoration:none;
+  margin-top:6px;box-shadow:4px 4px 0 rgba(255,215,0,.35);transition:all .2s;
+}
+.ck-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 rgba(255,215,0,.5)}
+
+/* модалка */
+#ck-modal{
+  display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(0,0,0,.94);align-items:center;justify-content:center;padding:20px;
+}
+#ck-modal.open{display:flex}
+#ck-mi{position:relative;max-width:min(92vw,640px);max-height:90vh}
+#ck-mi video,#ck-mi img{display:block;max-width:100%;max-height:85vh;object-fit:contain}
+#ck-mi.is-circle video,#ck-mi.is-circle img{border-radius:50%;border:3px solid var(--cyan)}
+.ck-mclose{
+  position:fixed;top:16px;right:20px;
+  font-family:'Press Start 2P',monospace;font-size:10px;
+  color:#fff;background:rgba(123,47,190,.85);border:2px solid var(--purple);
+  padding:9px 16px;cursor:pointer;z-index:10000;transition:background .2s;
+}
+.ck-mclose:hover{background:var(--purple)}
+
+@media(max-width:480px){
+  .ck-strip{padding:14px 20px 24px;gap:8px}
+  .ci{height:260px}
+  .ci[data-cat="static"] .ci-ph,.ci[data-cat="avatar"] .ci-ph,.ci[data-cat="chatterfy"] .ci-ph{width:208px}
+  .ci[data-cat="motion"] .ci-ph,.ci[data-cat="cartoon"] .ci-ph{width:146px}
+  .ci.circle,.ci[data-cat="ai"] .ci-ph{width:130px!important;height:130px}
+  .ck-more{margin:14px 20px}
+  .cases-header,.cases-filters{padding-left:20px;padding-right:20px}
 }
 
 /* ─────────────────────────────────────────
@@ -3115,48 +3186,235 @@ footer{
   <div class="cases-header reveal">
     <h2 class="section-title">КЕЙСЫ</h2>
     <div class="cases-filters">
-      <button class="filter-btn active" data-filter="all">[ ALL STAGES ]</button>
-      <button class="filter-btn" data-filter="ai-video">[ STAGE 1: AI VIDEO ]</button>
-      <button class="filter-btn" data-filter="sites">[ STAGE 2: САЙТЫ ]</button>
-      <button class="filter-btn" data-filter="smm">[ STAGE 3: SMM ]</button>
-      <button class="filter-btn" data-filter="automation">[ STAGE 4: АВТО ]</button>
+      <button class="filter-btn active" data-filter="all">★ ВСЕ</button>
+      <button class="filter-btn" data-filter="static">СТАТИКА</button>
+      <button class="filter-btn" data-filter="motion">МОУШЕН</button>
+      <button class="filter-btn" data-filter="ai">AI ПРОДАКШН</button>
+      <button class="filter-btn" data-filter="chatterfy">CHATTERFY</button>
+      <button class="filter-btn" data-filter="avatar">АВАТАРКИ</button>
+      <button class="filter-btn" data-filter="cartoon">МУЛЬТФИЛЬМЫ</button>
     </div>
   </div>
 
-  <div class="cases-track-wrapper" id="casesWrapper">
-    <div class="cases-track" id="casesTrack">
-      <div class="case-card" data-category="ai-video">
-        <div class="case-img-placeholder">AI</div>
-        <div class="case-body"><div class="case-category">AI Video</div><div class="case-title">Metra AI — Промо-ролик</div><div class="case-desc">AI-аватар, дипфейк, полная постпродакшн для платформы Metra AI</div></div>
-      </div>
-      <div class="case-card" data-category="sites">
-        <div class="case-img-placeholder">WEB</div>
-        <div class="case-body"><div class="case-category">Веб-разработка</div><div class="case-title">Лендинг под ключ</div><div class="case-desc">Конверсионный лендинг с анимациями, адаптивом и интеграцией CRM</div></div>
-      </div>
-      <div class="case-card" data-category="automation">
-        <div class="case-img-placeholder">BOT</div>
-        <div class="case-body"><div class="case-category">Автоматизация</div><div class="case-title">Telegram-бот для продаж</div><div class="case-desc">Чат-бот на Chatterfy с воронкой продаж и интеграцией платёжной системы</div></div>
-      </div>
-      <div class="case-card" data-category="smm">
-        <div class="case-img-placeholder">SMM</div>
-        <div class="case-body"><div class="case-category">SMM</div><div class="case-title">Стратегия соцсетей</div><div class="case-desc">Контент-план + ведение Instagram / TikTok, рост охватов ×3 за 2 месяца</div></div>
-      </div>
-      <div class="case-card" data-category="ai-video">
-        <div class="case-img-placeholder">VID</div>
-        <div class="case-body"><div class="case-category">AI Video</div><div class="case-title">Серия AI-роликов</div><div class="case-desc">10 видео с AI-аватаром для Instagram Reels, viral-стратегия контента</div></div>
-      </div>
-      <div class="case-card" data-category="sites">
-        <div class="case-img-placeholder">UI</div>
-        <div class="case-body"><div class="case-category">Дизайн</div><div class="case-title">Brand Identity Pack</div><div class="case-desc">Полный фирменный стиль: логотип, гайдлайн, шаблоны соцсетей, презентация</div></div>
-      </div>
+  <div class="ck-wrap" id="ckWrap"><div class="ck-strip" id="ckStrip">
+
+    <!-- ══ СТАТИКА (8 фото) · файлы: cases/static-01.jpg ... static-08.jpg ══ -->
+    <div class="ci" data-cat="static" data-type="image" data-src="cases/static-01.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">static-01.jpg</div></div>
+      <img class="ci-media" src="cases/static-01.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Статика</span></div>
+    </div>
+    <div class="ci" data-cat="static" data-type="image" data-src="cases/static-02.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">static-02.jpg</div></div>
+      <img class="ci-media" src="cases/static-02.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Статика</span></div>
+    </div>
+    <div class="ci" data-cat="static" data-type="image" data-src="cases/static-03.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">static-03.jpg</div></div>
+      <img class="ci-media" src="cases/static-03.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Статика</span></div>
+    </div>
+    <div class="ci" data-cat="static" data-type="image" data-src="cases/static-04.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">static-04.jpg</div></div>
+      <img class="ci-media" src="cases/static-04.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Статика</span></div>
+    </div>
+    <div class="ci" data-cat="static" data-type="image" data-src="cases/static-05.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">static-05.jpg</div></div>
+      <img class="ci-media" src="cases/static-05.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Статика</span></div>
+    </div>
+    <div class="ci" data-cat="static" data-type="image" data-src="cases/static-06.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">static-06.jpg</div></div>
+      <img class="ci-media" src="cases/static-06.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Статика</span></div>
+    </div>
+    <div class="ci" data-cat="static" data-type="image" data-src="cases/static-07.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">static-07.jpg</div></div>
+      <img class="ci-media" src="cases/static-07.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Статика</span></div>
+    </div>
+    <div class="ci" data-cat="static" data-type="image" data-src="cases/static-08.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">static-08.jpg</div></div>
+      <img class="ci-media" src="cases/static-08.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Статика</span></div>
     </div>
 
-    <!-- Parallax walking monopoly man -->
-    <div class="cases-monopoly" id="casesWalker">
-      <img src="images/character-running.png" alt="" draggable="false">
+    <!-- ══ МОУШЕН (8 видео) · файлы: cases/motion-01.mp4 ... motion-08.mp4 ══ -->
+    <div class="ci" data-cat="motion" data-type="video" data-src="cases/motion-01.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🎬</div><div class="ci-ph-name">motion-01.mp4</div></div>
+      <video class="ci-media" src="cases/motion-01.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">Моушен</span></div>
     </div>
+    <div class="ci" data-cat="motion" data-type="video" data-src="cases/motion-02.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🎬</div><div class="ci-ph-name">motion-02.mp4</div></div>
+      <video class="ci-media" src="cases/motion-02.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">Моушен</span></div>
+    </div>
+    <div class="ci" data-cat="motion" data-type="video" data-src="cases/motion-03.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🎬</div><div class="ci-ph-name">motion-03.mp4</div></div>
+      <video class="ci-media" src="cases/motion-03.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">Моушен</span></div>
+    </div>
+    <div class="ci" data-cat="motion" data-type="video" data-src="cases/motion-04.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🎬</div><div class="ci-ph-name">motion-04.mp4</div></div>
+      <video class="ci-media" src="cases/motion-04.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">Моушен</span></div>
+    </div>
+    <div class="ci" data-cat="motion" data-type="video" data-src="cases/motion-05.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🎬</div><div class="ci-ph-name">motion-05.mp4</div></div>
+      <video class="ci-media" src="cases/motion-05.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">Моушен</span></div>
+    </div>
+    <div class="ci" data-cat="motion" data-type="video" data-src="cases/motion-06.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🎬</div><div class="ci-ph-name">motion-06.mp4</div></div>
+      <video class="ci-media" src="cases/motion-06.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">Моушен</span></div>
+    </div>
+    <div class="ci" data-cat="motion" data-type="video" data-src="cases/motion-07.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🎬</div><div class="ci-ph-name">motion-07.mp4</div></div>
+      <video class="ci-media" src="cases/motion-07.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">Моушен</span></div>
+    </div>
+    <div class="ci" data-cat="motion" data-type="video" data-src="cases/motion-08.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🎬</div><div class="ci-ph-name">motion-08.mp4</div></div>
+      <video class="ci-media" src="cases/motion-08.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">Моушен</span></div>
+    </div>
+
+    <!-- ══ AI ПРОДАКШН — кружки (6 видео) · файлы: cases/ai-01.mp4 ... ai-06.mp4 ══ -->
+    <div class="ci circle" data-cat="ai" data-type="video" data-src="cases/ai-01.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🤖</div><div class="ci-ph-name">ai-01.mp4</div></div>
+      <video class="ci-media" src="cases/ai-01.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">AI Продакшн</span></div>
+    </div>
+    <div class="ci circle" data-cat="ai" data-type="video" data-src="cases/ai-02.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🤖</div><div class="ci-ph-name">ai-02.mp4</div></div>
+      <video class="ci-media" src="cases/ai-02.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">AI Продакшн</span></div>
+    </div>
+    <div class="ci circle" data-cat="ai" data-type="video" data-src="cases/ai-03.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🤖</div><div class="ci-ph-name">ai-03.mp4</div></div>
+      <video class="ci-media" src="cases/ai-03.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">AI Продакшн</span></div>
+    </div>
+    <div class="ci circle" data-cat="ai" data-type="video" data-src="cases/ai-04.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🤖</div><div class="ci-ph-name">ai-04.mp4</div></div>
+      <video class="ci-media" src="cases/ai-04.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">AI Продакшн</span></div>
+    </div>
+    <div class="ci circle" data-cat="ai" data-type="video" data-src="cases/ai-05.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🤖</div><div class="ci-ph-name">ai-05.mp4</div></div>
+      <video class="ci-media" src="cases/ai-05.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">AI Продакшн</span></div>
+    </div>
+    <div class="ci circle" data-cat="ai" data-type="video" data-src="cases/ai-06.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🤖</div><div class="ci-ph-name">ai-06.mp4</div></div>
+      <video class="ci-media" src="cases/ai-06.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">AI Продакшн</span></div>
+    </div>
+
+    <!-- ══ CHATTERFY (8 видео) · файлы: cases/chatterfy-01.mp4 ... chatterfy-08.mp4 ══ -->
+    <div class="ci" data-cat="chatterfy" data-type="image" data-src="cases/chatterfy-01.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">chatterfy-01.jpg</div></div>
+      <img class="ci-media" src="cases/chatterfy-01.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Chatterfy</span></div>
+    </div>
+    <div class="ci" data-cat="chatterfy" data-type="image" data-src="cases/chatterfy-02.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">chatterfy-02.jpg</div></div>
+      <img class="ci-media" src="cases/chatterfy-02.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Chatterfy</span></div>
+    </div>
+    <div class="ci" data-cat="chatterfy" data-type="image" data-src="cases/chatterfy-03.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">chatterfy-03.jpg</div></div>
+      <img class="ci-media" src="cases/chatterfy-03.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Chatterfy</span></div>
+    </div>
+    <div class="ci" data-cat="chatterfy" data-type="image" data-src="cases/chatterfy-04.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">chatterfy-04.jpg</div></div>
+      <img class="ci-media" src="cases/chatterfy-04.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Chatterfy</span></div>
+    </div>
+    <div class="ci" data-cat="chatterfy" data-type="image" data-src="cases/chatterfy-05.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">chatterfy-05.jpg</div></div>
+      <img class="ci-media" src="cases/chatterfy-05.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Chatterfy</span></div>
+    </div>
+    <div class="ci" data-cat="chatterfy" data-type="image" data-src="cases/chatterfy-06.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">chatterfy-06.jpg</div></div>
+      <img class="ci-media" src="cases/chatterfy-06.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Chatterfy</span></div>
+    </div>
+    <div class="ci" data-cat="chatterfy" data-type="image" data-src="cases/chatterfy-07.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">chatterfy-07.jpg</div></div>
+      <img class="ci-media" src="cases/chatterfy-07.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Chatterfy</span></div>
+    </div>
+    <div class="ci" data-cat="chatterfy" data-type="image" data-src="cases/chatterfy-08.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">📸</div><div class="ci-ph-name">chatterfy-08.jpg</div></div>
+      <img class="ci-media" src="cases/chatterfy-08.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Chatterfy</span></div>
+    </div>
+
+    <!-- ══ АВАТАРКИ (5 фото) · файлы: cases/avatar-01.jpg ... avatar-05.jpg ══ -->
+    <div class="ci" data-cat="avatar" data-type="image" data-src="cases/avatar-01.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">👤</div><div class="ci-ph-name">avatar-01.jpg</div></div>
+      <img class="ci-media" src="cases/avatar-01.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Аватарки</span></div>
+    </div>
+    <div class="ci" data-cat="avatar" data-type="image" data-src="cases/avatar-02.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">👤</div><div class="ci-ph-name">avatar-02.jpg</div></div>
+      <img class="ci-media" src="cases/avatar-02.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Аватарки</span></div>
+    </div>
+    <div class="ci" data-cat="avatar" data-type="image" data-src="cases/avatar-03.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">👤</div><div class="ci-ph-name">avatar-03.jpg</div></div>
+      <img class="ci-media" src="cases/avatar-03.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Аватарки</span></div>
+    </div>
+    <div class="ci" data-cat="avatar" data-type="image" data-src="cases/avatar-04.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">👤</div><div class="ci-ph-name">avatar-04.jpg</div></div>
+      <img class="ci-media" src="cases/avatar-04.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Аватарки</span></div>
+    </div>
+    <div class="ci" data-cat="avatar" data-type="image" data-src="cases/avatar-05.jpg">
+      <div class="ci-ph"><div class="ci-ph-ico">👤</div><div class="ci-ph-name">avatar-05.jpg</div></div>
+      <img class="ci-media" src="cases/avatar-05.jpg" alt="" loading="lazy">
+      <div class="ci-ov"><span class="ci-tag">Аватарки</span></div>
+    </div>
+
+    <!-- ══ МУЛЬТФИЛЬМЫ (3 видео) · файлы: cases/cartoon-01.mp4 ... cartoon-03.mp4 ══ -->
+    <div class="ci" data-cat="cartoon" data-type="video" data-src="cases/cartoon-01.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🎨</div><div class="ci-ph-name">cartoon-01.mp4</div></div>
+      <video class="ci-media" src="cases/cartoon-01.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">Мультфильмы</span></div>
+    </div>
+    <div class="ci" data-cat="cartoon" data-type="video" data-src="cases/cartoon-02.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🎨</div><div class="ci-ph-name">cartoon-02.mp4</div></div>
+      <video class="ci-media" src="cases/cartoon-02.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">Мультфильмы</span></div>
+    </div>
+    <div class="ci" data-cat="cartoon" data-type="video" data-src="cases/cartoon-03.mp4">
+      <div class="ci-ph"><div class="ci-ph-ico">🎨</div><div class="ci-ph-name">cartoon-03.mp4</div></div>
+      <video class="ci-media" src="cases/cartoon-03.mp4" autoplay muted loop playsinline></video>
+      <div class="ci-ov"><span class="ci-play">▶</span><span class="ci-tag">Мультфильмы</span></div>
+    </div>
+
+  </div></div><!-- /ck-strip /ck-wrap -->
+
+  <div class="ck-more">
+    <div class="ck-star">★</div>
+    <div class="ck-h">ЭТО ЛИШЬ ЧАСТЬ НАШИХ РАБОТ</div>
+    <div class="ck-sub">У нас значительно больше кейсов — напиши менеджеру и покажем полное портфолио</div>
+    <a href="https://t.me/yappi_manager" target="_blank" class="ck-btn">✈ НАПИСАТЬ МЕНЕДЖЕРУ</a>
   </div>
 </section>
+
+<!-- МОДАЛКА КЕЙСОВ -->
+<div id="ck-modal">
+  <button class="ck-mclose" onclick="ckClose()">✕ ЗАКРЫТЬ</button>
+  <div id="ck-mi"></div>
+</div>
 
 <!-- ═══════════════════ PRICING ═══════════════════ -->
 <section id="pricing">
@@ -3777,51 +4035,183 @@ document.querySelectorAll('.counter').forEach(el => cntObs.observe(el));
 
 /* about typewriter removed — static content now */
 
-/* ──────────── CASES DRAG SCROLL ──────────── */
-const wrapper = document.getElementById('casesWrapper');
-const track   = document.getElementById('casesTrack');
-let isDragging = false, startX = 0, scrollStart = 0;
+/* ──────────── CASES STRIP ──────────── */
+(function(){
+  var ckWrap  = document.getElementById('ckWrap');
+  var ckStrip = document.getElementById('ckStrip');
+  var ckModal = document.getElementById('ck-modal');
+  var ckMi    = document.getElementById('ck-mi');
+  var ckVid   = null;
+  var STRIP_H = 400; // px — должно совпадать с CSS .ci{height}
 
-track.addEventListener('mousedown', e => {
-  isDragging = true; track.classList.add('grabbing');
-  startX = e.pageX; scrollStart = wrapper.scrollLeft;
-});
-window.addEventListener('mouseup',   () => { isDragging = false; track.classList.remove('grabbing'); });
-window.addEventListener('mousemove', e => {
-  if(!isDragging) return;
-  e.preventDefault();
-  wrapper.scrollLeft = scrollStart - (e.pageX - startX) * 1.6;
-});
-track.addEventListener('touchstart', e => { startX = e.touches[0].pageX; scrollStart = wrapper.scrollLeft; }, {passive:true});
-track.addEventListener('touchmove',  e => {
-  wrapper.scrollLeft = scrollStart - (e.touches[0].pageX - startX) * 1.4;
-}, {passive:true});
+  /* ── открытие модалки ── */
+  function openModal(src, type, isCircle){
+    ckMi.innerHTML=''; ckMi.classList.toggle('is-circle', isCircle);
+    if(type==='video'){
+      var v=document.createElement('video');
+      v.src=src; v.controls=true; v.autoplay=true; v.playsInline=true; v.style.width='100%';
+      ckMi.appendChild(v); ckVid=v;
+    } else {
+      var img=document.createElement('img');
+      img.src=src; img.alt=''; img.style.width='100%';
+      ckMi.appendChild(img);
+    }
+    ckModal.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
 
-/* Parallax walker — stays visible across entire scroll, moves left→right in viewport */
-const walker = document.getElementById('casesWalker');
-wrapper.addEventListener('scroll', () => {
-  const sl  = wrapper.scrollLeft;
-  const max = wrapper.scrollWidth - wrapper.clientWidth;
-  const prog = max > 0 ? sl / max : 0;
-  /* viewport position goes from -80px to (clientWidth - 220px) */
-  const viewX = -80 + prog * (wrapper.clientWidth - 140);
-  /* translateX compensates for scroll so walker stays on screen */
-  walker.style.transform = `translateX(${sl + viewX + 120}px)`;
-}, {passive:true});
+  /* ── подключение медиа и клика для одного item ── */
+  function setupItem(item){
+    var media = item.querySelector('.ci-media');
+    var ph    = item.querySelector('.ci-ph');
+    if(!media) return;
 
-/* Filter */
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const f = btn.dataset.filter;
-    document.querySelectorAll('.case-card').forEach(c => {
-      c.style.opacity = f==='all' || c.dataset.category===f ? '1' : '.18';
-      c.style.pointerEvents = f==='all' || c.dataset.category===f ? '' : 'none';
+    function setItemWidth(w,h){
+      if(!w || !h) return;
+      if(item.classList.contains('circle')) return; // circle — фиксированный
+      item.style.width = Math.round(STRIP_H * w / h) + 'px';
+    }
+    function showMedia(){
+      media.style.opacity='1';
+      if(ph) ph.style.display='none';
+    }
+
+    if(media.tagName==='VIDEO'){
+      media.addEventListener('canplay', showMedia, {once:true});
+      if(media.readyState>=3) showMedia();
+      if(media.videoWidth){ setItemWidth(media.videoWidth, media.videoHeight); }
+      else { media.addEventListener('loadedmetadata', function(){ setItemWidth(media.videoWidth, media.videoHeight); },{once:true}); }
+    } else {
+      if(media.complete && media.naturalWidth>0){
+        showMedia(); setItemWidth(media.naturalWidth, media.naturalHeight);
+      } else {
+        media.addEventListener('load', function(){ showMedia(); setItemWidth(media.naturalWidth, media.naturalHeight); },{once:true});
+      }
+      media.addEventListener('error', function(){ media.style.display='none'; });
+    }
+
+    item.addEventListener('click', function(){
+      if(didDrag) return;
+      openModal(item.dataset.src, item.dataset.type, item.classList.contains('circle'));
     });
-  });
-});
+  }
 
+  /* ── Fisher-Yates shuffle ── */
+  function shuffle(arr){
+    for(var i=arr.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1)); var t=arr[i]; arr[i]=arr[j]; arr[j]=t;
+    }
+    return arr;
+  }
+
+  /* ── оригиналы (зафиксированы один раз) ── */
+  var origItems = Array.from(ckStrip.querySelectorAll('.ci'));
+
+  /* ── инициализируем оригиналы ── */
+  origItems.forEach(function(item){ setupItem(item); });
+
+  /* ── перестраиваем ленту: удаляем клоны, расставляем нужные оригиналы, клонируем снова ── */
+  function rebuildStrip(visible){
+    // удалить все клоны
+    Array.from(ckStrip.querySelectorAll('.ci[data-clone]')).forEach(function(el){ el.remove(); });
+    // расставить оригиналы в нужном порядке (скрытые тоже оставляем в DOM)
+    visible.forEach(function(el){ ckStrip.appendChild(el); });
+    // добавить клоны только видимых
+    visible.forEach(function(item){
+      var clone = item.cloneNode(true);
+      clone.setAttribute('data-clone','1');
+      setupItem(clone);
+      ckStrip.appendChild(clone);
+    });
+    ckWrap.scrollLeft=0;
+    halfW=0;
+  }
+
+  /* ── фильтр ── */
+  function ckFilter(cat){
+    document.querySelectorAll('.filter-btn').forEach(function(t){
+      t.classList.toggle('active', t.dataset.filter===cat);
+    });
+    origItems.forEach(function(el){ el.classList.remove('hidden'); });
+
+    if(cat==='all'){
+      var shuffled = shuffle(origItems.slice());
+      rebuildStrip(shuffled);
+    } else {
+      var filtered = origItems.filter(function(el){ return el.dataset.cat===cat; });
+      var hidden   = origItems.filter(function(el){ return el.dataset.cat!==cat; });
+      hidden.forEach(function(el){ el.classList.add('hidden'); });
+      rebuildStrip(filtered);
+    }
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ ckFilter(btn.dataset.filter); });
+  });
+
+  /* ── drag-to-scroll ── */
+  var isDragging=false, startX=0, scrollStart=0, didDrag=false;
+  ckWrap.addEventListener('mousedown', function(e){
+    isDragging=true; didDrag=false; autoScrollPaused=true;
+    startX=e.pageX; scrollStart=ckWrap.scrollLeft;
+    ckWrap.classList.add('grabbing');
+  });
+  window.addEventListener('mouseup', function(){
+    isDragging=false;
+    ckWrap.classList.remove('grabbing');
+    clearTimeout(resumeTimer);
+    resumeTimer=setTimeout(function(){ autoScrollPaused=false; }, 2000);
+  });
+  window.addEventListener('mousemove', function(e){
+    if(!isDragging) return;
+    e.preventDefault();
+    var dx=e.pageX-startX;
+    if(Math.abs(dx)>5) didDrag=true;
+    ckWrap.scrollLeft=scrollStart-dx*1.3;
+  },{passive:false});
+  ckWrap.addEventListener('touchstart', function(e){
+    didDrag=false; autoScrollPaused=true;
+    startX=e.touches[0].pageX; scrollStart=ckWrap.scrollLeft;
+  },{passive:true});
+  ckWrap.addEventListener('touchmove', function(e){
+    var dx=e.touches[0].pageX-startX;
+    if(Math.abs(dx)>5) didDrag=true;
+    ckWrap.scrollLeft=scrollStart-dx*1.1;
+  },{passive:true});
+  ckWrap.addEventListener('touchend', function(){
+    clearTimeout(resumeTimer);
+    resumeTimer=setTimeout(function(){ autoScrollPaused=false; }, 2000);
+  },{passive:true});
+
+  /* ── авто-тикер (RAF) ── */
+  var autoScrollPaused = false;
+  var resumeTimer = null;
+  var halfW = 0;
+  var SPEED = 0.6; // px/frame ≈ 36px/s при 60fps
+
+  function tick(){
+    if(!halfW) halfW = Math.floor(ckStrip.scrollWidth / 2);
+    if(!autoScrollPaused && halfW > 0){
+      ckWrap.scrollLeft += SPEED;
+      if(ckWrap.scrollLeft >= halfW) ckWrap.scrollLeft -= halfW;
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  /* ── закрытие модалки ── */
+  window.ckClose=function(){
+    if(ckVid){ ckVid.pause(); ckVid=null; }
+    ckMi.innerHTML=''; ckModal.classList.remove('open');
+    document.body.style.overflow='';
+  };
+  ckModal.addEventListener('click', function(e){ if(e.target===ckModal) ckClose(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') ckClose(); });
+
+  /* начальный рандомный порядок */
+  ckFilter('all');
+
+})();
 /* ──────────── REVIEWS SLIDER ──────────── */
 let slide = 0, total = 3;
 function goSlide(n){
