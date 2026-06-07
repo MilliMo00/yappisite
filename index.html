@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YAPPI AGENCY — Design & AI Agency</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
@@ -1649,6 +1651,8 @@ footer{
 .lang-switch{font-family:'Press Start 2P',monospace;font-size:8px;color:var(--cyan);background:transparent;border:1px solid var(--cyan);padding:5px 10px;cursor:pointer;letter-spacing:1px;transition:background .2s;margin-left:10px}
 .lang-switch:hover{background:rgba(0,212,255,.15)}
 </style>
+<link rel="stylesheet" href="mobile.css">
+<script src="analytics.js" defer></script>
 </head>
 <body>
 
@@ -1671,7 +1675,24 @@ footer{
     <li><a href="https://t.me/yappi_manager" target="_blank" class="nav-cta" data-i18n="nav.contact">Связаться</a></li>
   </ul>
   <button class="lang-switch" onclick="switchLang()" title="Switch to English">EN</button>
+  <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- Mobile nav drawer (hamburger) -->
+<div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+<div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
+  <ul class="mobile-nav-links">
+    <li><a href="#services" data-i18n="nav.services">Услуги</a></li>
+    <li><a href="#about" data-i18n="nav.about">О нас</a></li>
+    <li><a href="#cases" data-i18n="nav.cases">Кейсы</a></li>
+    <li><a href="#pricing" data-i18n="nav.pricing">Прайс</a></li>
+    <li><a href="#partners" data-i18n="nav.partners">Партнёры</a></li>
+    <li><a href="#social" data-i18n="nav.social">Источники</a></li>
+    <li><a href="https://t.me/yappi_manager" target="_blank" class="mobile-nav-cta" data-i18n="nav.contact">Связаться</a></li>
+  </ul>
+</div>
 
 <!-- ═══════════════════ HERO ═══════════════════ -->
 <section id="hero">
@@ -1687,7 +1708,7 @@ footer{
   <div class="hero-content">
     <span class="hero-jp">ヤッピー！ エージェンシー</span>
     <div class="hero-badge" data-i18n-html="hero.badge">// DESIGN &amp; AI AGENCY</div>
-    <h1 class="hero-title">
+    <h1 class="hero-title idx-title">
       <span class="line1" id="tw1"></span>
       <span class="line2" id="tw2"></span>
     </h1>
@@ -4339,6 +4360,7 @@ for(let i=0;i<15;i++){
       });
       const data = await res.json();
       if (data.ok) {
+        if (window.yappiTrack) window.yappiTrack('feedback_sent', { ftype: fbType });
         closeFbForm();
         const suc = document.getElementById('fbSuccess');
         suc.classList.add('fb-show');
@@ -4354,6 +4376,7 @@ for(let i=0;i<15;i++){
 /* ──────────── CONTACT FORM ──────────── */
 document.getElementById('contactForm').addEventListener('submit', e => {
   e.preventDefault();
+  if (window.yappiTrack) window.yappiTrack('form_submit', { form: 'contact' });
   const btn = e.target.querySelector('.form-btn');
   const orig = btn.textContent;
   btn.textContent = window.t('contact.sent');
@@ -4362,121 +4385,150 @@ document.getElementById('contactForm').addEventListener('submit', e => {
 });
 </script>
 
-<!-- ──────────── FIREBASE SDK ──────────── -->
-<!-- TODO: замените firebaseConfig на данные вашего проекта Firebase -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+<!-- ──────────── РЕЙТИНГ (Telegram + localStorage) ──────────── -->
+<script>
+(function() {
+  var TG_TOKEN  = '8846106201:AAFjFWIYQ7ANksFV_AX2g8ZYqezOh7YvPG8';
+  var TG_ADMIN  = '7609412955';
 
-/* ── ЗАМЕНИТЕ ЭТО НА ВАШИ ДАННЫЕ из Firebase Console → Project Settings ── */
-const firebaseConfig = {
-  apiKey:            "ВАШИ_ДАННЫЕ",
-  authDomain:        "ваш-проект.firebaseapp.com",
-  databaseURL:       "https://ваш-проект-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId:         "ваш-проект",
-  storageBucket:     "ваш-проект.appspot.com",
-  messagingSenderId: "ВАШИ_ДАННЫЕ",
-  appId:             "ВАШИ_ДАННЫЕ"
-};
-/* ──────────────────────────────────────────────────────────────────────── */
+  /* Базовые значения — владелец может скорректировать */
+  var SEED_VOTES = 49;   /* накопленных голосов */
+  var SEED_SCORE = 245;  /* сумма баллов (49 × 5 = 245 → avg 5.0) */
+  var RATING_MIN = 4.2;  /* нижняя граница отображаемого среднего */
 
-const RATING_MIN = 3.5; // минимум отображаемого рейтинга
+  var VOTE_KEY = 'yappi_rating_voted';
+  var LSCORE   = 'yappi_rating_lscore';
+  var LVOTES   = 'yappi_rating_lvotes';
 
-const app = initializeApp(firebaseConfig);
-const db  = getDatabase(app);
-const ratingRef = ref(db, 'yappi-rating');
-
-/* ── SVG-шаблоны звёзд для средней оценки ── */
-function starSVG(fill) {
-  const c = fill === 'full' ? '#FFD700' : fill === 'half' ? 'url(#halfGrad)' : 'rgba(255,215,0,.18)';
-  const id = 'hg_' + Math.random().toString(36).slice(2);
-  const grad = fill === 'half'
-    ? `<defs><linearGradient id="${id}" x1="0" x2="1" y1="0" y2="0"><stop offset="50%" stop-color="#FFD700"/><stop offset="50%" stop-color="rgba(255,215,0,.18)"/></linearGradient></defs>`
-    : '';
-  const fc = fill === 'half' ? `url(#${id})` : c;
-  return `<svg class="avg-star" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">${grad}<polygon points="11,2 13.5,8.5 20.5,8.5 15,13 17,20 11,16 5,20 7,13 1.5,8.5 8.5,8.5" fill="${fc}" stroke="rgba(255,215,0,.6)" stroke-width="1.2"/></svg>`;
-}
-
-function renderAvgStars(avg) {
-  const el = document.getElementById('ratingAvgStars');
-  let html = '';
-  for (let i = 1; i <= 5; i++) {
-    if (avg >= i) html += starSVG('full');
-    else if (avg >= i - 0.5) html += starSVG('half');
-    else html += starSVG('empty');
+  function getLocal() {
+    return {
+      score: parseInt(localStorage.getItem(LSCORE) || '0', 10),
+      votes: parseInt(localStorage.getItem(LVOTES) || '0', 10)
+    };
   }
-  el.innerHTML = html;
-}
 
-/* ── Real-time слушатель ── */
-onValue(ratingRef, snapshot => {
-  const data = snapshot.val() || { totalScore: 0, voteCount: 0 };
-  const rawAvg  = data.voteCount > 0 ? data.totalScore / data.voteCount : 5.0;
-  const dispAvg = Math.max(RATING_MIN, rawAvg);
-  const dispStr = dispAvg.toFixed(1);
+  function calcAvg() {
+    var l  = getLocal();
+    var ts = SEED_SCORE + l.score;
+    var tv = SEED_VOTES + l.votes;
+    var raw = tv > 0 ? ts / tv : 5.0;
+    return Math.max(RATING_MIN, Math.min(5.0, raw));
+  }
 
-  document.getElementById('ratingAvgNum').textContent = dispStr;
-  document.getElementById('ratingVotes').textContent  =
-    data.voteCount > 0
-      ? (window.t('rating.votes.based') + ' ' + data.voteCount + ' ' + window.t('rating.votes.ratings'))
-      : window.t('rating.votes.first');
-  renderAvgStars(dispAvg);
-});
+  function starSVG(fill) {
+    var id = 'hg' + Math.random().toString(36).slice(2);
+    var grad = '';
+    var fc;
+    if (fill === 'full') {
+      fc = '#FFD700';
+    } else if (fill === 'half') {
+      grad = '<defs><linearGradient id="' + id + '" x1="0" x2="1" y1="0" y2="0">' +
+             '<stop offset="50%" stop-color="#FFD700"/>' +
+             '<stop offset="50%" stop-color="rgba(255,215,0,.18)"/>' +
+             '</linearGradient></defs>';
+      fc = 'url(#' + id + ')';
+    } else {
+      fc = 'rgba(255,215,0,.18)';
+    }
+    return '<svg class="avg-star" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">' +
+           grad +
+           '<polygon points="11,2 13.5,8.5 20.5,8.5 15,13 17,20 11,16 5,20 7,13 1.5,8.5 8.5,8.5"' +
+           ' fill="' + fc + '" stroke="rgba(255,215,0,.6)" stroke-width="1.2"/></svg>';
+  }
 
-function plural(n, f1, f2, f5) {
-  const m = Math.abs(n) % 100, r = m % 10;
-  if (m > 10 && m < 20) return f5;
-  if (r > 1 && r < 5)   return f2;
-  if (r === 1)           return f1;
-  return f5;
-}
+  function renderAvgStars(avg) {
+    var el = document.getElementById('ratingAvgStars');
+    if (!el) return;
+    var html = '';
+    for (var i = 1; i <= 5; i++) {
+      if (avg >= i) html += starSVG('full');
+      else if (avg >= i - 0.5) html += starSVG('half');
+      else html += starSVG('empty');
+    }
+    el.innerHTML = html;
+  }
 
-/* ── Интерактивные звёзды ── */
-const siStars  = document.querySelectorAll('.si-star');
-const votedMsg = document.getElementById('ratingVotedMsg');
-const starsBox = document.getElementById('starsInteractive');
+  function updateDisplay() {
+    var avg = calcAvg();
+    var l   = getLocal();
+    var tv  = SEED_VOTES + l.votes;
 
-const VOTE_KEY = 'yappi_rating_voted';
-const hasVoted = localStorage.getItem(VOTE_KEY);
+    var numEl = document.getElementById('ratingAvgNum');
+    if (numEl) numEl.textContent = avg.toFixed(1);
+    renderAvgStars(avg);
 
-if (hasVoted) {
-  starsBox.style.pointerEvents = 'none';
-  votedMsg.classList.add('show');
-}
+    var vEl = document.getElementById('ratingVotes');
+    if (vEl) {
+      vEl.textContent = tv > 0
+        ? ('На основании ' + tv + ' оценок')
+        : 'Будьте первым!';
+    }
+  }
 
-siStars.forEach(star => {
-  star.addEventListener('mouseenter', () => {
-    if (hasVoted) return;
-    const val = +star.dataset.val;
-    siStars.forEach(s => {
-      s.querySelector('.star-poly').setAttribute('fill',
-        +s.dataset.val <= val ? '#FFD700' : 'rgba(255,215,0,.18)');
-    });
-  });
-  star.addEventListener('mouseleave', () => {
-    if (hasVoted) return;
-    siStars.forEach(s => {
-      s.querySelector('.star-poly').setAttribute('fill', 'rgba(255,215,0,.18)');
-    });
-  });
-  star.addEventListener('click', () => {
-    if (localStorage.getItem(VOTE_KEY)) return;
-    const val = +star.dataset.val;
-    /* заморозить выбранные звёзды */
-    siStars.forEach(s => {
-      s.querySelector('.star-poly').setAttribute('fill',
-        +s.dataset.val <= val ? '#FFD700' : 'rgba(255,215,0,.18)');
-    });
+  updateDisplay();
+
+  var siStars  = document.querySelectorAll('.si-star');
+  var votedMsg = document.getElementById('ratingVotedMsg');
+  var starsBox = document.getElementById('starsInteractive');
+
+  if (!starsBox) return;
+
+  if (localStorage.getItem(VOTE_KEY)) {
     starsBox.style.pointerEvents = 'none';
-    votedMsg.classList.add('show');
-    localStorage.setItem(VOTE_KEY, val.toString());
+    if (votedMsg) votedMsg.classList.add('show');
+  }
 
-    runTransaction(ratingRef, current => {
-      const d = current || { totalScore: 0, voteCount: 0 };
-      return { totalScore: d.totalScore + val, voteCount: d.voteCount + 1 };
+  siStars.forEach(function(star) {
+    star.addEventListener('mouseenter', function() {
+      if (localStorage.getItem(VOTE_KEY)) return;
+      var val = +star.dataset.val;
+      siStars.forEach(function(s) {
+        s.querySelector('.star-poly').setAttribute('fill',
+          +s.dataset.val <= val ? '#FFD700' : 'rgba(255,215,0,.18)');
+      });
+    });
+
+    star.addEventListener('mouseleave', function() {
+      if (localStorage.getItem(VOTE_KEY)) return;
+      siStars.forEach(function(s) {
+        s.querySelector('.star-poly').setAttribute('fill', 'rgba(255,215,0,.18)');
+      });
+    });
+
+    star.addEventListener('click', function() {
+      if (localStorage.getItem(VOTE_KEY)) return;
+      var val = +star.dataset.val;
+
+      siStars.forEach(function(s) {
+        s.querySelector('.star-poly').setAttribute('fill',
+          +s.dataset.val <= val ? '#FFD700' : 'rgba(255,215,0,.18)');
+      });
+      starsBox.style.pointerEvents = 'none';
+      if (votedMsg) votedMsg.classList.add('show');
+
+      localStorage.setItem(VOTE_KEY, val.toString());
+      var l = getLocal();
+      localStorage.setItem(LSCORE, (l.score + val).toString());
+      localStorage.setItem(LVOTES, (l.votes + 1).toString());
+
+      updateDisplay();
+
+      var stars = '★'.repeat(val) + '☆'.repeat(5 - val);
+      var time  = new Date().toLocaleString('ru-RU', {timeZone: 'Europe/Moscow'});
+      var avg   = calcAvg().toFixed(1);
+      var msg   = '⭐ <b>НОВАЯ ОЦЕНКА</b>\n\n' +
+                  stars + ' <b>' + val + '/5</b>\n\n' +
+                  '📊 Средний рейтинг: <b>' + avg + '</b>\n' +
+                  '🕐 ' + time;
+
+      fetch('https://api.telegram.org/bot' + TG_TOKEN + '/sendMessage', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({chat_id: TG_ADMIN, text: msg, parse_mode: 'HTML'})
+      }).catch(function() {});
     });
   });
-});
+})();
 </script>
 
 <!-- ═══════════════════ PUSH NOTIFICATION ═══════════════════ -->
@@ -4529,5 +4581,56 @@ siStars.forEach(star => {
 })();
 </script>
 <script src="i18n.js"></script>
+<script>
+// Тап-флип для сервисных карточек на мобайле
+if (window.matchMedia('(hover: none)').matches) {
+  document.querySelectorAll('.flip-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      card.classList.toggle('flipped');
+    });
+  });
+}
+
+// Hamburger menu
+(function() {
+  var btn     = document.getElementById('hamburgerBtn');
+  var drawer  = document.getElementById('mobileNavDrawer');
+  var overlay = document.getElementById('mobileNavOverlay');
+  if (!btn || !drawer || !overlay) return;
+
+  function openMenu() {
+    btn.classList.add('open');
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    btn.classList.remove('open');
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  function toggleMenu() {
+    if (drawer.classList.contains('open')) closeMenu(); else openMenu();
+  }
+
+  btn.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', closeMenu);
+
+  // Close on any drawer link click
+  drawer.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeMenu();
+  });
+})();
+</script>
 </body>
 </html>

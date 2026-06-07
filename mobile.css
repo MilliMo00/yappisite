@@ -1,0 +1,671 @@
+/* ═══════════════════════════════════════════════════════
+   YAPPI AGENCY — COMPLETE MOBILE RESPONSIVE
+   Applied to all HTML pages after the main <style> block
+═══════════════════════════════════════════════════════ */
+
+/* ─── GLOBAL RESETS ─── */
+*,*::before,*::after {
+  -webkit-tap-highlight-color: transparent;
+  hyphens: none !important;
+  -webkit-hyphens: none !important;
+  box-sizing: border-box;
+}
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100%;
+}
+
+/* ─────────────────────────────────────────
+   HAMBURGER MENU — index.html only
+   (hidden by default, shown ≤ 768px)
+───────────────────────────────────────── */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px 8px;
+  cursor: pointer;
+  background: none;
+  border: 2px solid rgba(0,212,255,.4);
+  flex-shrink: 0;
+  z-index: 1002;
+}
+.hamburger-btn span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--cyan, #00D4FF);
+  transition: transform 0.25s, opacity 0.2s;
+  pointer-events: none;
+}
+.hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Overlay backdrop */
+.mobile-nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.78);
+  z-index: 999;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.mobile-nav-overlay.open { display: block; }
+
+/* Slide-in drawer */
+.mobile-nav-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: min(280px, 80vw);
+  height: 100dvh;
+  height: 100vh;
+  background: #0d0620;
+  border-left: 3px solid var(--purple, #7B2FBE);
+  box-shadow: -8px 0 40px rgba(0,0,0,.7);
+  z-index: 1000;
+  padding: 64px 22px 40px;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.28s cubic-bezier(.4,0,.2,1);
+  overflow-y: auto;
+}
+.mobile-nav-drawer.open { right: 0; }
+
+/* Drawer nav links */
+.mobile-nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+.mobile-nav-links a {
+  display: flex;
+  align-items: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  padding: 14px 10px;
+  border-bottom: 1px solid rgba(123,47,190,.22);
+  letter-spacing: .5px;
+  min-height: 44px;
+  transition: color .2s;
+}
+.mobile-nav-links a:last-child { border-bottom: none; }
+.mobile-nav-links a:hover, .mobile-nav-links a:active { color: var(--cyan, #00D4FF); }
+.mobile-nav-links .mobile-nav-cta {
+  color: #fff !important;
+  background: linear-gradient(135deg, var(--purple,#7B2FBE), var(--cyan,#00D4FF));
+  border-bottom: none;
+  margin-top: 18px;
+  justify-content: center;
+  border: none;
+  letter-spacing: .5px;
+}
+
+/* Always hidden on desktop */
+@media (min-width: 769px) {
+  .hamburger-btn         { display: none !important; }
+  .mobile-nav-drawer     { display: none !important; }
+  .mobile-nav-overlay    { display: none !important; }
+}
+
+/* ─────────────────────────────────────────
+   TABLETS / WIDE MOBILE (≤ 900px)
+───────────────────────────────────────── */
+@media (max-width: 900px) {
+  /* INDEX — service flip cards */
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+    padding: 0 !important;
+  }
+  .flip-card { height: 320px; }
+  .card-name { font-size: 9.5px; }
+
+  /* INDEX — about stats */
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Partners */
+  .partners-grid { grid-template-columns: 1fr !important; }
+
+  /* Social grid */
+  .social-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ─────────────────────────────────────────
+   STANDARD MOBILE (≤ 768px)
+───────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* ══ HAMBURGER visible ══ */
+  .hamburger-btn { display: flex; }
+
+  /* ══ NAVBAR ══ */
+  .navbar {
+    padding: 0 16px !important;
+    height: 56px;
+    min-height: 56px;
+  }
+  .nav-links  { display: none !important; }
+  .nav-logo   { font-size: 22px !important; letter-spacing: 2px; }
+  .nav-back {
+    font-size: 7px !important;
+    padding: 8px 12px !important;
+    letter-spacing: 0;
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .lang-switch {
+    font-size: 7px !important;
+    padding: 5px 8px !important;
+    letter-spacing: 0;
+    margin-left: 6px;
+  }
+
+  /* ══ ALL HEROES — single padding source on #hero ══ */
+  /* .hero-content padding is zeroed so #hero provides all spacing */
+  #hero {
+    padding: 80px 18px 48px !important;
+    min-height: auto !important;
+  }
+  .hero-content {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+  .hero-jp    { font-size: 14px !important; letter-spacing: 2px; }
+  .hero-badge {
+    font-size: 6px !important;
+    padding: 5px 10px !important;
+    letter-spacing: 0;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    margin-bottom: 14px !important;
+  }
+  /* Index large hero title (idx-title class) */
+  .hero-title.idx-title {
+    font-size: clamp(22px, 7vw, 40px) !important;
+    line-height: 1.2 !important;
+    margin-bottom: 18px !important;
+  }
+  .hero-subtitle {
+    font-size: 17px !important;
+    max-width: 100% !important;
+    margin-bottom: 24px !important;
+    line-height: 1.55 !important;
+  }
+  .hero-character { display: none !important; }
+  .hero-buttons   { gap: 10px; flex-wrap: wrap; }
+  .btn-primary, .btn-outline {
+    font-size: 8px !important;
+    padding: 12px 18px !important;
+    gap: 6px;
+    min-height: 44px;
+    white-space: nowrap;
+  }
+  .scroll-indicator { display: none; }
+
+  /* ══ SERVICE PAGE HERO extras ══ */
+  /* Service hero-title (not the large index title) */
+  .hero-label  { font-size: 14px !important; letter-spacing: 2px; }
+  .hero-title:not(.idx-title) {
+    font-size: clamp(14px, 4.5vw, 22px) !important;
+    line-height: 1.25 !important;
+  }
+  .hero-sub    { font-size: 16px !important; max-width: 100%; margin-bottom: 24px !important; line-height: 1.6 !important; }
+  .hero-tags   { gap: 8px; flex-wrap: wrap; }
+  .tag {
+    font-size: 7px !important;
+    padding: 8px 12px !important;
+    border-width: 2px !important;
+    letter-spacing: 0;
+    white-space: nowrap;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* ══ INDEX — SERVICES (flip cards) ══ */
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+  #services { padding: 60px 16px !important; }
+  .section-header { margin-bottom: 40px !important; }
+  .section-title  { font-size: clamp(16px, 5vw, 28px) !important; }
+  .flip-card { height: 290px; cursor: pointer; }
+  .flip-card-front { padding: 18px 12px; }
+  .flip-card-back  { padding: 10px 12px 10px; }
+  .card-icon { width: 48px !important; height: 48px !important; }
+  .card-name { font-size: 8.5px !important; line-height: 1.6; }
+  .card-back-title { font-size: 7.5px !important; }
+  .card-back-list li { font-size: 14px !important; }
+  .card-back-price { font-size: 7px !important; }
+
+  /* ══ INDEX — ABOUT ══ */
+  #about { padding: 56px 16px !important; }
+  .about-inner    { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .about-character { display: none !important; }
+  .about-lead     { font-size: 17px !important; }
+  .about-cols     { grid-template-columns: 1fr 1fr !important; gap: 10px !important; margin-bottom: 18px !important; }
+  .about-block-title { font-size: 7px !important; }
+  .about-list     { font-size: 16px !important; }
+  .stats-grid     { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+  .stat-number    { font-size: clamp(16px, 5vw, 22px) !important; }
+  .stat-label     { font-size: 14px !important; }
+  .about-callout  { padding: 12px 14px !important; gap: 10px !important; flex-direction: column; }
+  .about-callout-badge { font-size: 6px !important; }
+  .about-callout-text  { font-size: 16px !important; }
+
+  /* ══ INDEX — CASES SECTION ══ */
+  #cases          { padding: 56px 0 48px !important; }
+  .cases-header   { padding: 0 16px 24px !important; margin-bottom: 24px !important; }
+  .cases-filters  { gap: 8px; padding: 0 !important; flex-wrap: wrap; }
+  .filter-btn     { font-size: 7px !important; padding: 8px 10px !important; min-height: 36px; }
+  .ck-strip       { padding: 14px 16px 24px !important; gap: 8px; }
+  .ci             { height: 260px !important; }
+  .ci[data-cat="static"] .ci-ph,
+  .ci[data-cat="avatar"] .ci-ph,
+  .ci[data-cat="chatterfy"] .ci-ph { width: 190px !important; }
+  .ci[data-cat="motion"] .ci-ph,
+  .ci[data-cat="cartoon"] .ci-ph   { width: 140px !important; }
+  .ci.circle, .ci[data-cat="ai"] .ci-ph { width: 140px !important; height: 140px !important; }
+  .ck-more        { margin: 14px 16px !important; padding: 28px 20px !important; }
+  .ck-h           { font-size: 9px !important; line-height: 1.9; }
+  .ck-sub         { font-size: 18px !important; }
+  .ck-btn         { font-size: 7px !important; padding: 11px 18px !important; min-height: 44px; }
+  .ck-mclose      { font-size: 8px !important; padding: 10px 14px !important; top: 10px; right: 10px; min-height: 44px; }
+
+  /* ══ INDEX — PARTNERS ══ */
+  #partners       { padding: 56px 16px !important; }
+  .partners-header { margin-bottom: 36px !important; }
+  .hof-header     { font-size: clamp(10px, 3vw, 16px) !important; }
+  .partners-grid  { grid-template-columns: 1fr !important; gap: 20px !important; }
+  .pc-top         { padding: 16px 16px 14px !important; gap: 14px !important; }
+  .pc-logo        { width: 56px !important; height: 56px !important; }
+  .pc-name        { font-size: clamp(10px, 3vw, 14px) !important; }
+  .pc-tagline     { font-size: 15px !important; }
+  .pc-body        { padding: 14px 16px 16px !important; }
+  .pc-desc        { font-size: 16px !important; }
+  .pc-features    { font-size: 14px !important; }
+  .pc-btns        { gap: 8px; flex-wrap: wrap; }
+  .pc-btn         { font-size: 7px !important; padding: 10px 14px !important; min-height: 44px; }
+
+  /* ══ INDEX — REVIEWS ══ */
+  #reviews        { padding: 56px 16px !important; }
+  .review-name    { font-size: 8px !important; }
+  .review-pos     { font-size: 14px !important; }
+  .review-text    { font-size: 19px !important; line-height: 1.55; }
+  .review-stars   { font-size: 12px !important; }
+  .review-next-btn { font-size: 8px !important; min-height: 44px; padding: 8px 0; }
+  .review-body    { padding: 16px 18px 12px !important; }
+  .review-footer  { padding: 8px 16px 12px !important; }
+
+  /* ══ INDEX — FAQ ══ */
+  #faq            { padding: 56px 16px !important; }
+  .faq-q-text     { font-size: 15px !important; }
+  .faq-answer p   { font-size: 14px !important; }
+  .faq-question   { padding: 18px 0 !important; }
+  .faq-item.open .faq-answer { padding: 0 0 18px 28px !important; }
+
+  /* ══ INDEX — PRICING ══ */
+  #pricing        { padding: 56px 16px 56px !important; }
+  .price-title    { margin-bottom: 40px !important; }
+  .price-title-row span { font-size: clamp(18px, 4.5vw, 28px) !important; letter-spacing: 1px !important; }
+  .price-grid     { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .price-char-wrap { display: none !important; }
+  .price-content  { padding: 16px 16px 14px !important; }
+  .price-card-title { font-size: clamp(8px, 2.2vw, 11px) !important; }
+  .price-row      { font-size: 17px !important; }
+  .price-row-val  { font-size: 17px !important; }
+  .price-cta-text { font-size: clamp(9px, 2.5vw, 13px) !important; }
+  .price-cta-btn  {
+    font-size: 8px !important;
+    padding: 13px 22px !important;
+    min-height: 44px;
+    gap: 8px;
+  }
+
+  /* ══ INDEX — CONTACT ══ */
+  #contact        { padding: 56px 16px !important; }
+  .contact-title  { font-size: clamp(42px, 12vw, 80px) !important; line-height: .9; }
+  .dice-wrap      { font-size: 52px !important; margin: 20px auto !important; }
+  .contact-buttons { gap: 10px; }
+  .btn-contact    { font-size: 14px !important; padding: 14px 24px !important; min-height: 44px; }
+  .contact-form   { padding: 24px 18px !important; }
+  .form-input, .form-select { font-size: 16px !important; padding: 12px 13px !important; }
+  .form-btn       { padding: 14px !important; font-size: 14px !important; min-height: 44px; }
+
+  /* ══ INDEX — SOCIAL ══ */
+  #social         { padding: 56px 16px !important; }
+  .social-grid    { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .social-card-top { padding: 16px 16px 14px !important; gap: 12px !important; }
+  .social-avatar  { width: 52px !important; height: 52px !important; }
+  .social-name    { font-size: clamp(9px, 2.8vw, 13px) !important; }
+  .social-handle  { font-size: 15px !important; }
+  .social-card-body { padding: 12px 16px 16px !important; }
+  .social-desc    { font-size: 16px !important; }
+  .social-btn     { font-size: 7px !important; padding: 10px 16px !important; min-height: 44px; }
+
+  /* ══ CASES PAGE ══ */
+  .c-topbar   { padding: 14px 16px !important; }
+  .c-hero     { padding: 40px 16px 24px !important; }
+  .c-filters  { padding: 12px 16px !important; }
+  .more-notice { padding: 28px 18px !important; }
+  .mn-h       { font-size: 9px !important; }
+  .mn-sub     { font-size: 18px !important; }
+
+  /* ══ INDEX — FEEDBACK ══ */
+  #s-feedback { padding: 56px 16px 64px !important; }
+  .fb-type-row { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+  .fb-card-lbl { font-size: 8px !important; }
+  .fb-submit-btn, .fb-cancel-btn { min-height: 44px; }
+
+  /* ══ INDEX — FOOTER ══ */
+  footer {
+    padding: 20px 16px !important;
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+    gap: 8px !important;
+  }
+  .footer-text:last-child,
+  .footer-txt:last-child { text-align: center !important; }
+  .footer-logo { font-size: 20px !important; }
+
+  /* ══ SERVICE PAGES — SEC TITLES ══ */
+  .sec { padding: 52px 16px !important; }
+  .sec-title {
+    font-size: 9px !important;
+    margin-bottom: 28px !important;
+    line-height: 1.55 !important;
+  }
+  .about-text p { font-size: 15px !important; line-height: 1.65 !important; }
+
+  /* ══ SERVICE PAGES — SVC GRID ══ */
+  .svc-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .svc-card { padding: 16px 14px !important; }
+  .svc-name {
+    font-size: clamp(8px, 2.4vw, 11px) !important;
+    line-height: 1.55 !important;
+  }
+  .svc-price  { font-size: clamp(13px, 3.5vw, 18px) !important; }
+  .svc-list li { font-size: 15px !important; }
+  .svc-badge  { font-size: 6px !important; white-space: nowrap; }
+  .svc-num    { font-size: 6.5px !important; }
+
+  /* ══ SERVICE PAGES — STACK ══ */
+  .stack-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+  .stack-card { padding: 12px 10px !important; }
+  .stack-label { font-size: 6px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stack-tag   { font-size: 11px !important; padding: 2px 6px !important; }
+
+  /* ══ SERVICE PAGES — ADVANTAGES ══ */
+  .adv-grid  { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+  .adv-card  { padding: 16px 12px !important; }
+  .adv-title { font-size: 7px !important; margin-bottom: 7px !important; line-height: 1.55 !important; }
+  .adv-text  { font-size: 15px !important; }
+
+  /* ══ SERVICE PAGES — PROCESS ══ */
+  .process-wrap { max-width: 100% !important; }
+  .ps-left  { width: 46px !important; }
+  .ps-circle { width: 36px !important; height: 36px !important; font-size: 9px !important; }
+  .ps-vline  { min-height: 12px; }
+  .ps-right  { padding: 0 0 22px 12px !important; }
+  .ps-title  { font-size: 7.5px !important; padding-top: 6px !important; line-height: 1.6 !important; }
+  .ps-body   { padding: 10px 12px !important; }
+  .ps-body li { font-size: 16px !important; padding: 3px 0 !important; }
+
+  /* ══ SERVICE PAGES — PREPAY / QUOTE ══ */
+  #s-prepay, #s-quote { padding: 0 16px 52px !important; }
+  .prepay-body, .quote-body {
+    flex-direction: column !important;
+    gap: 12px !important;
+    padding: 16px !important;
+    flex-wrap: nowrap !important;
+  }
+  .prepay-icon, .quote-icon { display: none !important; }
+  .prepay-headline, .quote-headline {
+    font-size: clamp(9px, 2.6vw, 12px) !important;
+    line-height: 1.6 !important;
+  }
+  .prepay-desc, .quote-desc { font-size: 16px !important; line-height: 1.6 !important; }
+  .prepay-win-title, .quote-win-title { font-size: 6px !important; letter-spacing: .5px; }
+
+  /* ══ SERVICE PAGES — CTA ══ */
+  #s-cta { padding: 56px 16px !important; }
+  .cta-label { font-size: 15px !important; letter-spacing: 2px !important; margin-bottom: 10px !important; }
+  .cta-title { font-size: clamp(12px, 3.5vw, 18px) !important; line-height: 1.4 !important; }
+  .cta-sub   { font-size: 17px !important; margin-bottom: 26px !important; }
+  .cta-btn   {
+    font-size: 8px !important;
+    padding: 13px 20px !important;
+    gap: 8px !important;
+    min-height: 44px;
+    white-space: nowrap;
+  }
+
+  /* ══ BOTS-RENTAL — PLANS ══ */
+  .plans-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+  .plan-head  { padding: 14px 14px 10px !important; }
+  .plan-body  { padding: 12px 14px !important; }
+  .plan-price-block { padding: 12px 14px !important; }
+  .plan-badge { font-size: 6px !important; padding: 3px 8px !important; white-space: nowrap; }
+  .plan-name  { font-size: 8.5px !important; line-height: 1.55 !important; }
+  .plan-sub   { font-size: 15px !important; }
+  .plan-list li { font-size: 15px !important; }
+  .plan-period { font-size: 13px !important; }
+  .plan-extras { padding: 10px 12px !important; margin-top: 10px !important; }
+  .plan-extras li { font-size: 14px !important; }
+  .plan-extras-title { font-size: 6px !important; }
+
+  /* ══ BOTS-RENTAL — WHY ══ */
+  .why-grid  { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+  .why-card  { padding: 16px 12px !important; }
+  .why-title { font-size: 6.5px !important; line-height: 1.55 !important; }
+  .why-text  { font-size: 15px !important; line-height: 1.5 !important; }
+  .why-ico   { width: 24px !important; height: 24px !important; }
+
+  /* ══ BOTS-RENTAL — CASES ══ */
+  .cases-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+  .case-card  { padding: 12px 10px !important; }
+  .case-num   { font-size: 6px !important; margin-bottom: 5px !important; }
+  .case-title { font-size: 6.5px !important; line-height: 1.5 !important; margin-bottom: 7px !important; }
+  .case-text  { font-size: 14px !important; line-height: 1.5 !important; }
+
+  /* ══ CREATIVES — SERVICES ══ */
+  .srv-wrap { grid-template-columns: 1fr !important; gap: 14px !important; }
+  .srv-block-head { padding: 14px 14px 10px !important; }
+  .srv-block-title { font-size: clamp(10px, 3vw, 14px) !important; }
+  .srv-type { font-size: 6.5px !important; padding: 3px 8px !important; margin-bottom: 7px !important; white-space: nowrap; }
+  .srv-items { padding: 12px !important; gap: 3px !important; }
+  .srv-item  { padding: 7px 8px !important; gap: 8px !important; }
+  .srv-item-ico  { width: 20px !important; height: 20px !important; flex-shrink: 0; }
+  .srv-item-name { font-size: 6.5px !important; line-height: 1.55 !important; }
+  .srv-item-desc { font-size: 13px !important; line-height: 1.35 !important; }
+
+  /* ══ CREATIVES — TZ HELP ══ */
+  .tz-help-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+  .tz-help-card { padding: 16px 12px !important; }
+  .tz-help-title { font-size: 7.5px !important; line-height: 1.55 !important; }
+  .tz-help-text  { font-size: 15px !important; }
+
+  /* ══ CREATIVES — TEMPLATES ══ */
+  .tmpl-wrap { grid-template-columns: 1fr !important; gap: 14px !important; }
+  .tmpl-head { padding: 10px 12px 8px !important; }
+  .tmpl-badge { font-size: 5.5px !important; padding: 3px 7px !important; white-space: nowrap; }
+  .tmpl-title { font-size: 7.5px !important; line-height: 1.5 !important; }
+  .tmpl-body  { padding: 12px !important; }
+  .tmpl-section { margin-bottom: 12px !important; }
+  .tmpl-section-title { font-size: 6px !important; padding: 3px 7px !important; letter-spacing: 0; }
+  .tmpl-fields { gap: 3px !important; }
+  .tmpl-field  { font-size: 12px !important; padding: 4px 8px !important; overflow-wrap: break-word; }
+  .tmpl-note   { font-size: 13px !important; padding: 10px 12px !important; }
+}
+
+/* ─────────────────────────────────────────
+   SMALL PHONES (≤ 480px)
+───────────────────────────────────────── */
+@media (max-width: 480px) {
+
+  /* Hero — padding only on #hero, hero-content stays at 0 */
+  #hero         { padding: 70px 14px 38px !important; }
+  .hero-content { padding: 0 !important; }
+  .hero-badge   { font-size: 5px !important; padding: 4px 8px !important; }
+  .hero-label   { font-size: 13px !important; letter-spacing: 1px; }
+  .hero-title.idx-title { font-size: clamp(20px, 6.5vw, 34px) !important; }
+  .hero-title:not(.idx-title) { font-size: clamp(12px, 4vw, 18px) !important; }
+  .hero-sub     { font-size: 15px !important; margin-bottom: 20px !important; }
+  .tag          { font-size: 6px !important; padding: 7px 10px !important; }
+
+  /* Buttons */
+  .btn-primary, .btn-outline { font-size: 7px !important; padding: 12px 14px !important; }
+  .hero-buttons { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+  /* INDEX — service flip cards: keep 2 columns! */
+  .services-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+  .flip-card     { height: 250px; }
+  .card-icon     { width: 40px !important; height: 40px !important; }
+  .card-name     { font-size: 7.5px !important; }
+  .card-back-title { font-size: 6.5px !important; }
+  .card-back-list li { font-size: 13px !important; }
+
+  /* Sections */
+  .sec        { padding: 40px 14px !important; }
+  .sec-title  { font-size: 8px !important; margin-bottom: 20px !important; }
+  .section-title { font-size: clamp(14px, 4.5vw, 22px) !important; }
+  .section-header { margin-bottom: 28px !important; }
+
+  /* About */
+  #about      { padding: 48px 14px !important; }
+  .about-cols { grid-template-columns: 1fr 1fr !important; }
+
+  /* Cases */
+  .ck-strip   { padding: 12px 14px 20px !important; }
+  .ci         { height: 220px !important; }
+  .ck-more    { margin: 12px 14px !important; padding: 22px 16px !important; }
+
+  /* Partners */
+  #partners   { padding: 48px 14px !important; }
+  .pc-top     { flex-direction: row; }
+
+  /* Reviews */
+  #reviews    { padding: 48px 14px !important; }
+  .review-text { font-size: 17px !important; }
+
+  /* FAQ */
+  #faq        { padding: 48px 14px !important; }
+  .faq-q-text { font-size: 14px !important; }
+
+  /* Pricing */
+  #pricing    { padding: 48px 14px 48px !important; }
+  .price-title-row span { font-size: clamp(16px, 4vw, 22px) !important; }
+
+  /* Contact */
+  #contact    { padding: 48px 14px !important; }
+  .contact-title { font-size: clamp(36px, 11vw, 60px) !important; }
+  .dice-wrap  { font-size: 44px !important; margin: 16px auto !important; }
+
+  /* Social */
+  #social     { padding: 48px 14px !important; }
+
+  /* Process */
+  .ps-left   { width: 40px !important; }
+  .ps-circle { width: 32px !important; height: 32px !important; font-size: 8px !important; }
+  .ps-right  { padding: 0 0 18px 8px !important; }
+  .ps-title  { font-size: 6.5px !important; }
+  .ps-body li { font-size: 15px !important; }
+
+  /* Advantages — keep 2 cols */
+  .adv-grid  { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+  .adv-card  { padding: 12px 10px !important; }
+  .adv-title { font-size: 6.5px !important; }
+  .adv-text  { font-size: 14px !important; }
+
+  /* Why — 2 cols */
+  .why-grid  { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+  .why-card  { padding: 12px 10px !important; }
+  .why-title { font-size: 6px !important; }
+  .why-text  { font-size: 14px !important; }
+
+  /* Cases — 2 cols */
+  .cases-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+  .case-card  { padding: 10px 8px !important; }
+  .case-title { font-size: 6px !important; }
+  .case-text  { font-size: 13px !important; }
+
+  /* TZ-help: 1 col on small phones */
+  .tz-help-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
+  .tz-help-title { font-size: 7px !important; }
+
+  /* Creatives srv items */
+  .srv-item-name { font-size: 6px !important; }
+  .srv-item-desc { font-size: 12px !important; }
+  .srv-item-ico  { width: 18px !important; height: 18px !important; }
+
+  /* Stack */
+  .stack-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* CTA */
+  .cta-title { font-size: clamp(11px, 3.2vw, 15px) !important; }
+  .cta-btn   { font-size: 7px !important; padding: 12px 16px !important; }
+  .cta-sub   { font-size: 15px !important; }
+
+  /* Prepay */
+  .prepay-headline, .quote-headline { font-size: clamp(8px, 2.4vw, 11px) !important; }
+  .prepay-desc, .quote-desc { font-size: 15px !important; }
+
+  /* Templates */
+  .tmpl-field { font-size: 11px !important; }
+  .tmpl-note  { font-size: 12px !important; }
+
+  /* Plans */
+  .plan-name  { font-size: 8px !important; }
+  .plan-list li { font-size: 14px !important; }
+
+  /* Footer */
+  footer { padding: 16px 14px !important; }
+
+  /* Push notification */
+  #pushNotif { right: 10px; bottom: 14px; width: calc(100vw - 20px) !important; max-width: 260px; }
+}
+
+/* ─────────────────────────────────────────
+   VERY SMALL (≤ 380px)
+───────────────────────────────────────── */
+@media (max-width: 380px) {
+  .hero-title.idx-title  { font-size: clamp(18px, 6vw, 28px) !important; }
+  .hero-title:not(.idx-title) { font-size: clamp(11px, 3.5vw, 15px) !important; }
+  .section-title { font-size: clamp(13px, 4.5vw, 20px) !important; }
+  .sec-title     { font-size: 7.5px !important; }
+  .tag           { font-size: 5.5px !important; padding: 6px 8px !important; }
+  .ps-title      { font-size: 6px !important; }
+  .adv-title     { font-size: 6px !important; }
+  .why-title     { font-size: 5.5px !important; }
+  .case-title    { font-size: 5.5px !important; }
+  .card-name     { font-size: 7px !important; }
+  .flip-card     { height: 230px; }
+  .cta-title     { font-size: clamp(10px, 3vw, 13px) !important; }
+  .cta-btn       { font-size: 6.5px !important; padding: 11px 13px !important; }
+  .price-title-row span { font-size: clamp(15px, 4vw, 20px) !important; }
+  .contact-title { font-size: clamp(32px, 10vw, 50px) !important; }
+}
+
+/* ─────────────────────────────────────────
+   FLIP CARDS — tap support on touch (index)
+───────────────────────────────────────── */
+@media (hover: none) {
+  .flip-card { cursor: pointer; }
+  .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+}

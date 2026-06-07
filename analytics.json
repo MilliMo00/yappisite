@@ -1,0 +1,46 @@
+{
+  "total": {
+    "pageviews": 2,
+    "sessions": 2,
+    "tg_clicks": 1,
+    "partner_clicks": 1,
+    "service_clicks": 2,
+    "form_submits": 1,
+    "feedback_sent": 0
+  },
+  "services": {
+    "ai-production": 1,
+    "web-dev": 1
+  },
+  "partners": {
+    "METRA AI": 1
+  },
+  "daily": {
+    "2026-06-07": {
+      "pageviews": 2,
+      "sessions": 2,
+      "tg_clicks": 1,
+      "partner_clicks": 1,
+      "service_clicks": 2,
+      "form_submits": 1,
+      "feedback_sent": 0,
+      "total_ms": 335000
+    }
+  },
+  "sessions": [
+    {
+      "date": "2026-06-07",
+      "dur": 95000,
+      "device": "mobile",
+      "ref": "",
+      "pages": 1
+    },
+    {
+      "date": "2026-06-07",
+      "dur": 240000,
+      "device": "desktop",
+      "ref": "https://google.com",
+      "pages": 1
+    }
+  ]
+}
