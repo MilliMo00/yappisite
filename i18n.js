@@ -198,17 +198,17 @@
 
       /* ── Social / Ecosystem section ── */
       'social.title': 'ЭКОСИСТЕМА YAPPI',
-      'social.agency.label': '✈ Telegram канал',
+      'social.agency.label': 'Telegram канал',
       'social.agency.desc': 'Главный канал агентства — кейсы, новости, лучшие работы и обновления экосистемы',
       'social.agency.btn': '[ ПОДПИСАТЬСЯ → ]',
-      'social.chat.label': '💬 Telegram чат',
+      'social.chat.label': 'Telegram чат',
       'social.chat.handle': 'Открытое комьюнити',
       'social.chat.desc': 'Живое общение, нетворкинг, бесплатная реклама и обмен контактами',
       'social.chat.btn': '[ ВСТУПИТЬ → ]',
-      'social.media.label': '📡 Telegram канал',
+      'social.media.label': 'Telegram канал',
       'social.media.desc': 'Новости арбитража, медиа-рынка, инсайды и аналитика от команды',
       'social.media.btn': '[ ЧИТАТЬ → ]',
-      'social.jobs.label': '💼 Telegram канал',
+      'social.jobs.label': 'Telegram канал',
       'social.jobs.desc': 'Актуальные вакансии в digital, AI, арбитраж и маркетинг от нас и партнёров',
       'social.jobs.btn': '[ СМОТРЕТЬ → ]',
 
@@ -816,17 +816,17 @@
 
       /* ── Social / Ecosystem section ── */
       'social.title': 'YAPPI ECOSYSTEM',
-      'social.agency.label': '✈ Telegram channel',
+      'social.agency.label': 'Telegram channel',
       'social.agency.desc': 'Main agency channel — cases, news, best works and ecosystem updates',
       'social.agency.btn': '[ SUBSCRIBE → ]',
-      'social.chat.label': '💬 Telegram chat',
+      'social.chat.label': 'Telegram chat',
       'social.chat.handle': 'Open community',
       'social.chat.desc': 'Live communication, networking, free advertising and contact exchange',
       'social.chat.btn': '[ JOIN → ]',
-      'social.media.label': '📡 Telegram channel',
+      'social.media.label': 'Telegram channel',
       'social.media.desc': 'Arbitrage news, media market insights and team analytics',
       'social.media.btn': '[ READ → ]',
-      'social.jobs.label': '💼 Telegram channel',
+      'social.jobs.label': 'Telegram channel',
       'social.jobs.desc': 'Current vacancies in digital, AI, arbitrage and marketing from us and partners',
       'social.jobs.btn': '[ VIEW → ]',
 

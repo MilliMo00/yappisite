@@ -8,8 +8,13 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-<link href="https://fonts.cdnfonts.com/css/gilroy-free" rel="stylesheet">
+<!-- Шрифты грузятся асинхронно — не блокируют первую отрисовку -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Press+Start+2P&family=VT323&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Press+Start+2P&family=VT323&display=swap"></noscript>
+<link rel="preload" as="style" href="https://fonts.cdnfonts.com/css/gilroy-free" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.cdnfonts.com/css/gilroy-free"></noscript>
+<!-- Preload hero-изображение — приоритетная загрузка -->
+<link rel="preload" as="image" href="images/character-hero.png" fetchpriority="high">
 <style>
 /* ─────────────────────────────────────────
    RESET & CSS VARIABLES
@@ -636,8 +641,17 @@ section{position:relative;z-index:1}
 .ci[data-cat="ai"]        .ci-ph    { width:200px; background:rgba(255,130,0,.09) }
 .ci[data-cat="chatterfy"] .ci-ph    { width:320px; background:rgba(0,212,100,.08) }
 
-.ci-ph-ico{font-size:28px;opacity:.3}
-.ci-ph-name{font-family:'Press Start 2P',monospace;font-size:7px;color:rgba(255,255,255,.28);text-align:center;line-height:2}
+.ci-ph-ico{display:none}
+.ci-ph-name{display:none}
+@keyframes pixelSpin{to{transform:rotate(360deg)}}
+.ci-ph::after{
+  content:'';display:block;
+  width:20px;height:20px;
+  border:3px solid rgba(255,255,255,.08);
+  border-top-color:rgba(255,215,0,.6);
+  border-radius:50%;
+  animation:pixelSpin 1.2s steps(8,end) infinite;
+}
 
 /* ── медиа: h=100%, w=auto → сохраняет оригинальное соотношение сторон ── */
 .ci-media{
@@ -1712,11 +1726,11 @@ footer{
       <span class="line1" id="tw1"></span>
       <span class="line2" id="tw2"></span>
     </h1>
-    <p class="hero-subtitle" id="heroSub" data-i18n-html="hero.subtitle" style="opacity:0;transition:opacity .6s .4s;font-family:'VT323',monospace;font-size:22px;color:rgba(255,255,255,.7);line-height:1.5">
+    <p class="hero-subtitle" id="heroSub" data-i18n-html="hero.subtitle" style="opacity:0;transition:opacity .5s;font-family:'VT323',monospace;font-size:22px;color:rgba(255,255,255,.7);line-height:1.5">
       &gt; Мы делаем бизнес заметным.<br>
       &gt; <span style="color:var(--cyan)">AI</span> + <span style="color:var(--yellow)">Design</span> + <span style="color:var(--orange)">Automation</span>
     </p>
-    <div class="hero-buttons" id="heroBtns" style="opacity:0;transition:opacity .6s .6s">
+    <div class="hero-buttons" id="heroBtns" style="opacity:0;transition:opacity .5s">
       <a href="#contact" class="btn-primary" data-i18n="hero.btn.contact">[ 💬 СВЯЗАТЬСЯ ]</a>
       <a href="https://t.me/yappi_agency" target="_blank" class="btn-outline" data-i18n="hero.btn.channel">[ ✈ НАШ КАНАЛ ]</a>
     </div>
@@ -1724,7 +1738,7 @@ footer{
 
   <!-- Mr. Monopoly Hero -->
   <div class="hero-character">
-    <img src="images/character-hero.png" alt="" draggable="false">
+    <img src="images/character-hero.png" alt="" draggable="false" fetchpriority="high" loading="eager">
   </div>
 
   <!-- Pixel mountains bottom -->
@@ -3132,7 +3146,7 @@ footer{
 
     <!-- Character -->
     <div class="about-character reveal">
-      <img src="images/character-about.png" alt="" class="about-char-img" draggable="false">
+      <img src="images/character-about.png" alt="" class="about-char-img" draggable="false" loading="lazy">
     </div>
 
     <div class="about-text-content">
@@ -3450,7 +3464,7 @@ footer{
 
   <!-- Персонаж — абсолютно слева в секции, не влияет на сетку -->
   <div class="price-char-wrap">
-    <img src="images/character-price.png" alt="" draggable="false">
+    <img src="images/character-price.png" alt="" draggable="false" loading="lazy">
   </div>
 
   <div class="pricing-layout">
@@ -3724,7 +3738,7 @@ footer{
           <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#7B2FBE">YA</span>
         </div>
         <div class="social-card-meta">
-          <span class="social-label" data-i18n="social.agency.label">✈ Telegram канал</span>
+          <span class="social-label" data-i18n="social.agency.label">Telegram канал</span>
           <div class="social-name">YAPPI<br>AGENCY</div>
           <div class="social-handle">@yappi_agency</div>
         </div>
@@ -3745,7 +3759,7 @@ footer{
           <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#FFD700">YC</span>
         </div>
         <div class="social-card-meta">
-          <span class="social-label" data-i18n="social.chat.label">💬 Telegram чат</span>
+          <span class="social-label" data-i18n="social.chat.label">Telegram чат</span>
           <div class="social-name">YAPPI<br>CHAT</div>
           <div class="social-handle" data-i18n="social.chat.handle">Открытое комьюнити</div>
         </div>
@@ -3766,7 +3780,7 @@ footer{
           <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#E74C3C">YM</span>
         </div>
         <div class="social-card-meta">
-          <span class="social-label" data-i18n="social.media.label">📡 Telegram канал</span>
+          <span class="social-label" data-i18n="social.media.label">Telegram канал</span>
           <div class="social-name">YAPPI<br>MEDIA</div>
           <div class="social-handle">@yappi_media</div>
         </div>
@@ -3787,7 +3801,7 @@ footer{
           <span class="social-avatar-fallback" style="display:none;font-family:'Press Start 2P',monospace;font-size:14px;color:#2ecc71">YJ</span>
         </div>
         <div class="social-card-meta">
-          <span class="social-label" data-i18n="social.jobs.label">💼 Telegram канал</span>
+          <span class="social-label" data-i18n="social.jobs.label">Telegram канал</span>
           <div class="social-name">YAPPI<br>JOBS</div>
           <div class="social-handle">@yappi_jobs</div>
         </div>
@@ -3989,17 +4003,15 @@ function typewrite(el, text, speed, cb){
   }, speed);
 }
 
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    typewrite(document.getElementById('tw1'), 'YAPPI', 90, () => {
-      setTimeout(() => {
-        typewrite(document.getElementById('tw2'), 'AGENCY', 90, () => {
-          document.getElementById('heroSub').style.opacity = '1';
-          document.getElementById('heroBtns').style.opacity = '1';
-        });
-      }, 200);
-    });
-  }, 600);
+document.addEventListener('DOMContentLoaded', () => {
+  typewrite(document.getElementById('tw1'), 'YAPPI', 55, () => {
+    setTimeout(() => {
+      typewrite(document.getElementById('tw2'), 'AGENCY', 55, () => {
+        document.getElementById('heroSub').style.opacity = '1';
+        document.getElementById('heroBtns').style.opacity = '1';
+      });
+    }, 120);
+  });
 });
 
 /* ──────────── PARTICLES CANVAS ──────────── */
