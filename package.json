@@ -1,0 +1,11 @@
+{
+  "name": "yappi-bot",
+  "version": "1.0.0",
+  "main": "yappi-bot.js",
+  "scripts": {
+    "start": "node yappi-bot.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

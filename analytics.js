@@ -1,6 +1,6 @@
 /* YAPPI Analytics — client tracker */
 (function () {
-  var API = 'http://' + location.hostname + ':3001/an';
+  var API = 'RAILWAY_URL_PLACEHOLDER/an';
   var start = Date.now();
   var queue = [];
   var flushed = false;

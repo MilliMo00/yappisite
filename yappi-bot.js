@@ -7,7 +7,7 @@ const TOKEN    = '8846106201:AAFjFWIYQ7ANksFV_AX2g8ZYqezOh7YvPG8';
 const ADMIN_ID = 7609412955;
 const DB_FILE  = './feedback.json';
 const AN_FILE  = './analytics.json';
-const ANALYTICS_PORT = 3001;
+const ANALYTICS_PORT = process.env.PORT || 3001;
 
 /* ─────────────── FEEDBACK DB ─────────────── */
 function load() {
